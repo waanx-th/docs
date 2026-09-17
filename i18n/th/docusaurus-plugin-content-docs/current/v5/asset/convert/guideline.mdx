@@ -1,0 +1,55 @@
+---
+title: คู่มือการใช้งาน Convert
+sidebar_label: คู่มือการใช้งาน
+sidebar_position: 0.5
+---
+:::info
+* เอนด์พอยต์ API ของ convert ทั้งหมดต้องมีการยืนยันตัวตน
+* สิทธิ์ของคีย์ API: "Exchange"
+:::
+
+## ขั้นตอนการทำงาน
+### ขั้นที่ 1: [ดึงรายการเหรียญสำหรับการ Convert](convert-coin-list#)
+* ดึงรายการเหรียญที่รองรับการ convert ไปหรือมาจาก ในประเภทบัญชีต่าง ๆ
+* ระบบจะคืนยอดคงเหลือมาด้วยเมื่อดึงรายการเหรียญต้นทางของการ convert
+
+### ขั้นที่ 2: [ขอราคาเสนอ](apply-quote#)
+* เลือก fromCoin, toCoin, acccountType และกำหนดจำนวนของ fromCoin เพื่อขอราคาเสนอ
+* ในขั้นตอนนี้จะมีการตรวจสอบยอดคงเหลือล่วงหน้า
+
+### ขั้นที่ 3: [ยืนยันราคาเสนอ](confirm-quote#)
+* ยืนยันราคาเสนอของคุณภายในช่วงเวลาที่ยังมีผล (15 วินาที) เมื่อยืนยันแล้ว ระบบจะดำเนินการรายการของคุณ
+* การดำเนินการนี้เป็นแบบ async จึงอาจล้มเหลวได้หากคุณมีการโอนเงินออก กรุณาตรวจสอบผลของรายการในขั้นที่ 4
+
+### ขั้นที่ 4: [ดึงสถานะการ Convert](get-convert-result#)
+ตรวจสอบสถานะสุดท้ายของการ convert เหรียญ
+
+## ข้อผิดพลาด
+|รหัส |ข้อความ |คำอธิบาย|
+|:----:|:-------------------------------|:------|
+| 32024 |exceeds exchange threshold |หากอัตราแลกเปลี่ยนแบบเรียลไทม์ (ยืนยันราคาเสนอ) และอัตราที่เสนอไว้ (ขอราคาเสนอ) ต่างกันมากกว่า 0.5% การ convert ของคุณจะถูกปฏิเสธ/ยกเลิก|
+| 790000 |system error, please try again later||
+| 700000 |parameter error||
+| 700001 |quote fail: no deler can be used||
+| 700002 |quote fial: not support quote type|เมื่อ requestCoin=toCoin ในขั้นตอนขอราคาเสนอ|
+| 700003 |order status not allowed||
+| 700004 |order does not exit| 1. ตรวจสอบว่า quoteTxId ถูกต้องหรือไม่; 2. ตรวจสอบว่า quoteTxId ตรงกับ accountType หรือไม่|
+| 700005 |Your available balance is insufficient or wallet does not exist|
+| 700006 |Low amount limit| จำนวนที่ขอต้องไม่น้อยกว่า minFromCoinLimit|
+| 700007 |Large amount limit| จำนวนที่ขอต้องไม่มากกว่า maxFromCoinLimit|
+| 700008 |quote fail: price time out| 1. ราคาเสนอหมดอายุแล้ว; 2. quoteTxId ไม่มีอยู่|
+| 700009 |quoteTxId has already been used| จะได้รับข้อผิดพลาดนี้เมื่อคุณเรียกยืนยันราคาเสนอมากกว่าหนึ่งครั้งก่อนเวลาหมดอายุ|
+| 700010 |INS loan user cannot perform conversion|
+| 700011 |illegal operation| เมื่อขอราคาเสนอด้วยผู้ใช้ A แต่ยืนยันราคาเสนอด้วยผู้ใช้ B|
+
+## การจำกัดอัตราการเรียก API
+<span class="blocky_table">
+
+|เมธอด |พาธ |ลิมิต |อัปเกรดได้|
+|:----|:----:|----|----|
+|GET |/v5/asset/exchange/query-coin-list | 100 req/s| N |
+|POST |/v5/asset/exchange/quote-apply | 50 req/s| N |
+|POST |/v5/asset/exchange/convert-execute | 50 req/s| N |
+|GET |/v5/asset/exchange/convert-result-query | 100 req/s| N |
+|GET |/v5/asset/exchange/query-convert-history| 100 req/s| N |
+</span>

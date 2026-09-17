@@ -1,0 +1,56 @@
+---
+title: ดึงเวลาเซิร์ฟเวอร์ WaanX
+sidebar_label: ดึงเวลาเซิร์ฟเวอร์ WaanX
+sidebar_position: 0.5
+---
+
+:::info
+* ในช่วงที่ตลาดมีความผันผวนรุนแรง เอนด์พอยต์นี้อาจมีความหน่วงเพิ่มขึ้นหรือมีความล่าช้าในการส่งข้อมูลชั่วคราว
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/market/time" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+ไม่มี
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+| timeSecond | string | ประทับเวลาเซิร์ฟเวอร์ WaanX (sec)  |
+| timeNano | string | ประทับเวลาเซิร์ฟเวอร์ WaanX (nano)  |
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/market/time HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "timeSecond": "1688639403",
+        "timeNano": "1688639403423213947"
+    },
+    "retExtInfo": {},
+    "time": 1688639403423
+}
+```

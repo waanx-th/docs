@@ -1,0 +1,66 @@
+---
+title: ดึงอัตราค่าธรรมเนียม
+sidebar_label: ดึงอัตราค่าธรรมเนียม
+sidebar_position: 7
+---
+ดึงอัตราค่าธรรมเนียมการเทรด
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/account/fee-rate" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|category |**true** |string |ประเภทผลิตภัณฑ์ `spot`|
+|symbol |false |string |ชื่อสัญลักษณ์คู่เทรด เช่น `BTCUSDT` ตัวพิมพ์ใหญ่เท่านั้น|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|category |string |ประเภทผลิตภัณฑ์ `spot`|
+|list |array |Object |
+|> symbol |string |ชื่อสัญลักษณ์คู่เทรด|
+|> takerFeeRate |string |อัตราค่าธรรมเนียม Taker|
+|> makerFeeRate |string |อัตราค่าธรรมเนียม Maker|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/account/fee-rate?symbol=ETHUSDT HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1676360412362
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "list": [
+            {
+                "symbol": "ETHUSDT",
+                "takerFeeRate": "0.0006",
+                "makerFeeRate": "0.0001"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1676360412576
+}
+```

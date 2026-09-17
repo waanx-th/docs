@@ -1,0 +1,91 @@
+---
+title: ดึงยอดคงเหลือของเหรียญรายตัว
+sidebar_label: ดึงยอดคงเหลือของเหรียญรายตัว
+sidebar_position: 1
+---
+
+สอบถามยอดคงเหลือของเหรียญที่ระบุใน[ประเภทบัญชี](../../enum#accounttype)ที่ระบุ รองรับการสอบถามยอดคงเหลือของ sub UID
+นอกจากนี้ คุณยังสามารถตรวจสอบจำนวนที่โอนได้จากบัญชีหลักไปบัญชีย่อย บัญชีย่อยไปบัญชีหลัก หรือบัญชีย่อยไปบัญชีย่อย
+โดยเฉพาะสำหรับผู้ใช้ที่มีสินเชื่อสถาบัน
+
+:::note สำคัญ
+* ในช่วงที่ตลาดมีความผันผวนรุนแรง อินเทอร์เฟซนี้อาจมีความหน่วงเพิ่มขึ้นหรือเกิดความล่าช้าชั่วคราวในการส่งข้อมูล
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/transfer/query-account-coin-balance" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | หมายเหตุ|
+|:----- |:-------|:-----|------ |
+|memberId |false |string |UID **จำเป็น** เมื่อสอบถามยอดคงเหลือของ sub UID ด้วยคีย์ API ของบัญชีหลัก |
+|toMemberId |false |string |UID **จำเป็น** เมื่อสอบถามยอดคงเหลือที่โอนได้ระหว่าง UID ที่ต่างกัน |
+|[accountType](../../enum#accounttype) |**true** |string |ประเภทบัญชี |
+|[toAccountType](../../enum#accounttype) |false |string |ประเภทบัญชีปลายทาง **จำเป็น** เมื่อสอบถามยอดคงเหลือที่โอนได้ระหว่างประเภทบัญชีที่ต่างกัน|
+|coin |**true** |string |เหรียญ ตัวพิมพ์ใหญ่เท่านั้น |
+|withBonus |false |integer |`0`(default): ไม่สอบถามโบนัส `1`: สอบถามโบนัส  |
+|withTransferSafeAmount|false |integer |จะสอบถามจำนวนที่ปลอดภัยสำหรับการถอน/โอนแบบหน่วงเวลาหรือไม่ <ul><li>`0`(default): false, `1`: true</li><li>[จำนวนการถอนแบบหน่วงเวลา](delay-amount#) คืออะไร?</li></ul> |
+|withLtvTransferSafeAmount|false |integer |สำหรับผู้ใช้สินเชื่อ OTC โดยเฉพาะ คุณสามารถตรวจสอบจำนวนที่โอนได้ภายใต้ระดับความเสี่ยง<ul><li>`0`(default): false, `1`: true</li><li>ต้องระบุ `toAccountType`</li></ul> |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | หมายเหตุ|
+|:----- |:-----|----- |
+|accountType |string |ประเภทบัญชี |
+|bizType |integer |ประเภทธุรกิจ |
+|accountId |string |ID บัญชี |
+|memberId |string |Uid |
+|balance |Object | |
+|> coin |string |เหรียญ |
+|> walletBalance |string |ยอดคงเหลือในกระเป๋าเงิน |
+|> transferBalance |string |ยอดคงเหลือที่โอนได้ |
+|> bonus |string |โบนัส |
+|> transferSafeAmount |string |จำนวนที่ปลอดภัยสำหรับการโอน คงค่า `""` หากไม่ได้สอบถาม|
+|> ltvTransferSafeAmount |string |จำนวนที่โอนได้สำหรับบัญชีสินเชื่อสถาบัน คงค่า `""` หากไม่ได้สอบถาม|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/transfer/query-account-coin-balance?accountType=UNIFIED&coin=USDT&toAccountType=FUND&withLtvTransferSafeAmount=1 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: xxxxx
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1690254520644
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "accountType": "UNIFIED",
+        "bizType": 1,
+        "accountId": "1631385",
+        "memberId": "1631373",
+        "balance": {
+            "coin": "USDT",
+            "walletBalance": "11999",
+            "transferBalance": "11999",
+            "bonus": "0",
+            "transferSafeAmount": "",
+            "ltvTransferSafeAmount": "7602.4861"
+        }
+    },
+    "retExtInfo": {},
+    "time": 1690254521256
+}
+```

@@ -1,0 +1,122 @@
+---
+title: ดูรายการคูปอง
+sidebar_label: ดูรายการคูปอง
+sidebar_position: 8
+---
+:::info
+* ต้องยืนยันตัวตน
+* **การจำกัดอัตราการเรียก:** 10 req/s (UID)
+:::
+
+ค้นหาคูปองอัตราดอกเบี้ย (`interestCards`) และการ์ดรางวัล Dual Assets (`awardCards` เช่น เงินทดลองเทรด / คูปองต้นทุนศูนย์) ของผู้ใช้ตามประเภทผลิตภัณฑ์ที่ระบุ
+
+การ์ดที่ส่งกลับมาครอบคลุมทุกสถานะ ได้แก่ `InUse`, `NotUse`, `Expired` และ `AlreadyUsed`
+
+หากต้องการใช้คูปองขณะสร้างคำสั่งซื้อขาย ให้ส่ง `awardId` และ `specCode` ของคูปองนั้นในฟิลด์ `interestCard` ของคำขอสร้างคำสั่งซื้อขายที่เกี่ยวข้อง:
+- `FlexibleSaving` → [สร้างคำสั่งซื้อขาย](./create-order)
+- `DualAssets` → สร้างคำสั่งซื้อขาย
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/earn/coupons" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย |
+|:----- |:-------|:-----|------ |
+|category|**true**|string|ประเภทผลิตภัณฑ์: `FlexibleSaving`, `DualAssets`|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย |
+|:----- |:-----|:---------|
+|interestCards|array|รายการคูปองอัตราดอกเบี้ย|
+|> awardId|integer|รหัสคูปองที่ไม่ซ้ำกัน|
+|> specCode|string|รหัสสเปกของคูปอง|
+|> coin|string|ชื่อเหรียญ เช่น `USDT`, `BTC`|
+|> apy|string|อัตรา APY โบนัสเป็นสตริงทศนิยม เช่น `"0.03"` = 3%|
+|> duration|integer|ระยะเวลาที่คูปองใช้ได้ (วัน)|
+|> claimedAt|integer|เวลาที่รับคูปอง (Unix วินาที)|
+|> expireAt|integer|เวลาหมดอายุ (Unix วินาที)|
+|> usedAt|integer|เวลาที่ใช้ (Unix วินาที) เป็น `0` หากยังไม่ได้ใช้|
+|> status|string|สถานะคูปอง `InUse`: กำลังใช้งาน, `NotUse`: รับแล้วแต่ยังไม่ได้ใช้, `Expired`: หมดอายุโดยไม่ได้ใช้, `AlreadyUsed`: ใช้แล้วและชำระราคาแล้ว|
+|> currentPnl|string|ดอกเบี้ยโบนัสที่สะสมมาถึงปัจจุบัน|
+|> limitPnl|string|เพดานดอกเบี้ยโบนัส|
+|> positionEffectiveAmount|string|จำนวนเงินต้นที่มีผลต่อการคำนวณโบนัส|
+|> productId|integer|รหัสผลิตภัณฑ์ที่เชื่อมโยง จะมีค่าเมื่อสถานะเป็น `InUse` / `AlreadyUsed` นอกจากนั้นเป็น `0`|
+|> category|string|ประเภทผลิตภัณฑ์ที่คูปองใช้ได้: `FlexibleSaving`, `DualAssets`|
+|awardCards|array|รายการการ์ดรางวัล Dual Assets (เงินทดลองเทรด / คูปองต้นทุนศูนย์)|
+|> awardId|integer|รหัสการ์ดรางวัลที่ไม่ซ้ำกัน|
+|> specCode|string|รหัสสเปกของการ์ดรางวัล|
+|> claimedAt|integer|เวลาที่รับการ์ด (Unix วินาที)|
+|> usedAt|integer|เวลาที่ใช้ (Unix วินาที) เป็น `0` หากยังไม่ได้ใช้|
+|> expireAt|integer|เวลาหมดอายุ (Unix วินาที)|
+|> status|string|สถานะการ์ด มีความหมายเดียวกับ `interestCards > status`|
+|> amount|string|จำนวนเงินทดลองเทรด / คูปองต้นทุนศูนย์|
+|> limitPnlPercentage|string|เพดานเปอร์เซ็นต์ PnL เช่น `"0.23"` = 23%|
+|> baseCoin|string|ชื่อเหรียญฐาน|
+|> quoteCoin|string|ชื่อเหรียญอ้างอิง|
+|> direction|integer|ทิศทางของ Dual Assets: `1` = BuyLow, `2` = SellHigh|
+|> category|string|ประเภทผลิตภัณฑ์ที่การ์ดใช้ได้: `FlexibleSaving`, `DualAssets`|
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/earn/coupons?category=FlexibleSaving HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1759983699446
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+
+```
+
+</TabItem>
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "interestCards": [
+            {
+                "awardId": 1001,
+                "specCode": "FS_APY_3PCT_30D",
+                "coin": "USDT",
+                "apy": "0.03",
+                "duration": 30,
+                "claimedAt": 1759900800,
+                "expireAt": 1762492800,
+                "usedAt": 0,
+                "status": "NotUse",
+                "currentPnl": "0",
+                "limitPnl": "100",
+                "positionEffectiveAmount": "0",
+                "productId": 0,
+                "category": "FlexibleSaving"
+            }
+        ],
+        "awardCards": []
+    },
+    "retExtInfo": {},
+    "time": 1759983699446
+}
+```

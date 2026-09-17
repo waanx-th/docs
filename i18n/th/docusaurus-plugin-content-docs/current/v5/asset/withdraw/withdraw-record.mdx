@@ -1,0 +1,123 @@
+---
+title: ดึงประวัติการถอน
+sidebar_label: ดึงประวัติการถอน
+sidebar_position: 14
+---
+
+สอบถามประวัติการถอน
+
+:::tip
+* `endTime` - `startTime` ต้องน้อยกว่า 30 วัน โดยค่าเริ่มต้นจะสอบถามประวัติของ 30 วันล่าสุด
+* สอบถามได้ด้วยคีย์ API ของ UID บัญชีหลัก**เท่านั้น**
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/withdraw/query-record" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|withdrawID |false |string |รหัสการถอน |
+|txID |false |string |รหัสแฮชของธุรกรรม |
+|coin |false |string |เหรียญ ตัวพิมพ์ใหญ่เท่านั้น |
+|withdrawType |false |integer |ประเภทการถอน `0`(default): ออนเชน `1`: ออฟเชน `2`: ทั้งหมด|
+|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) |
+|endTime |false |integer |ประทับเวลาสิ้นสุด (มิลลิวินาที) |
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `50`] ค่าเริ่มต้น: `50`|
+|cursor |false |string |เคอร์เซอร์ ใช้โทเคน `nextPageCursor` จากการตอบกลับเพื่อดึงหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|rows |array|ออบเจ็กต์ |
+|> txID |string |รหัสธุรกรรม จะคืนค่า `""` เมื่อการถอนล้มเหลวหรือการถอนถูกยกเลิก|
+|> coin |string |เหรียญ |
+|> chain |string |เชน |
+|> amount |string |จำนวน |
+|> withdrawFee |string |ค่าธรรมเนียมการถอน |
+|> [status](../../enum#withdrawstatus) |string |สถานะการถอน |
+|> toAddress |string |ที่อยู่ปลายทางของการถอน สำหรับการโอนภายในจะแสดง UID ของ WaanX |
+|> tag |string |แท็ก |
+|> createTime |string |ประทับเวลาที่สร้างการถอน (มิลลิวินาที) |
+|> updateTime |string |ประทับเวลาที่อัปเดตการถอน (มิลลิวินาที) |
+|> withdrawId |string |รหัสการถอน |
+|> withdrawType |integer |ประเภทการถอน `0`: ออนเชน `1`: ออฟเชน|
+|> tax |string |จำนวนภาษี ใช้กับผู้ใช้บางรายตามการตั้งค่าของ Tax Centre ค่าเริ่มต้น: `"0"`|
+|> taxRate |string |อัตราภาษี ใช้กับผู้ใช้บางรายตามการตั้งค่าของ Tax Centre ค่าเริ่มต้น: `"0"`|
+|> taxType |string |ประเภทภาษี ใช้กับผู้ใช้บางรายตามการตั้งค่าของ Tax Centre ค่าเริ่มต้น: `""`|
+|nextPageCursor |string|เคอร์เซอร์ ใช้สำหรับการแบ่งหน้า |
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/withdraw/query-record?coin=USDT&withdrawType=2&limit=2 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672194949557
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "rows": [
+            {
+                "coin": "USDC",
+                "chain": "ETH",
+                "amount": "41.43008",
+                "txID": "0x3d7bddb797f0e86420c982c0723653b8b728fd0ec9953b6b354445848d83a185",
+                "status": "success",
+                "toAddress": "0xE3De6d711e0951d34777b5Cd93c827F822ee8514",
+                "tag": "",
+                "withdrawFee": "5",
+                "createTime": "1742738305000",
+                "updateTime": "1742738340000",
+                "withdrawId": "131629076",
+                "withdrawType": 0,
+                "fee": "",
+                "tax": "",
+                "taxRate": "",
+                "taxType": ""
+            },
+            {
+                "coin": "USDT",
+                "chain": "SOL",
+                "amount": "951",
+                "txID": "53j7mUftUboJ2TVb1q3zjwNi9gNGWyQ8xhEpkFovzqaTf8LzuZKzr83XjbG62TZWBkWbn27km7SD6Sc9e1BuWUfJ",
+                "status": "success",
+                "toAddress": "DhTEGye1vq2PPr8DPWit4HTDprnvnDiqpVHnHSY1Y82p",
+                "tag": "",
+                "withdrawFee": "1",
+                "createTime": "1742729329000",
+                "updateTime": "1742729437000",
+                "withdrawId": "131603458",
+                "withdrawType": 0,
+                "fee": "",
+                "tax": "",
+                "taxRate": "",
+                "taxType": ""
+            }
+        ],
+        "nextPageCursor": "eyJtaW5JRCI6MTMxNjAzNDU4LCJtYXhJRCI6MTMxNjI5MDc2fQ=="
+    },
+    "retExtInfo": {},
+    "time": 1750777316807
+}
+```

@@ -1,0 +1,94 @@
+---
+title: ขอราคาเสนอ 
+sidebar_label: ขอราคาเสนอ
+sidebar_position: 2
+---
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/asset/exchange/quote-apply" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | หมายเหตุ|
+|:----- |:-------|:-----|------ |
+|[accountType](/v5/enum#convertaccounttype) |**true** |string |ประเภทกระเป๋าเงิน|
+|fromCoin |**true** |string |เหรียญต้นทางที่จะแปลง (เหรียญที่จะขาย)|
+|toCoin |**true** |string |เหรียญปลายทางที่จะแปลงเป็น (เหรียญที่จะซื้อ)|
+|requestCoin |**true** |string |เหรียญที่ร้องขอ เหมือนกับ fromCoin <ul><li>ในอนาคตเราอาจรองรับ requestCoin=toCoin</li></ul>|
+|requestAmount |**true** |string |จำนวนของเหรียญที่ร้องขอ (จำนวนที่คุณต้องการขาย)|
+|fromCoinType |false |string |`crypto`|
+|toCoinType |false |string |`crypto`|
+|paramType |false |string |`opFrom` ใช้กับผู้ใช้ที่เป็น API broker เป็นหลัก|
+|paramValue |false |string |ID โบรกเกอร์ ใช้กับผู้ใช้ที่เป็น API broker เป็นหลัก|
+|requestId |false |string |ID คำขอที่กำหนดเอง <ul><li>ความยาวสูงสุด 36</li><li>โดยทั่วไปไม่ได้ใช้ประโยชน์ แต่จะสะดวกในการติดตามคำขอราคาเสนอภายในระบบของคุณหากกรอกฟิลด์นี้</li></ul>|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | หมายเหตุ|
+|:----- |:-----|----- |
+|quoteTxId |string|ID ธุรกรรมของราคาเสนอ ระบบสร้างขึ้นและใช้สำหรับยืนยันราคาเสนอและสอบถามผลลัพธ์ของธุรกรรม|
+|exchangeRate |string|อัตราแลกเปลี่ยน|
+|fromCoin |string|เหรียญต้นทาง|
+|fromCoinType |string|ประเภทของเหรียญต้นทาง `crypto`|
+|toCoin |string|เหรียญปลายทาง|
+|toCoinType |string|ประเภทของเหรียญปลายทาง `crypto`|
+|fromAmount |string|จำนวนของเหรียญต้นทาง (จำนวนที่จะขาย)|
+|toAmount |string|จำนวนของเหรียญปลายทาง (จำนวนที่จะซื้อตามอัตราแลกเปลี่ยน)|
+|expiredTime |string|เวลาหมดอายุของราคาเสนอนี้ (15 วินาที)|
+|requestId |string|ID คำขอที่กำหนดเอง|
+|extTaxAndFee|array |ฟิลด์ที่เกี่ยวข้องกับการกำกับดูแล ปัจจุบันคืนค่าเป็นอาร์เรย์ว่าง ซึ่งอาจถูกใช้ในอนาคต
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/asset/exchange/quote-apply HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1720071077014
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: XXXXXX
+Content-Type: application/json
+Content-Length: 172
+
+{
+    "requestId": "test-00002",
+    "fromCoin": "ETH",
+    "toCoin": "BTC",
+    "accountType": "eb_convert_funding",
+    "requestCoin": "ETH",
+    "requestAmount": "0.1",
+    "paramType": "opFrom",
+    "paramValue": "broker-id-001"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "ok",
+    "result": {
+        "quoteTxId": "10100108106409340067234418688",
+        "exchangeRate": "0.053517914861880000",
+        "fromCoin": "ETH",
+        "fromCoinType": "crypto",
+        "toCoin": "BTC",
+        "toCoinType": "crypto",
+        "fromAmount": "0.1",
+        "toAmount": "0.005351791486188000",
+        "expiredTime": "1720071092225",
+        "requestId": "test-00002",
+        "extTaxAndFee":[]
+    },
+    "retExtInfo": {},
+    "time": 1720071077265
+}
+```

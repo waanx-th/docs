@@ -1,0 +1,110 @@
+---
+title: ดูข้อมูลผลิตภัณฑ์
+sidebar_label: ดูข้อมูลผลิตภัณฑ์
+sidebar_position: 1
+---
+:::info
+ไม่จำเป็นต้องยืนยันตัวตน
+:::
+
+[คำถามที่พบบ่อยเกี่ยวกับ WaanX Saving](https://support.waanx.com/en/support/home)
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/earn/product" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|category|**true**|string|`FlexibleSaving`,`OnChain`<br/>**หมายเหตุ**: ปัจจุบันรองรับเฉพาะ flexible savings และ on chain เท่านั้น|
+|coin|false|string|ชื่อเหรียญ ตัวพิมพ์ใหญ่เท่านั้น |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list|array|Object|
+|> category|string |`FlexibleSaving`,`OnChain` |
+|> estimateApr|string |APR โดยประมาณ เช่น `3%`, `4.25%`<br/>**หมายเหตุ**: 1) APR โดยประมาณเป็นการแสดงผลตอบแทนที่คุณอาจได้รับแบบไดนามิก โดยอัปเดตทุก 10 นาทีตามสภาวะตลาด <br/>2) โปรดทราบว่านี่เป็นค่าประมาณและอาจต่างจาก APR ที่คุณได้รับจริง<br/>3) ไม่แสดง APR ของรางวัลจากแพลตฟอร์ม|
+|> coin|string |ชื่อเหรียญ|
+|> minStakeAmount|string |จำนวนสเตคขั้นต่ำ |
+|> maxStakeAmount|string |จำนวนสเตคสูงสุด |
+|> precision|string |ความละเอียดของจำนวน |
+|> productId|string |รหัสผลิตภัณฑ์|
+|> status|string |`Available`, `NotAvailable`|
+|> bonusEvents|Array |โบนัส |
+|>> apr|string |APR ของรางวัลเมื่อวานนี้ |
+|>> coin|string |เหรียญที่เป็นรางวัล |
+|>> announcement|string |ลิงก์ประกาศ |
+|> minRedeemAmount|string |จำนวนไถ่ถอนขั้นต่ำ มีค่าเฉพาะในโหมด Onchain LST (coin != swapCoin) เท่านั้น |
+|> maxRedeemAmount|string |จำนวนไถ่ถอนสูงสุด มีค่าเฉพาะในโหมด Onchain LST (coin != swapCoin) เท่านั้น |
+|> duration|string |`Fixed`,`Flexible` ประเภทผลิตภัณฑ์|
+|> term|int |หน่วย: วัน ใช้เฉพาะเมื่อ duration = `Fixed` สำหรับ OnChain|
+|> swapCoin|string |เหรียญที่ใช้สวอป มีค่าเฉพาะในโหมด Onchain LST (coin != swapCoin) เท่านั้น |
+|> swapCoinPrecision|string |ความละเอียดของเหรียญที่ใช้สวอป มีค่าเฉพาะในโหมด Onchain LST (coin != swapCoin) เท่านั้น |
+|> stakeExchangeRate|string |อัตราแลกเปลี่ยนสำหรับการสเตคโดยประมาณ มีค่าเฉพาะในโหมด Onchain LST (coin != swapCoin) เท่านั้น |
+|> redeemExchangeRate|string |อัตราแลกเปลี่ยนสำหรับการไถ่ถอนโดยประมาณ มีค่าเฉพาะในโหมด Onchain LST (coin != swapCoin) เท่านั้น|
+|> rewardDistributionType|string |`Simple`: ดอกเบี้ยแบบคงต้น, `Compound`: ดอกเบี้ยทบต้น, `Other`: LST มีค่าเฉพาะ Onchain เท่านั้น|
+|> rewardIntervalMinute|int |ความถี่ในการจ่ายรางวัล (นาที) |
+|> redeemProcessingMinute|string |จำนวนนาทีโดยประมาณในการไถ่ถอน|
+|> stakeTime|string |เวลาที่สเตคขึ้นออนเชน หน่วยมิลลิวินาที|
+|> interestCalculationTime|string |เวลาที่เริ่มคิดดอกเบี้ย หน่วยมิลลิวินาที|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/earn/product?category=FlexibleSaving&coin=BTC HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "list": [
+            {
+                "category": "FlexibleSaving",
+                "estimateApr": "3%",
+                "coin": "BTC",
+                "minStakeAmount": "0.001",
+                "maxStakeAmount": "10",
+                "precision": "8",
+                "productId": "430",
+                "status": "Available",
+                "bonusEvents": [],
+                "minRedeemAmount": "",
+                "maxRedeemAmount": "",
+                "duration": "",
+                "term": 0,
+                "swapCoin": "",
+                "swapCoinPrecision": "",
+                "stakeExchangeRate": "",
+                "redeemExchangeRate": "",
+                "rewardDistributionType": "",
+                "rewardIntervalMinute": 0,
+                "redeemProcessingMinute": 0,
+                "stakeTime": "",
+                "interestCalculationTime": ""
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1739935669110
+}
+```

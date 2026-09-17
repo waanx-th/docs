@@ -1,0 +1,76 @@
+---
+title: ดึงขีดจำกัดราคาคำสั่งซื้อขาย
+sidebar_label: ดึงขีดจำกัดราคาคำสั่งซื้อขาย
+sidebar_position: 17
+---
+
+สำหรับขีดจำกัดราคาคำสั่งซื้อขายในการเทรดสปอต ดูรายละเอียดได้ที่<a href="https://waanx.com/en/gb/announcements">ประกาศ</a><br/>
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/market/price-limit" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------|
+|[category](../enum#category) |false |string |ประเภทผลิตภัณฑ์ `spot` <ul><li>เมื่อไม่ส่ง `category` มา จะใช้ `spot` เป็นค่าเริ่มต้น</li></ul>|
+|[symbol](../enum#symbol) |<b>true</b> |string |ชื่อสัญลักษณ์คู่เทรด เช่น `BTCUSDT` ตัวพิมพ์ใหญ่เท่านั้น|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|symbol |string |ชื่อสัญลักษณ์คู่เทรด |
+|buyLmt |string |ราคาเสนอซื้อสูงสุด |
+|sellLmt |string |ราคาเสนอขายต่ำสุด |
+|ts |string |ประทับเวลาในหน่วยมิลลิวินาที |
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/market/price-limit?category=spot&symbol=BTCUSDT HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+<TabItem value="Go" label="Go">
+
+```go
+
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+
+```
+
+</TabItem>
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "symbol": "BTCUSDT",
+        "buyLmt": "105878.10",
+        "sellLmt": "103781.60",
+        "ts": "1750302284491"
+    },
+    "retExtInfo": {},
+    "time": 1750302285376
+}
+```

@@ -1,0 +1,153 @@
+---
+title: คำสั่งซื้อขาย
+sidebar_label: คำสั่งซื้อขาย
+sidebar_position: 3
+---
+
+สมัครรับข้อมูลสตรีมคำสั่งซื้อขายเพื่อดูการเปลี่ยนแปลงของคำสั่งซื้อขายของคุณแบบ**เรียลไทม์**
+
+**หัวข้อรวมทุกหมวดหมู่:** `order`<br/>
+**หัวข้อแยกตามหมวดหมู่:** `order.spot`
+
+:::info
+* หัวข้อรวมทุกหมวดหมู่และหัวข้อแยกตามหมวดหมู่**ไม่สามารถ**อยู่ในคำขอสมัครรับข้อมูลเดียวกันได้
+* หัวข้อรวมทุกหมวดหมู่: ให้คุณรับฟังการอัปเดตผ่าน websocket ของทุกหมวดหมู่ (spot) ได้
+* หัวข้อแยกตามหมวดหมู่: ให้คุณรับฟังการอัปเดตผ่าน websocket ของหมวดหมู่ที่ระบุเท่านั้น
+:::
+
+:::tip
+คุณอาจได้รับข้อความ orderStatus=`Filled` สองครั้ง เมื่อคำขอยกเลิกได้รับการยอมรับแต่คำสั่งซื้อขายถูกจับคู่ในเวลาเดียวกัน โดยทั่วไปข้อความหนึ่ง 
+จะมี "orderStatus=Filled, rejectReason=EC_NoError" และอีกข้อความหนึ่งจะมี "orderStatus=Filled, cancelType=CancelByUser, rejectReason=EC_OrigClOrdIDDoesNotExist"
+ข้อความแรกบอกให้คุณรู้ว่าคำสั่งซื้อขายถูกจับคู่แล้ว และข้อความที่สองบอกว่าคำขอยกเลิกที่ตามมาถูกปฏิเสธเพราะคำสั่งซื้อขายถูกจับคู่ไปแล้ว
+:::
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|id |string |รหัสข้อความ|
+|topic |string |ชื่อหัวข้อ |
+|creationTime |number |ประทับเวลาที่สร้างข้อมูล (มิลลิวินาที) |
+|data |array |อ็อบเจกต์ |
+|> category |string |ประเภทผลิตภัณฑ์ `spot`|
+|> orderId  |string |รหัสคำสั่งซื้อขาย |
+|> orderLinkId |string |รหัสคำสั่งซื้อขายที่ผู้ใช้กำหนดเอง |
+|> parentOrderLinkId |string |ระบุคำสั่งซื้อขายแม่ที่เชื่อมโยงกับคำสั่งทำกำไรและหยุดขาดทุนที่แนบมา<ul><li>การ[แก้ไข](../../order/amend-order#)คำสั่งทำกำไรหรือหยุดขาดทุนจะไม่เปลี่ยนค่า parentOrderLinkId</li></ul> |
+|> isLeverage |string |จะยืมหรือไม่ `0`: ไม่ยืม, `1`: ยืม|
+|> blockTradeId  |string |รหัสการเทรดแบบบล็อก|
+|> symbol |string |ชื่อสัญลักษณ์คู่เทรด |
+|> price |string |ราคาคำสั่งซื้อขาย |
+|> brokerOrderPrice |string |ฟิลด์เฉพาะสำหรับผู้ให้สภาพคล่องในสหภาพยุโรป|
+|> qty |string |จำนวนคำสั่งซื้อขาย |
+|> side |string |ทิศทาง `Buy`,`Sell`|
+|> [positionIdx](../../enum#positionidx) |integer |ดัชนีสถานะ ใช้ระบุสถานะในโหมดสถานะที่แตกต่างกัน |
+|> [orderStatus](../../enum#orderstatus) |string |สถานะคำสั่งซื้อขาย |
+|> [cancelType](../../enum#canceltype) |string |ประเภทการยกเลิก |
+|> [rejectReason](../../enum#rejectreason) |string |เหตุผลที่ถูกปฏิเสธ|
+|> avgPrice |string |ราคาเฉลี่ยที่จับคู่สำเร็จ จะคืนค่า `""` สำหรับคำสั่งซื้อขายที่ไม่มีราคาเฉลี่ย|
+|> leavesQty |string |จำนวนคงเหลือที่ยังไม่จับคู่|
+|> leavesValue |string |มูลค่าประมาณการที่ยังไม่จับคู่|
+|> cumExecQty |string |จำนวนคำสั่งซื้อขายที่จับคู่สำเร็จสะสม |
+|> cumExecValue |string |มูลค่าคำสั่งซื้อขายที่จับคู่สำเร็จสะสม |
+|> cumExecFee |string |<ul><li>`spot`: เลิกใช้งานแล้ว โปรดใช้ `cumFeeDetail` แทน</li><li>หลังจากอัปเกรดเป็นบัญชี Unified แล้ว คุณสามารถใช้ `execFee` ของการจับคู่แต่ละครั้งในหัวข้อ [Execution](execution) ได้</li></ul> |
+|> closedPnl |string |กำไรและขาดทุนที่ปิดแล้วของคำสั่งปิดสถานะแต่ละรายการ ค่านี้เหมือนกับ "closedPnl" จาก Get Closed PnL|
+|> feeCurrency |string |เลิกใช้งานแล้ว สกุลเงินของค่าธรรมเนียมการเทรดสำหรับสปอตเท่านั้น ดูคำอธิบายสกุลเงินค่าธรรมเนียมของสปอตได้[ที่นี่](../../enum#spot-fee-currency-instruction) |
+|> [timeInForce](../../enum#timeinforce) |string |ระยะเวลามีผลของคำสั่ง |
+|> [orderType](../../enum#ordertype) |string |ประเภทคำสั่งซื้อขาย `Market`,`Limit` สำหรับคำสั่ง TP/SL จะเป็นประเภทคำสั่งซื้อขายหลังจากที่คำสั่งถูกทริกเกอร์แล้ว |
+|> [stopOrderType](../../enum#stopordertype) |string |ประเภทคำสั่งหยุด |
+|> ocoTriggerBy |string |ประเภทการทริกเกอร์ของคำสั่งแบบ OCO ของสปอต `OcoTriggerByUnknown`, `OcoTriggerByTp`, `OcoTriggerBySl`|
+|> orderIv |string |ความผันผวนแฝง |
+|> marketUnit |string |หน่วยของ `qty` เมื่อสร้างคำสั่ง**แบบราคาตลาดในตลาดสปอต** `baseCoin`, `quoteCoin` |
+|> slippageToleranceType |string |ประเภทค่าความคลาดเคลื่อนของสลิปเพจสำหรับคำสั่งแบบราคาตลาดในตลาดสปอต `TickSize`, `Percent`, `UNKNOWN`(default)|
+|> slippageTolerance |string |ค่าความคลาดเคลื่อนของสลิปเพจ|
+|> triggerPrice |string |ราคาทริกเกอร์ |
+|> takeProfit |string |ราคาทำกำไร |
+|> stopLoss |string |ราคาหยุดขาดทุน |
+|> tpLimitPrice |string |ราคาของคำสั่งแบบจำกัดราคาเมื่อราคาทำกำไรถูกทริกเกอร์|
+|> slLimitPrice |string |ราคาของคำสั่งแบบจำกัดราคาเมื่อราคาหยุดขาดทุนถูกทริกเกอร์|
+|> [tpTriggerBy](../../enum#triggerby) |string |ประเภทราคาที่ใช้ทริกเกอร์การทำกำไร |
+|> [slTriggerBy](../../enum#triggerby) |string |ประเภทราคาที่ใช้ทริกเกอร์การหยุดขาดทุน |
+|> triggerDirection |integer |ทิศทางการทริกเกอร์ `1`: ราคาขึ้น, `2`: ราคาลง |
+|> [triggerBy](../../enum#triggerby) |string |ประเภทราคาของราคาทริกเกอร์ |
+|> lastPriceOnCreated |string |ราคาซื้อขายล่าสุดในขณะที่สร้างคำสั่งซื้อขาย|
+|> reduceOnly |boolean |ลดสถานะเท่านั้น `true` หมายถึงลดขนาดสถานะ |
+|> closeOnTrigger |boolean |ปิดสถานะเมื่อทริกเกอร์ <a href="https://support.waanx.com/en/support/home">คำสั่งปิดสถานะเมื่อทริกเกอร์คืออะไร?</a> |
+|> [smpType](../../enum#smptype) |string |ประเภทการดำเนินการของ SMP|
+|> smpGroup |string |รหัสกลุ่ม Smp หาก UID ไม่ได้อยู่ในกลุ่มใด จะมีค่าเป็น `"0"` เป็นค่าเริ่มต้น |
+|> smpOrderId |string |orderID ของคู่สัญญาที่ทำให้เกิดการดำเนินการ SMP นี้|
+|> createdTime |string |ประทับเวลาที่สร้างคำสั่งซื้อขาย (มิลลิวินาที) |
+|> updatedTime |string |ประทับเวลาที่อัปเดตคำสั่งซื้อขาย (มิลลิวินาที) |
+|> cumFeeDetail |json |<ul><li>`spot`: รายละเอียดค่าธรรมเนียมการเทรดสะสม ใช้แทน `cumExecFee`</li></ul> |
+|> rpiTakerAccess |boolean |คำสั่งซื้อขายนี้ได้จับคู่กับคำสั่งแบบ RPI ในฐานะคู่สัญญาหรือไม่ `true`: คู่สัญญาเป็นคำสั่งแบบ RPI, `false`: คู่สัญญาไม่ใช่คำสั่งแบบ RPI |
+|> rpiMatchedQty |string |จำนวนสะสมที่จับคู่กับคำสั่งแบบ RPI ในฐานะคู่สัญญา |
+
+### ตัวอย่างการสมัครรับข้อมูล
+```json
+{
+    "op": "subscribe",
+    "args": [
+        "order"
+    ]
+}
+```
+
+
+
+### ตัวอย่างสตรีมข้อมูล
+
+```json
+{
+    "id": "5923240c6880ab-c59f-420b-9adb-3639adc9dd90",
+    "topic": "order",
+    "creationTime": 1672364262474,
+    "data": [
+        {
+            "symbol": "ETH-30DEC22-1400-C",
+            "orderId": "5cf98598-39a7-459e-97bf-76ca765ee020",
+            "side": "Sell",
+            "orderType": "Market",
+            "cancelType": "UNKNOWN",
+            "price": "72.5",
+            "qty": "1",
+            "orderIv": "",
+            "timeInForce": "IOC",
+            "orderStatus": "Filled",
+            "orderLinkId": "",
+            "lastPriceOnCreated": "",
+            "reduceOnly": false,
+            "leavesQty": "",
+            "leavesValue": "",
+            "cumExecQty": "1",
+            "cumExecValue": "75",
+            "avgPrice": "75",
+            "blockTradeId": "",
+            "positionIdx": 0,
+            "cumExecFee": "0.358635",
+            "closedPnl": "0",
+            "createdTime": "1672364262444",
+            "updatedTime": "1672364262457",
+            "rejectReason": "EC_NoError",
+            "stopOrderType": "",
+            "triggerPrice": "",
+            "takeProfit": "",
+            "stopLoss": "",
+            "tpTriggerBy": "",
+            "slTriggerBy": "",
+            "tpLimitPrice": "",
+            "slLimitPrice": "",
+            "triggerDirection": 0,
+            "triggerBy": "",
+            "closeOnTrigger": false,
+            "category": "spot",
+            "smpType": "None",
+            "smpGroup": "0",
+            "smpOrderId": "",
+            "feeCurrency": "",
+            "cumFeeDetail": {
+                "MNT": "0.00242968"
+            },
+            "rpiTakerAccess": false,
+            "rpiMatchedQty": "0"
+        }
+    ]
+}
+```

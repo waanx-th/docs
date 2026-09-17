@@ -1,0 +1,73 @@
+---
+title: ดึงค่า Greeks ของเหรียญ
+sidebar_label: ดึงค่า Greeks ของเหรียญ
+sidebar_position: 13
+---
+ดึงข้อมูล Greeks ของบัญชีปัจจุบัน
+
+:::info
+* ในช่วงที่ตลาดผันผวนอย่างรุนแรง อินเทอร์เฟซนี้อาจมีความหน่วงเพิ่มขึ้นหรือการส่งข้อมูลล่าช้าชั่วคราว
+:::
+
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/coin-greeks" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|baseCoin |false |string |เหรียญฐาน ตัวพิมพ์ใหญ่เท่านั้น หากไม่ส่ง จะคืนค่า Greeks ของเหรียญฐานที่รองรับทั้งหมดเป็นค่าเริ่มต้น|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array |Object |
+|> baseCoin |string |เหรียญฐาน เช่น `BTC`,`ETH`,`SOL`|
+|> totalDelta |string |ค่า Delta |
+|> totalGamma |string |ค่า Gamma |
+|> totalVega |string |ค่า Vega |
+|> totalTheta |string |ค่า Theta |
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/coin-greeks?baseCoin=BTC HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672287887610
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "list": [
+            {
+                "baseCoin": "BTC",
+                "totalDelta": "0.00004001",
+                "totalGamma": "-0.00000009",
+                "totalVega": "-0.00039689",
+                "totalTheta": "0.01243824"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1672287887942
+}
+```

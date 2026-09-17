@@ -1,0 +1,186 @@
+---
+title: ดึงสถานะระบบ
+sidebar_label: ดึงสถานะระบบ
+---
+ดึงสถานะระบบเมื่อมีการปิดปรับปรุงแพลตฟอร์มหรือเหตุขัดข้องของบริการ
+
+:::info
+โปรดทราบว่าปัจจุบันการปิดปรับปรุงระบบที่อาจทำให้เกิดการหยุดให้บริการช่วงสั้น (ไม่เกิน 10 วินาที) หรือการตัดการเชื่อมต่อ websocket (ผู้ใช้สามารถเชื่อมต่อใหม่ได้ทันที) จะไม่มีการประกาศ
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/system/status" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|id |false |string |id ตัวระบุที่ไม่ซ้ำกัน|
+|[state](enum#state) |false |string |สถานะระบบ|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array |Object |
+|> id |string |Id ตัวระบุที่ไม่ซ้ำกัน |
+|> title |string |ชื่อเรื่องของการปิดปรับปรุงระบบ |
+|> [state](enum#state) |string |สถานะระบบ |
+|> begin |string |เวลาเริ่มการปิดปรับปรุงระบบ ประทับเวลาเป็นมิลลิวินาที |
+|> end |string |เวลาสิ้นสุดการปิดปรับปรุงระบบ ประทับเวลาเป็นมิลลิวินาที ก่อนที่การปิดปรับปรุงจะเสร็จสิ้น ค่านี้คือเวลาสิ้นสุดที่คาดการณ์ไว้ หลังจากการปิดปรับปรุงเสร็จสิ้นแล้ว จะเปลี่ยนเป็นเวลาสิ้นสุดที่เกิดขึ้นจริง |
+|> href |string |ไฮเปอร์ลิงก์ไปยังรายละเอียดการปิดปรับปรุงระบบ ค่าเริ่มต้นเป็นสตริงว่าง |
+|> [serviceTypes](enum#servicetypes) |array&lt;int&gt; |ประเภทบริการ |
+|> [product](enum#product) |array&lt;int&gt; |ผลิตภัณฑ์ |
+|> uidSuffix|array&lt;int&gt; |เลขท้าย UID ที่ได้รับผลกระทบ |
+|> [maintainType](enum#maintaintype) |string |ประเภทการปิดปรับปรุง |
+|> [env](enum#env) |string |สภาพแวดล้อม |
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/system/status HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "list": [
+            {
+                "id": "4d95b2a0-587f-11f0-bcc9-56f28c94d6ea",
+                "title": "t06",
+                "state": "completed",
+                "begin": "1751596902000",
+                "end": "1751597011000",
+                "href": "",
+                "serviceTypes": [
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "product": [
+                    1,
+                    2
+                ],
+                "uidSuffix": [],
+                "maintainType": 1,
+                "env": 1
+            },
+            {
+                "id": "19bb6f82-587f-11f0-bcc9-56f28c94d6ea",
+                "title": "t05",
+                "state": "completed",
+                "begin": "1751254200000",
+                "end": "1751254500000",
+                "href": "",
+                "serviceTypes": [
+                    1,
+                    4
+                ],
+                "product": [
+                    1
+                ],
+                "uidSuffix": [],
+                "maintainType": 3,
+                "env": 1
+            },
+            {
+                "id": "25f4bc8c-533c-11f0-bcc9-56f28c94d6ea",
+                "title": "t04",
+                "state": "completed",
+                "begin": "1751017967000",
+                "end": "1751018096000",
+                "href": "",
+                "serviceTypes": [
+                    2
+                ],
+                "product": [
+                    2
+                ],
+                "uidSuffix": [],
+                "maintainType": 1,
+                "env": 1
+            },
+            {
+                "id": "679a9c5f-533b-11f0-bcc9-56f28c94d6ea",
+                "title": "t03",
+                "state": "completed",
+                "begin": "1751017532000",
+                "end": "1751017658000",
+                "href": "",
+                "serviceTypes": [
+                    5,
+                    4
+                ],
+                "product": [
+                    1,
+                    2
+                ],
+                "uidSuffix": [],
+                "maintainType": 2,
+                "env": 1
+            },
+            {
+                "id": "c8990f96-5332-11f0-8fd3-c241b123dd9e",
+                "title": "t02",
+                "state": "completed",
+                "begin": "1751013817000",
+                "end": "1751013890000",
+                "href": "",
+                "serviceTypes": [
+                    5,
+                    4,
+                    3,
+                    2,
+                    1
+                ],
+                "product": [
+                    4,
+                    3,
+                    2,
+                    1
+                ],
+                "uidSuffix": [],
+                "maintainType": 2,
+                "env": 1
+            },
+            {
+                "id": "f9d6842d-5331-11f0-8fd3-c241b123dd9e",
+                "title": "t01",
+                "state": "completed",
+                "begin": "1751012688000",
+                "end": "1751012760000",
+                "href": "",
+                "serviceTypes": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "product": [
+                    1,
+                    2,
+                    3,
+                    4
+                ],
+                "uidSuffix": [],
+                "maintainType": 3,
+                "env": 2
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1751858399649
+}
+```

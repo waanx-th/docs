@@ -1,0 +1,75 @@
+---
+title: ดึงสถานะการ Convert
+sidebar_label: ดึงสถานะการ Convert
+sidebar_position: 4
+---
+คืนรายละเอียดของการ convert รายการนี้
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/fiat/trade-query" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|tradeNo |false| string|เลขที่คำสั่งซื้อขาย ต้องระบุ tradeNo หรือ merchantRequestId อย่างใดอย่างหนึ่ง|
+|merchantRequestId|false |string|ID คำขอที่กำหนดเอง ต้องระบุ tradeNo หรือ merchantRequestId อย่างใดอย่างหนึ่ง|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|result |object |ออบเจ็กต์|
+|> tradeNo |string|เลขที่คำสั่งซื้อขาย|
+|> status |string|สถานะการซื้อขาย:<ul><li>processing</li><li>success</li><li>failed</li></ul>|
+|> quoteTxId |string|ID ธุรกรรมของราคาเสนอ ระบบสร้างให้อัตโนมัติ และใช้สำหรับยืนยันราคาเสนอ|
+|> exchangeRate |string|อัตราแลกเปลี่ยน|
+|> fromCoin |string|เหรียญต้นทางที่จะ convert (เหรียญที่ต้องการขาย)|
+|> fromCoinType |string|ประเภทเหรียญต้นทาง `fiat` หรือ `crypto`|
+|> toCoin |string|เหรียญปลายทางที่จะ convert (เหรียญที่ต้องการซื้อ)|
+|> toCoinType |string|ประเภทเหรียญปลายทาง `fiat` หรือ `crypto`|
+|> fromAmount |string|จำนวนเหรียญต้นทาง (จำนวนที่ต้องการขาย)|
+|> toAmount |string|จำนวนเหรียญปลายทาง (จำนวนที่จะซื้อได้ตามอัตราแลกเปลี่ยน)|
+|> createdAt |string|เวลาที่สร้างรายการซื้อขาย|
+|> subUserId |string|subUserId ของผู้ใช้ใน WaanX|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/fiat/trade-query?tradeNo=TradeNo123456 HTTP/1.1  
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1720074159814
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "tradeNo": "TradeNo123456",
+        "status": "success",
+        "quoteTaxId": "QuoteTaxId123456",
+        "exchangeRate": "1.0",
+        "fromCoin": "GEL",
+        "fromCoinType": "fiat",
+        "toCoin": "USDT",
+        "toCoinType": "crypto",
+        "fromAmount": "100",
+        "toAmount": "100",
+        "createdAt": "1764558832014",
+        "subUserId": "123456"
+    }
+}
+```

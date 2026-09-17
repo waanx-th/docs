@@ -1,0 +1,66 @@
+---
+title: ลบคีย์ API ของบัญชีย่อย
+sidebar_label: ลบคีย์ API ของบัญชีย่อย
+sidebar_position: 9
+---
+
+ลบคีย์ API ของบัญชีย่อย โดยใช้คีย์ API ของบัญชีย่อยที่ต้องการลบในการเรียกเอนด์พอยต์นี้ หรือใช้คีย์ API ของบัญชีหลัก
+เพื่อลบคีย์ API ของบัญชีย่อยที่สอดคล้องกัน
+
+:::tip
+คีย์ API ต้องมีสิทธิ์อย่างใดอย่างหนึ่งด้านล่างนี้จึงจะเรียกเอนด์พอยต์นี้ได้
+* คีย์ API ของบัญชีย่อย: "Account Transfer", "Sub Member Transfer"
+* คีย์ API ของบัญชีหลัก: "Account Transfer", "Sub Member Transfer", "Withdrawal"
+:::
+
+:::danger
+โปรดระวัง! คีย์ API ของบัญชีย่อยจะใช้งานไม่ได้ทันทีหลังจากเรียกเอนด์พอยต์นี้
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/user/delete-sub-api" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|apikey |false |string |คีย์ API ของบัญชีย่อย <ul><li>คุณต้องส่งพารามิเตอร์นี้เมื่อใช้บัญชีหลักจัดการการตั้งค่าคีย์ API ของบัญชีย่อย</li><li>หากคุณใช้คีย์ API ของ UID บัญชีย่อยนั้นเรียกเอนด์พอยต์นี้ จะส่งพารามิเตอร์ `apikey` มาไม่ได้ มิฉะนั้นจะเกิดข้อผิดพลาด</li></ul> |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+ไม่มี
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/user/delete-sub-api HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1676431922953
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: XXXXXX
+Content-Type: application/json
+
+{
+
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {},
+    "retExtInfo": {},
+    "time": 1676431924719
+}
+```

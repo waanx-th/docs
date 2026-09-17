@@ -1,0 +1,80 @@
+---
+title: แก้ไขโพซิชัน
+sidebar_label: แก้ไขโพซิชัน
+sidebar_position: 5
+---
+:::info
+คีย์ API ต้องมีสิทธิ์ "Earn"
+:::
+
+:::note
+เฉพาะโพซิชันที่มี `duration` = `Fixed` เท่านั้นที่รองรับการตั้งค่าลงทุนต่อโดยอัตโนมัติ คุณสามารถดูค่า `duration` ได้จากการตอบกลับของ [GET /v5/earn/product?category=OnChain](product-info.mdx)
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/earn/position/modify" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|category|**true**|string|ประเภทผลิตภัณฑ์ ค่าคงที่: `OnChain`|
+|productId|**true**|integer|รหัสผลิตภัณฑ์ รับค่าได้จาก [GET /v5/earn/product](product-info.mdx)|
+|positionId|**true**|integer|รหัสโพซิชัน รับค่าได้จาก [GET /v5/earn/position](position.mdx)|
+|autoReinvest|**true**|integer|สวิตช์การลงทุนต่อโดยอัตโนมัติ `0`: ปิด, `1`: เปิด|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|retCode|integer|รหัสที่ส่งกลับ `0` หมายถึงสำเร็จ|
+|retMsg|string|ข้อความที่ส่งกลับ เป็นสตริงว่าง `""` เมื่อสำเร็จ|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/earn/position/modify HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1773732693000
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{
+    "category": "OnChain",
+    "productId": 8,
+    "positionId": 326,
+    "autoReinvest": 1
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+```
+
+</TabItem>
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {},
+    "retExtInfo": {},
+    "time": 1773732693032
+}
+```

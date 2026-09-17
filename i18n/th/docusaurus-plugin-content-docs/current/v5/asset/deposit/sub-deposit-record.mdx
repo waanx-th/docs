@@ -1,0 +1,89 @@
+---
+title: ดึงรายการฝากของบัญชีย่อย (ออนเชน)
+sidebar_label: ดึงรายการฝากของบัญชีย่อย (ออนเชน)
+sidebar_position: 13
+---
+
+เรียกดูรายการฝากของบัญชีย่อยด้วยคีย์ API ของ UID **บัญชีหลัก**
+
+:::tip
+`endTime` - `startTime` ต้องน้อยกว่า 30 วัน โดยค่าเริ่มต้นจะเรียกดูข้อมูลย้อนหลัง 30 วันล่าสุด
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/deposit/query-sub-member-record" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|id |false |string |ID ภายใน: ใช้ระบุและกรองรายการฝากแบบเฉพาะเจาะจงได้ เมื่อใช้ร่วมกับพารามิเตอร์อื่น ฟิลด์นี้จะมีลำดับความสำคัญสูงสุด|
+|txID |false |string |ID ธุรกรรม: โปรดทราบว่าข้อมูลที่เกิดขึ้นก่อนวันที่ 1 มกราคม 2024 ไม่สามารถเรียกดูด้วย txID ได้|
+|subMemberId |**true** |string |UID บัญชีย่อย |
+|coin |false |string |เหรียญ ตัวพิมพ์ใหญ่เท่านั้น |
+|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) _หมายเหตุ: ตรรกะการค้นหามีผลจริงในระดับ **วินาที**_|
+|endTime |false |integer |ประทับเวลาสิ้นสุด (มิลลิวินาที) _หมายเหตุ: ตรรกะการค้นหามีผลจริงในระดับ **วินาที**_|
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `50`] ค่าเริ่มต้น: `50`|
+|cursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextPageCursor` จากการตอบกลับเพื่อดึงหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|rows |array|ออบเจ็กต์ |
+|> id |string |ID ที่ไม่ซ้ำกัน |
+|> coin |string |เหรียญ |
+|> chain |string|เชน |
+|> amount |string|จำนวน |
+|> txID |string|ID ธุรกรรม |
+|> [status](../../enum#depositstatus) |integer|สถานะการฝาก |
+|> toAddress |string|ที่อยู่ปลายทางของการฝาก |
+|> tag |string|แท็กของที่อยู่ปลายทางของการฝาก |
+|> depositFee |string|ค่าธรรมเนียมการฝาก |
+|> successAt |string|เวลาที่การฝากสำเร็จ |
+|> confirmations |string|จำนวนบล็อกที่ยืนยัน |
+|> txIndex |string|ลำดับที่ของธุรกรรม |
+|> blockHash |string|ค่าแฮชบนเชน |
+|> batchReleaseLimit|string|ลิมิตการฝากของเหรียญนี้ในเชนนี้ `"-1"` หมายถึงไม่มีลิมิต|
+|> depositType|string|ประเภทการฝาก `0`: การฝากปกติ, `10`: การฝากถึงลิมิตการฝากรายวัน, `20`: เข้าเงื่อนไข AML กรุณาไปที่เว็บเพื่อส่งเอกสาร, `50`: การฝากถูกบล็อกเนื่องจากข้อจำกัดของบัญชีหรือข้อกำหนดด้านการกำกับดูแล กรุณาไปที่เว็บเพื่อถอนเงินออก|
+|> fromAddress|string|ที่อยู่ต้นทางของการฝาก จะแสดงเฉพาะเมื่อการฝากมาจากออนเชนและที่อยู่ต้นทางไม่ซ้ำกัน มิฉะนั้นจะคืนค่า `""`|
+|> taxDepositRecordsId|string|ฟิลด์นี้ใช้เพื่อวัตถุประสงค์ด้านภาษีของผู้ใช้ WaanX EU (ออสเตรีย) เพื่อแจ้ง tax id|
+|> taxStatus|integer|ฟิลด์นี้ใช้เพื่อวัตถุประสงค์ด้านภาษีของผู้ใช้ WaanX EU (ออสเตรีย) <ul><li>0: ไม่ต้องรายงาน</li><li>1: รอการรายงาน</li><li>2: รายงานเสร็จสิ้น</li></ul>|
+|> travelRuleStatus |integer|สถานะการตรวจสอบ Travel Rule พื้นที่ที่ไม่อยู่ในข้อกำหนดสามารถละเว้นฟิลด์นี้ได้<ul><li>`0`: Approved — ตรวจสอบผ่าน ดำเนินขั้นตอนถัดไปได้</li><li>`1`: CollectInfo — ต้องระบุข้อมูลคู่สัญญา ให้ส่งแบบสอบถามอีกครั้ง</li><li>`2`: Pending — อยู่ระหว่างการตรวจสอบ ให้เรียกเอนด์พอยต์สอบถามรายการฝากซ้ำเป็นรอบ</li><li>`3`: Rejected — ถูกปฏิเสธหรือไม่ผ่าน (รวมถึงกรณีที่ถูกยกเลิก)</li></ul> |
+|nextPageCursor |string |ดูพารามิเตอร์คำขอ `cursor`|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/deposit/query-sub-member-record?coin=USDT&limit=1&subMemberId=592334 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672192441294
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "rows": [],
+        "nextPageCursor": ""
+    },
+    "retExtInfo": {},
+    "time": 1672192441742
+}
+```

@@ -1,0 +1,121 @@
+---
+title: ดึงทิกเกอร์
+sidebar_label: ดึงทิกเกอร์
+sidebar_position: 6
+---
+
+สอบถามสแนปช็อตราคาล่าสุด ราคาเสนอซื้อ/เสนอขายที่ดีที่สุด และปริมาณการเทรดในช่วง 24 ชั่วโมงที่ผ่านมา
+> **ครอบคลุม: สปอต**
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/market/tickers" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|[category](../enum#category) |**true** |string |ประเภทผลิตภัณฑ์ `spot` |
+|[symbol](../enum#symbol) |false |string |ชื่อสัญลักษณ์คู่เทรด เช่น `BTCUSDT` ตัวพิมพ์ใหญ่เท่านั้น |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+    <table border="0.8">
+        <tr>
+            <th>พารามิเตอร์</th><th>ประเภท</th><th>คำอธิบาย</th>
+        </tr>
+        <tr>
+            <td>category</td><td>string</td><td>ประเภทผลิตภัณฑ์</td>
+        </tr>
+        <tr>
+            <td>list</td><td>array</td><td>อ็อบเจกต์</td>
+        </tr>
+        <tr>
+            <td>> symbol</td><td>string</td><td>ชื่อสัญลักษณ์คู่เทรด </td>
+        </tr>
+        <tr>
+            <td>> bid1Price</td><td>string</td><td>ราคาเสนอซื้อที่ดีที่สุด </td>
+        </tr>
+        <tr>
+            <td>> bid1Size</td><td>string</td><td>จำนวนเสนอซื้อที่ดีที่สุด </td>
+        </tr>
+        <tr>
+            <td>> ask1Price</td><td>string</td><td>ราคาเสนอขายที่ดีที่สุด </td>
+        </tr>
+        <tr>
+            <td>> ask1Size</td><td>string</td><td>จำนวนเสนอขายที่ดีที่สุด </td>
+        </tr>
+        <tr>
+            <td>> lastPrice</td><td>string</td><td>ราคาล่าสุด </td>
+        </tr>
+        <tr>
+            <td>> prevPrice24h</td><td>string</td><td>ราคาตลาดเมื่อ 24 ชั่วโมงก่อน </td>
+        </tr>
+        <tr>
+            <td>> price24hPcnt</td><td>string</td><td>เปอร์เซ็นต์การเปลี่ยนแปลงของราคาตลาดเทียบกับ 24 ชั่วโมง </td>
+        </tr>
+        <tr>
+            <td>> highPrice24h</td><td>string</td><td>ราคาสูงสุดในช่วง 24 ชั่วโมงที่ผ่านมา </td>
+        </tr>
+        <tr>
+            <td>> lowPrice24h</td><td>string</td><td>ราคาต่ำสุดในช่วง 24 ชั่วโมงที่ผ่านมา </td>
+        </tr>
+        <tr>
+            <td>> turnover24h</td><td>string</td><td>มูลค่าการเทรดใน 24 ชั่วโมง </td>
+        </tr>
+        <tr>
+            <td>> volume24h</td><td>string</td><td>ปริมาณการเทรดใน 24 ชั่วโมง </td>
+        </tr>
+        <tr>
+            <td>> usdIndexPrice</td><td>string</td><td>ราคาดัชนี USD <ul><li>ใช้คำนวณมูลค่าเป็น USD ของสินทรัพย์ในบัญชี Unified</li><li>เหรียญมาร์จิ้นที่ไม่ใช่หลักประกันจะส่งกลับค่า ""</li><li>มีเพียงสัญลักษณ์คู่เทรดอย่าง "XXX/USDT" หรือ "XXX/USDC" เท่านั้นที่มีค่านี้</li></ul></td>
+        </tr>
+    </table>
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/market/tickers?category=spot&symbol=BTCUSDT HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "category": "spot",
+        "list": [
+            {
+                "symbol": "BTCUSDT",
+                "bid1Price": "20517.96",
+                "bid1Size": "2",
+                "ask1Price": "20527.77",
+                "ask1Size": "1.862172",
+                "lastPrice": "20533.13",
+                "prevPrice24h": "20393.48",
+                "price24hPcnt": "0.0068",
+                "highPrice24h": "21128.12",
+                "lowPrice24h": "20318.89",
+                "turnover24h": "243765620.65899866",
+                "volume24h": "11801.27771",
+                "usdIndexPrice": "20784.12009279"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1673859087947
+}
+```

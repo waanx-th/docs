@@ -1,0 +1,58 @@
+---
+title: ตั้งค่า Spot Hedging
+sidebar_label: ตั้งค่า Spot Hedging
+sidebar_position: 10.1
+---
+คุณสามารถเปิด/ปิดฟังก์ชัน Spot hedging ในโหมด Portfolio margin ได้
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/account/set-hedging-mode" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|setHedgingMode |**true** |string |`ON`, `OFF`|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|retCode |integer |รหัสผลลัพธ์ |
+|retMsg |string |ข้อความผลลัพธ์ |
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/account/set-hedging-mode HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1700117968580
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+Content-Length: 31
+
+{
+    "setHedgingMode": "OFF"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "SUCCESS"
+}
+```

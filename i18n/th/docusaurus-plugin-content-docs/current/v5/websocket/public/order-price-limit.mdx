@@ -1,0 +1,58 @@
+---
+title: ขอบเขตราคาคำสั่งซื้อขาย
+sidebar_label: ขอบเขตราคาคำสั่งซื้อขาย
+sidebar_position: 10
+---
+
+สมัครรับข้อมูลขอบเขตราคาคำสั่งซื้อขาย
+
+สำหรับขอบเขตราคาคำสั่งซื้อขายของการเทรดสปอต โปรดดู<a href="https://waanx.com/en/gb/announcements">ประกาศ</a><br/>
+
+
+ความถี่ในการส่งข้อมูล: **300ms**
+
+**หัวข้อ:**<br/>
+`priceLimit.{symbol}`<br/>
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|topic |string |ชื่อหัวข้อ |
+|ts |number |ประทับเวลา (มิลลิวินาที) ที่ระบบสร้างข้อมูลนี้ |
+|data |array |อ็อบเจกต์ |
+|> symbol |string |ชื่อสัญลักษณ์คู่เทรด |
+|> buyLmt |string |ราคาเสนอซื้อสูงสุด |
+|> sellLmt |string |ราคาเสนอขายต่ำสุด |
+
+### ตัวอย่างการสมัครรับข้อมูล
+
+<Tabs groupId="programming-languages">
+<TabItem value="json" label="JSON">
+
+```json
+{
+    "op": "subscribe",
+    "args": [
+        "priceLimit.BTCUSDT"
+    ]
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "topic": "priceLimit.BTCUSDT",
+    "data": {
+        "symbol": "BTCUSDT",
+        "buyLmt": "114450.00",
+        "sellLmt": "103550.00"
+    },
+    "ts": 1750059683782
+}
+```

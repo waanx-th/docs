@@ -1,0 +1,75 @@
+---
+title: ดึงที่อยู่ฝากของบัญชีหลัก
+sidebar_label: ดึงที่อยู่ฝากของบัญชีหลัก
+sidebar_position: 13.1
+---
+
+เรียกดูข้อมูลที่อยู่สำหรับฝากของบัญชีหลัก (MASTER)
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/deposit/query-address" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|coin |**true** |string |เหรียญ ตัวพิมพ์ใหญ่เท่านั้น |
+|chainType |false |string |กรุณาใช้ค่าของ `>> chain` จากเอนด์พอยต์ [coin-info](../coin-info#)|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|coin |string |เหรียญ |
+|chains |array |ออบเจ็กต์ |
+|> chainType |string |ประเภทเชน |
+|> addressDeposit |string |ที่อยู่สำหรับฝาก |
+|> tagDeposit |string |แท็กของการฝาก |
+|> chain |string |เชน |
+|> batchReleaseLimit|string|ลิมิตการฝากของเหรียญนี้ในเชนนี้ `"-1"` หมายถึงไม่มีลิมิต|
+|> contractAddress|string|ที่อยู่สัญญาของเหรียญ แสดงเพียง 6 ตัวอักษรสุดท้าย หากไม่มีที่อยู่สัญญาจะแสดงเป็น `""`|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/deposit/query-address?coin=USDT&chainType=ETH HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672192792371
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "coin": "USDT",
+        "chains": [
+            {
+                "chainType": "Ethereum (ERC20)",
+                "addressDeposit": "XXXXXX",
+                "tagDeposit": "",
+                "chain": "ETH",
+                "batchReleaseLimit": "-1",
+                "contractAddress": "831ec7"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1736394811459
+}
+```

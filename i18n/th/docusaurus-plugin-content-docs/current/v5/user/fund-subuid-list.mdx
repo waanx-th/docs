@@ -1,0 +1,91 @@
+---
+title: ดึงบัญชีย่อยแบบ Fund Custodial
+sidebar_label: ดึงบัญชีย่อยแบบ Fund Custodial
+sidebar_position: 3.2
+---
+ลูกค้าสถาบันสามารถสอบถามบัญชีย่อยแบบ fund custodial ได้
+
+:::tip
+คีย์ API ต้องมีสิทธิ์อย่างใดอย่างหนึ่งด้านล่างนี้จึงจะเรียกเอนด์พอยต์นี้ได้
+* คีย์ API ของบัญชีหลัก: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/user/escrow_sub_members" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|pageSize |false |string |จำนวนข้อมูลต่อหนึ่งหน้า คืนค่าได้สูงสุด 100 รายการต่อคำขอ|
+|nextCursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextCursor` จากการตอบกลับเพื่อดึงข้อมูลหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|subMembers |array |อ็อบเจกต์ |
+|> uid |string |ID ผู้ใช้บัญชีย่อย |
+|> username |string |ชื่อผู้ใช้|
+|> memberType |integer |`12`: บัญชีแบบ fund custodial |
+|> status |integer |สถานะบัญชี<ul><li>`1`: ปกติ</li><li>`2`: ห้ามเข้าสู่ระบบ</li><li>`4`: ถูกระงับ </li></ul>|
+|> accountMode |integer |โหมดบัญชี<ul><li>`3`: บัญชี UTA </li></ul>|
+|> remark |string |หมายเหตุ |
+|nextCursor |string |ค่าเคอร์เซอร์ของหน้าถัดไป "0" หมายถึงไม่มีหน้าถัดไปแล้ว|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/user/escrow_sub_members?pageSize=2 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1739763787703
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+```
+
+</TabItem>
+
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "subMembers": [
+            {
+                "uid": "104274894",
+                "username": "Private_Wealth_Management",
+                "memberType": 12,
+                "status": 1,
+                "remark": "earn fund",
+                "accountMode": 3
+            },
+            {
+                "uid": "104274884",
+                "username": "Private_Wealth_Management",
+                "memberType": 12,
+                "status": 1,
+                "remark": "earn fund",
+                "accountMode": 3
+            }
+        ],
+        "nextCursor": "344"
+    },
+    "retExtInfo": {},
+    "time": 1739763788699
+}
+```

@@ -1,0 +1,59 @@
+---
+title: ดึงยอดคงเหลือ
+sidebar_label: ดึงยอดคงเหลือ
+sidebar_position: 7
+---
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/fiat/balance-query" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|currency|false |string|`Fiat`: รหัสสกุลเงินตราปกติ (ISO 4217) เช่น: KZT หากไม่ระบุจะเรียกดูรายการยอดคงเหลือของสกุลเงินตราปกติทั้งหมด|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|result |object |ออบเจ็กต์|
+|> totalBalance |string|ยอดคงเหลือทั้งหมด|
+|> balance |string|ยอดคงเหลือที่ใช้ได้|
+|> frozenBalance |string|ยอดคงเหลือที่ถูกอายัด|
+|> currency |string|สกุลเงิน|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/fiat/balance-query HTTP/1.1  
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1720074159814
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": [
+        {
+            "currency": "GEL",
+            "totalBalance": "100000",
+            "balance": "100000",
+            "frozenBalance": "0"
+        }
+    ]
+}
+```

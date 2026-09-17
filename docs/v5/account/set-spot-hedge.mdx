@@ -1,0 +1,58 @@
+---
+title: Set Spot Hedging
+sidebar_label: Set Spot Hedging
+sidebar_position: 10.1
+---
+You can turn on/off Spot hedging feature in Portfolio margin
+
+### HTTP Request
+<APIEndpoint method="POST" url="/v5/account/set-hedging-mode" />
+
+### Request Parameters
+| Parameter | Required | Type | Comments|
+|:----- |:-------|:-----|------ |
+|setHedgingMode |**true** |string |`ON`, `OFF`|
+
+### Response Parameters
+| Parameter | Type | Comments|
+|:----- |:-----|----- |
+|retCode |integer |Result code |
+|retMsg |string |Result message |
+
+
+---
+
+### Request Example
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/account/set-hedging-mode HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1700117968580
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+Content-Length: 31
+
+{
+    "setHedgingMode": "OFF"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### Response Example
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "SUCCESS"
+}
+```

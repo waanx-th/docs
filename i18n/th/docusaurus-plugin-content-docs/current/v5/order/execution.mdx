@@ -1,0 +1,129 @@
+---
+title: เรียกดูประวัติการเทรด
+sidebar_label: เรียกดูประวัติการเทรด (2 ปี)
+sidebar_position: 6.1
+---
+
+เรียกดูรายการการจับคู่ของผู้ใช้ โดยเรียงลำดับตาม `execTime` จากมากไปน้อย
+
+:::tip
+* รายการที่ตอบกลับอาจมีปัญหาการเรียงลำดับเมื่อ 'execTime' มีค่าเท่ากัน จึงขอแนะนำให้เรียงลำดับตาม `execId+OrderId+leavesQty`
+  หากคุณต้องการรับข้อมูลการจับคู่แบบเรียลไทม์ โปรดใช้ [websocket stream](../websocket/private/execution) (แนะนำ)
+* คำสั่งซื้อขายหนึ่งรายการอาจมีการจับคู่ได้หลายครั้ง
+* คุณสามารถเรียกดูข้อมูลโดยใช้ symbol, baseCoin, orderId และ orderLinkId ได้ และหากคุณส่งพารามิเตอร์มาหลายตัว ระบบจะประมวลผลตามลำดับความสำคัญนี้: orderId > orderLinkId > symbol > baseCoin โดย orderId และ orderLinkId มีลำดับความสำคัญสูงกว่า และเมื่อใดที่มีพารามิเตอร์สองตัวนี้อยู่ในค่าที่ส่งเข้ามา พารามิเตอร์อื่นที่ส่งเข้ามาจะถูกละเว้นทั้งหมด
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/execution/list" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|[category](../enum#category) |**true** |string |ประเภทผลิตภัณฑ์ `spot`|
+|symbol |false |string |ชื่อสัญลักษณ์คู่เทรด เช่น `BTCUSDT` ตัวพิมพ์ใหญ่เท่านั้น|
+|orderId |false |string |รหัสคำสั่งซื้อขาย |
+|orderLinkId |false |string |รหัสคำสั่งซื้อขายที่ผู้ใช้กำหนดเอง|
+|baseCoin |false |string |เหรียญฐาน ตัวพิมพ์ใหญ่เท่านั้น|
+|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) <ul><li>หากไม่ส่ง startTime และ endTime มา จะคืนค่าข้อมูลย้อนหลัง 7 วันเป็นค่าเริ่มต้น</li><li>หากส่งเฉพาะ startTime มา จะคืนค่าข้อมูลในช่วงระหว่าง startTime ถึง startTime+7 วัน</li><li>หากส่งเฉพาะ endTime มา จะคืนค่าข้อมูลในช่วงระหว่าง endTime-7 วัน ถึง endTime<br/>หากส่งมาทั้งสองค่า เงื่อนไขคือ endTime - startTime <= 7 วัน</li></ul>|
+|endTime |false |integer |ประทับเวลาสิ้นสุด (มิลลิวินาที)|
+|[execType](../enum#exectype) |false |string |ประเภทการจับคู่|
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหนึ่งหน้า [`1`, `100`] ค่าเริ่มต้น: `50`|
+|cursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextPageCursor` จากการตอบกลับเพื่อดึงข้อมูลหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+| [category](../enum#category) | string  | ประเภทผลิตภัณฑ์|
+| list | array | อ็อบเจกต์ |
+|> symbol |string   |ชื่อสัญลักษณ์คู่เทรด |
+|> orderId |string |รหัสคำสั่งซื้อขาย |
+|> orderLinkId |string |รหัสคำสั่งซื้อขายที่ผู้ใช้กำหนดเอง|
+|> side |string |ทิศทาง `Buy`,`Sell` |
+|> orderPrice |string |ราคาคำสั่งซื้อขาย |
+|> orderQty |string |จำนวนคำสั่งซื้อขาย |
+|> leavesQty |string |จำนวนคงเหลือที่ยังไม่จับคู่|
+|> [createType](../enum#createtype) |string |ประเภทการสร้างคำสั่งซื้อขาย <li>สปอตไม่มีคีย์นี้</li> |
+|> [orderType](../enum#ordertype) |string |ประเภทคำสั่งซื้อขาย `Market`,`Limit` |
+|> [stopOrderType](../enum#stopordertype) |string |ประเภทคำสั่งหยุด หากคำสั่งดังกล่าวไม่ใช่คำสั่งหยุด จะคืนค่าเป็น `UNKNOWN` หรือ `""`|
+|> execFee |string  |ค่าธรรมเนียมการเทรดที่เกิดขึ้นจริง ดูคำอธิบายสกุลเงินค่าธรรมเนียมของสปอตได้[ที่นี่](../enum#spot-fee-currency-instruction) |
+|> execId |string |รหัสการจับคู่ |
+|> execPrice |string |ราคาที่จับคู่ |
+|> execQty |string |จำนวนที่จับคู่ |
+|> [execType](../enum#exectype) |string |ประเภทของการจับคู่|
+|> execValue |string |มูลค่าคำสั่งซื้อขายที่จับคู่แล้ว|
+|> execTime |string |ประทับเวลาที่จับคู่ (มิลลิวินาที)  |
+|> feeCurrency |string |สกุลเงินของค่าธรรมเนียมการเทรด |
+|> isMaker |boolean |เป็นคำสั่งฝั่ง maker หรือไม่ `true`: maker, `false`: taker|
+|> feeRate |string |อัตราค่าธรรมเนียมการเทรด|
+|> markPrice |string |ราคามาร์กของสัญลักษณ์คู่เทรดในขณะที่จับคู่|
+|> blockTradeId |string |รหัสการเทรดแบบบล็อกของ Paradigm|
+|> closedSize |string |ขนาดสถานะที่ปิด |
+|> seq |long |ลำดับแบบครอส ใช้เชื่อมโยงการจับคู่แต่ละครั้งกับการอัปเดตสถานะแต่ละครั้ง<ul><li>ค่า seq จะเหมือนกันเมื่อมีการจับคู่หลายรายการในเวลาเดียวกัน</li><li>สัญลักษณ์คู่เทรดที่ต่างกันอาจมีค่า seq เหมือนกัน โปรดใช้ seq + symbol เพื่อตรวจสอบความไม่ซ้ำกัน</li></ul>|
+|> extraFees |string |ข้อมูลอัตราค่าธรรมเนียมการเทรด ปัจจุบันข้อมูลนี้จะคืนค่าเฉพาะผู้ใช้ที่มี kyc=Indian หรือคำสั่งซื้อขายสปอตที่สร้างบนไซต์อินโดนีเซีย หรือคำสั่งซื้อขายสปอตสกุลเงินตราที่สร้างบนไซต์สหภาพยุโรปเท่านั้น ในกรณีอื่นจะคืนค่าเป็นสตริงว่าง Enum: [feeType](../enum#extrafeesfeetype), [subFeeType](../enum#extrafeessubfeetype)
+|nextPageCursor |string |ดูพารามิเตอร์คำขอ `cursor`|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/execution/list?category=spot&limit=1 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672283754132
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "nextPageCursor": "132766%3A2%2C132766%3A2",
+        "category": "spot",
+        "list": [
+            {
+                "symbol": "ETHUSDT",
+                "orderType": "Market",
+                "orderLinkId": "",
+                "side": "Buy",
+                "orderId": "8c065341-7b52-4ca9-ac2c-37e31ac55c94",
+                "stopOrderType": "UNKNOWN",
+                "leavesQty": "0",
+                "execTime": "1672282722429",
+                "feeCurrency": "",
+                "isMaker": false,
+                "execFee": "0.071409",
+                "feeRate": "0.0006",
+                "execId": "e0cbe81d-0f18-5866-9415-cf319b5dab3b",
+                "blockTradeId": "",
+                "markPrice": "1183.54",
+                "execPrice": "1190.15",
+                "orderQty": "0.1",
+                "orderPrice": "1236.9",
+                "execValue": "119.015",
+                "execType": "Trade",
+                "execQty": "0.1",
+                "closedSize": "",
+                "extraFees": "",
+                "seq": 4688002127
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1672283754510
+}
+```

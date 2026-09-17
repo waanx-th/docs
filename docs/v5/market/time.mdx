@@ -1,0 +1,56 @@
+---
+title: Get WaanX Server Time
+sidebar_label: Get WaanX Server Time
+sidebar_position: 0.5
+---
+
+:::info
+* During periods of extreme market volatility, this interface may experience increased latency or temporary delays in data delivery
+:::
+
+### HTTP Request
+<APIEndpoint method="GET" url="/v5/market/time" />
+
+### Request Parameters
+None
+
+### Response Parameters
+| Parameter | Type | Comments|
+|:----- |:-----|----- |
+| timeSecond | string | WaanX server timestamp (sec)  |
+| timeNano | string | WaanX server timestamp (nano)  |
+
+
+---
+
+### Request Example
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/market/time HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+
+
+
+</Tabs>
+
+### Response Example
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "timeSecond": "1688639403",
+        "timeNano": "1688639403423213947"
+    },
+    "retExtInfo": {},
+    "time": 1688639403423
+}
+```

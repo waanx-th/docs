@@ -1,0 +1,121 @@
+---
+title: ดูข้อมูลผู้ใช้ Affiliate
+sidebar_label: ดูข้อมูลผู้ใช้ Affiliate
+sidebar_position: 2
+---
+
+หากต้องการใช้เอนด์พอยต์นี้ คุณต้องมีบัญชี affiliate และเลือกเฉพาะสิทธิ์ "affiliate" ตอนสร้างคีย์ API<br/>
+ไซต์ Affiliate: https://waanx.com
+
+:::tip
+* ใช้ UID ของบัญชีหลักเท่านั้น
+* คีย์ API สามารถมีได้เพียงสิทธิ์ "Affiliate" เท่านั้น
+* ปริมาณการเทรดและจำนวนเงินฝากเป็นยอดรวมที่ผู้ใช้ทำบน WaanX และไม่เกี่ยวข้องกับการชำระค่าคอมมิชชัน ข้อมูลปริมาณการเทรดใด ๆ ที่เกี่ยวข้องกับการชำระค่าคอมมิชชันให้ยึดตาม Affiliate Portal
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/user/aff-customer-info" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|uid |**true** |string |UID ของบัญชีหลักของลูกค้าของ affiliate|
+|coin |false |string |ประเภทเหรียญสำหรับกรองข้อมูล เช่น `USDT`|
+|business |false |string |ตัวกรองสายธุรกิจ `2`: Spot, `3`: Earn|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|uid |string |UID|
+|vipLevel |string |ระดับ VIP ค่าที่พบทั่วไป: `0` (No VIP), `1`, `2`, `3`, `4`, `99` (VVIP)|
+|takerVol30Day |string |ปริมาณ taker ใน 30 วันที่ผ่านมา (USDT) ฟิลด์ปริมาณทั้งหมดด้านล่างรวมปริมาณ Spot|
+|makerVol30Day |string |ปริมาณ maker ใน 30 วันที่ผ่านมา (USDT)|
+|tradeVol30Day |string |ปริมาณการเทรดรวมใน 30 วันที่ผ่านมา (USDT)|
+|depositAmount30Day |string |จำนวนเงินฝากใน 30 วันที่ผ่านมา (USDT) อัปเดตทุก 5 นาที|
+|takerVol365Day |string |ปริมาณ taker ตลอดอายุนับตั้งแต่เป็นลูกค้าของ affiliate (USDT)|
+|makerVol365Day |string |ปริมาณ maker ตลอดอายุนับตั้งแต่เป็นลูกค้าของ affiliate (USDT)|
+|tradeVol365Day |string |ปริมาณการเทรดรวมตลอดอายุนับตั้งแต่เป็นลูกค้าของ affiliate (USDT)|
+|depositAmount365Day |string |จำนวนเงินฝากรวมตลอดอายุนับตั้งแต่เป็นลูกค้าของ affiliate (USDT) รวมการฝากทุกประเภทไม่ว่าจะเป็นบัญชีหรือสายธุรกิจใด|
+|totalWalletBalance |string |ช่วงของยอดคงเหลือในกระเป๋า <ul><li>`1`: น้อยกว่า 100 USDT</li><li>`2`: [100, 250) USDT</li><li>`3`: [250, 500) USDT</li><li>`4`: >= 500 USDT</li></ul>|
+|depositUpdateTime |string |ประทับเวลา UTC (มิลลิวินาที) ของการอัปเดตข้อมูลเงินฝากครั้งล่าสุด|
+|volUpdateTime |string |ประทับเวลา UTC (มิลลิวินาที) ของการอัปเดตข้อมูลปริมาณการเทรดครั้งล่าสุด|
+|KycLevel |integer |ระดับ KYC `0`: ไม่มี KYC, `1`: KYC Level 1, `2`: KYC Level 2|
+|commissions30Day |object |รายละเอียดค่าคอมมิชชันแยกตามเหรียญสำหรับ 30 วันที่ผ่านมา (เช่น BTC, ETH, USDT)|
+|commissions365Day |object |รายละเอียดค่าคอมมิชชันแยกตามเหรียญสำหรับ 365 วันที่ผ่านมา (เช่น BTC, ETH, USDT)|
+|paySendAmount30Day |string |จำนวนเงินที่ชำระใน 30 วันที่ผ่านมา|
+|payFtt |string |จำนวนธุรกรรมครั้งแรกของ Pay|
+|cardFtt |string |จำนวนธุรกรรมครั้งแรกของ Card|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/user/aff-customer-info?uid=1513500 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1685596324209
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: xxxxxx
+Content-Type: application/json
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+
+```
+
+</TabItem>
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "uid": "1087997",
+        "takerVol30Day": "17061.64983",
+        "makerVol30Day": "10756.454142",
+        "tradeVol30Day": "27818.103972",
+        "depositAmount30Day": "0",
+        "takerVol365Day": "1183752.53919162",
+        "makerVol365Day": "44349.42819772",
+        "tradeVol365Day": "1228101.96738934",
+        "depositAmount365Day": "0",
+        "totalWalletBalance": "4",
+        "depositUpdateTime": "2026-02-04 00:00:00",
+        "vipLevel": "5",
+        "volUpdateTime": "2026-02-04 00:00:00",
+        "KycLevel": 0,
+        "commissions30Day": {
+            "BTC": "",
+            "ETH": "",
+            "MNT": "2.14012088",
+            "USDC": "",
+            "USDT": "17.0461748"
+        },
+        "commissions365Day": {
+            "BTC": "0.00012928",
+            "ETH": "0.00099384",
+            "MNT": "95.72886531",
+            "USDC": "2.81382591",
+            "USDT": "130.48078429"
+        },
+        "paySendAmount30Day": "1000.00",
+        "payFtt": "100.00",
+        "cardFtt": "50.00"
+    },
+    "retExtInfo": {},
+    "time": 1770197061282
+}
+```

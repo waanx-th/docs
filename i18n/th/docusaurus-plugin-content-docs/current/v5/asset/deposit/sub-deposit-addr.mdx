@@ -1,0 +1,79 @@
+---
+title: ดึงที่อยู่ฝากของบัญชีย่อย
+sidebar_label: ดึงที่อยู่ฝากของบัญชีย่อย
+sidebar_position: 13.2
+---
+
+เรียกดูข้อมูลที่อยู่สำหรับฝากของบัญชีย่อย (SUB)
+
+:::info
+* ใช้คีย์ API ของ UID บัญชีหลัก**เท่านั้น**
+* ไม่สามารถดึงที่อยู่สำหรับฝากของบัญชีย่อยแบบ custodial ได้
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/deposit/query-sub-member-address" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|coin |**true** |string |เหรียญ ตัวพิมพ์ใหญ่เท่านั้น |
+|chainType |**true** |string |กรุณาใช้ค่าของ `chain` จากเอนด์พอยต์ [coin-info](../coin-info#)|
+|subMemberId |**true** |string |ID ผู้ใช้บัญชีย่อย |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|coin |string |เหรียญ |
+|chains |array |ออบเจ็กต์ |
+|> chainType |string |ประเภทเชน |
+|> addressDeposit |string |ที่อยู่สำหรับฝาก |
+|> tagDeposit |string |แท็กของการฝาก |
+|> chain |string |เชน |
+|> batchReleaseLimit|string|ลิมิตการฝากของเหรียญนี้ในเชนนี้ `"-1"` หมายถึงไม่มีลิมิต|
+|> contractAddress|string|ที่อยู่สัญญาของเหรียญ แสดงเพียง 6 ตัวอักษรสุดท้าย หากไม่มีที่อยู่สัญญาจะแสดงเป็น `""`|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/deposit/query-sub-member-address?coin=USDT&chainType=TRX&subMemberId=592334 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672194349421
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "coin": "USDT",
+        "chains": {
+            "chainType": "TRC20",
+            "addressDeposit": "XXXXXX",
+            "tagDeposit": "",
+            "chain": "TRX",
+            "batchReleaseLimit": "-1",
+            "contractAddress": "gjLj6t"
+        }
+    },
+    "retExtInfo": {},
+    "time": 1736394845821
+}
+```

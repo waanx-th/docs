@@ -1,0 +1,87 @@
+---
+title: ดึงข้อมูลหลักประกัน
+sidebar_label: ดึงข้อมูลหลักประกัน
+sidebar_position: 8
+---
+ดึงข้อมูลหลักประกันของบัญชีมาร์จิ้นรวมปัจจุบัน รวมถึงอัตราดอกเบี้ยเงินกู้ จำนวนที่กู้ได้
+อัตราการแปลงหลักประกัน ว่าสามารถใช้เป็นมาร์จิ้นได้หรือไม่ เป็นต้น
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/account/collateral-info" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|currency |false |string |สกุลเงินของสินทรัพย์ของหลักประกันปัจจุบันทั้งหมด ตัวพิมพ์ใหญ่เท่านั้น|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array |Object |
+|> currency |string |สกุลเงินของหลักประกันปัจจุบันทั้งหมด|
+|> hourlyBorrowRate |string |อัตราการกู้รายชั่วโมง|
+|> maxBorrowingAmount |string |ยอดกู้สูงสุด ค่านี้ใช้ร่วมกันระหว่าง UID หลักและ UID ย่อย|
+|> freeBorrowingLimit |string |วงเงินสูงสุดสำหรับการกู้แบบไม่คิดดอกเบี้ย <ul><li>การกู้มาร์จิ้นสปอตมีดอกเบี้ยเสมอ</li></ul> |
+|> freeBorrowAmount |string |จำนวนการกู้ภายในยอดกู้รวมของคุณที่ได้รับการยกเว้นการคิดดอกเบี้ย|
+|> borrowAmount |string |ยอดกู้|
+|> otherBorrowAmount |string |ผลรวมของยอดกู้ของบัญชีอื่นภายใต้บัญชีหลักเดียวกัน|
+|> availableToBorrow |string |จำนวนที่สามารถกู้ได้ ค่านี้ใช้ร่วมกันระหว่าง UID หลักและ UID ย่อย|
+|> borrowable |boolean |สกุลเงินนี้สามารถกู้ได้หรือไม่|
+|> borrowUsageRate |string |อัตราการใช้วงเงินกู้: ผลรวมของ borrowAmount ของบัญชีหลักและบัญชีย่อย/maxBorrowingAmount เป็นค่าจริง 0.5 หมายถึง 50%|
+|> marginCollateral |boolean |สามารถใช้เป็นสกุลเงินหลักประกันมาร์จิ้นได้หรือไม่ (แพลตฟอร์ม) `true`: ใช่, `false`: ไม่ <ul><li>เมื่อ marginCollateral=false ค่า collateralSwitch จะไม่มีความหมาย</li></ul> |
+|> collateralSwitch |boolean |ผู้ใช้เปิดใช้หลักประกันหรือไม่ (ผู้ใช้) `true`: เปิด, `false`: ปิด <ul><li>เมื่อ marginCollateral=true ค่า collateralSwitch จึงมีความหมาย</li></ul>|
+|> collateralRatio |string |ฟิลด์ที่ **เลิกใช้แล้ว** เนื่องจากตรรกะมูลค่าหลักประกันแบบขั้นบันไดใหม่ ฟิลด์นี้จะไม่แม่นยำอีกต่อไปตั้งแต่วันที่ 19 กุมภาพันธ์ 2025 โปรดดู Get Tiered Collateral Ratio|
+|> freeBorrowingAmount |string |ฟิลด์ที่ **เลิกใช้แล้ว** คืนค่า `""` เสมอ โปรดดู `freeBorrowingLimit`|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/account/collateral-info?currency=BTC HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672127952719
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "list": [
+            {
+                "availableToBorrow": "3",
+                "freeBorrowingAmount": "",
+                "freeBorrowAmount": "0",
+                "maxBorrowingAmount": "3",
+                "hourlyBorrowRate": "0.00000147",
+                "borrowUsageRate": "0",
+                "collateralSwitch": true,
+                "borrowAmount": "0",
+                "borrowable": true,
+                "currency": "BTC",
+                "otherBorrowAmount": "0",
+                "marginCollateral": true,
+                "freeBorrowingLimit": "0",
+                "collateralRatio": "0.95"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1691565901952
+}
+```

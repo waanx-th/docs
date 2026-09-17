@@ -1,0 +1,109 @@
+---
+title: สร้างคีย์ API ของ Sub UID
+sidebar_label: สร้างคีย์ API ของ Sub UID
+sidebar_position: 2
+---
+สร้างคีย์ API ใหม่ให้กับ sub UID ที่สร้างขึ้นใหม่ ใช้**คีย์ API ของบัญชีหลัก**ได้**เท่านั้น**
+
+:::tip
+คีย์ API ต้องมีสิทธิ์ข้อใดข้อหนึ่งด้านล่างนี้จึงจะเรียกเอนด์พอยต์นี้ได้..
+* คีย์ API ของบัญชีหลัก: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/user/create-sub-api" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|subuid |<b>true</b> |integer |ID ของผู้ใช้บัญชีย่อย|
+|note |false |string |กำหนดหมายเหตุ |
+|readOnly |<b>true</b> |integer |`0`: อ่านและเขียน `1`: อ่านเท่านั้น |
+|ips |false |string |กำหนดการผูก IP ตัวอย่าง: `"192.168.0.1,192.168.0.2"`<b>หมายเหตุ:</b><ul><li>ไม่ส่ง ips หรือส่งเป็น `"*"` หมายถึงไม่ผูก IP</li><li>คีย์ API ที่ไม่ผูก IP จะ<b>ใช้งานไม่ได้หลังจาก 90 วัน</b></li><li>คีย์ API ที่ไม่ผูก IP จะใช้งานไม่ได้หลังจาก <b>7 วัน</b> เมื่อมีการเปลี่ยนรหัสผ่านของบัญชี</li></ul>|
+|permissions |<b>true</b> |Object |เลือกประเภทของสิทธิ์<ul><li> ต้องส่งประเภทข้อใดข้อหนึ่งด้านล่างนี้ ไม่เช่นนั้นระบบจะคืนข้อผิดพลาด</li></ul>|
+|> Spot |false |array |การเทรดสปอต `["SpotTrade"]` |
+|> Wallet |false |array |กระเป๋าเงิน `["AccountTransfer","SubMemberTransferList"]`<br/>_หมายเหตุ: ไม่รองรับบัญชี Fund Custodial_ |
+|> Exchange |false |array |การแปลงสกุลเงิน `["ExchangeHistory"]` |
+|> Earn |false |array |ผลิตภัณฑ์ Earn `["Earn"]` |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|id |string |ID ที่ไม่ซ้ำกัน ใช้ภายในระบบ |
+|note |string |หมายเหตุ|
+|apiKey |string |คีย์ API |
+|readOnly |integer |`0`: อ่านและเขียน `1`: อ่านเท่านั้น |
+|secret |string |ค่า secret ที่จับคู่กับคีย์ API<ul><li>ค่า secret ไม่สามารถเรียกดูผ่าน API แบบ GET ได้ โปรดเก็บรักษาไว้ให้ดี</li> </ul>|
+|permissions |Object |ประเภทของสิทธิ์ |
+|> Spot |array |สิทธิ์ของสปอต |
+|> Wallet |array |สิทธิ์ของกระเป๋าเงิน |
+|> Exchange |array |สิทธิ์ของการแปลงสกุลเงิน |
+|> Earn |array |สิทธิ์ของผลิตภัณฑ์ Earn |
+|> BlockTrade |array |ไม่ใช้กับบัญชีย่อย จะเป็น `[]` เสมอ |
+|> Affiliate |array |ไม่ใช้กับบัญชีย่อย จะเป็น `[]` เสมอ|
+|> FiatP2P |array |ไม่ใช้กับบัญชีย่อย จะเป็น `[]` เสมอ|
+|> FiatConvertBroker |array |ไม่ใช้กับบัญชีย่อย จะเป็น `[]` เสมอ|
+|> NFT |array |**เลิกใช้งานแล้ว**, จะเป็น `[]` เสมอ|
+|> CopyTrading |array |**เลิกใช้งานแล้ว** จะเป็น `[]` เสมอ|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/user/create-sub-api HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1676430005459
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{
+    "subuid": 53888000,
+    "note": "testxxx",
+    "readOnly": 0,
+    "permissions": {
+        "Wallet": [
+            "AccountTransfer"
+        ]
+    }
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "id": "16651283",
+        "note": "testxxx",
+        "apiKey": "xxxxx",
+        "readOnly": 0,
+        "secret": "xxxxxxxx",
+        "permissions": {
+            "Spot": [],
+            "Wallet": [
+                "AccountTransfer"
+            ],
+            "Options": [],
+            "CopyTrading": [],
+            "BlockTrade": [],
+            "Exchange": [],
+            "NFT": [],
+            "Earn": ["Earn"]
+        }
+    },
+    "retExtInfo": {},
+    "time": 1676430007643
+}
+```

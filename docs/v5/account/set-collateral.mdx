@@ -1,0 +1,60 @@
+---
+title: Set Collateral Coin
+sidebar_label: Set Collateral Coin
+sidebar_position: 9
+---
+You can decide whether the assets in the Unified account needs to be collateral coins.
+
+### HTTP Request
+<APIEndpoint method="POST" url="/v5/account/set-collateral-switch" />
+
+### Request Parameters
+| Parameter | Required | Type | Comments|
+|:----- |:-------|:-----|------ |
+|coin |**true** |string |Coin name, uppercase only <ul><li>You can get collateral coin from [here](collateral-info)</li><li>USDT, USDC cannot be set</li></ul>|
+|collateralSwitch |**true** |string |`ON`: switch on collateral, `OFF`: switch off collateral|
+
+### Response Parameters
+None
+
+
+---
+
+### Request Example
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/account/set-collateral-switch HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1690513916181
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+Content-Length: 55
+
+{
+    "coin": "BTC",
+    "collateralSwitch": "ON"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### Response Example
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "SUCCESS",
+    "result": {},
+    "retExtInfo": {},
+    "time": 1690515818656
+}
+```

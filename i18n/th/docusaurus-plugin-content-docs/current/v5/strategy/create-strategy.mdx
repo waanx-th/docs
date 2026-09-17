@@ -1,0 +1,255 @@
+---
+title: สร้างคำสั่งซื้อขายแบบกลยุทธ์
+sidebar_label: สร้างคำสั่งซื้อขายแบบกลยุทธ์
+sidebar_position: 1
+---
+
+สร้างคำสั่งซื้อขายแบบกลยุทธ์ ประเภทกลยุทธ์ที่รองรับ: `chaseOrder`, `twap`, `iceberg`, `pov`
+
+## ประเภทกลยุทธ์
+
+### TWAP (ราคาเฉลี่ยถ่วงน้ำหนักตามเวลา)
+แบ่งคำสั่งซื้อขายขนาดใหญ่ออกเป็นคำสั่งย่อยที่มีขนาดเท่ากันและจับคู่ตามช่วงเวลาที่กำหนดไว้คงที่ เพื่อลดผลกระทบต่อตลาดและให้ได้ราคาใกล้เคียงกับราคาเฉลี่ยถ่วงน้ำหนักตามเวลา
+
+**ตรรกะการทำงาน:** `Number of sub-orders = Running Time (seconds) ÷ Frequency` คำสั่งย่อยที่จับคู่ไม่สำเร็จจะถูกลองใหม่หนึ่งครั้ง หากยังไม่สำเร็จ ระบบจะยกเลิกคำสั่งย่อยนั้นและกลยุทธ์จะดำเนินต่อไป
+
+โปรดดู [บทนำกลยุทธ์ TWAP](https://support.waanx.com/en/support/home) สำหรับรายละเอียดเพิ่มเติม
+
+| พารามิเตอร์ | ข้อจำกัด |
+|:---|:---|
+|จำนวนรวม (`size`) |ต้อง ≥ Max(MinNotional × subOrders ÷ LastPrice × 1.1, MinSize × subOrders) |
+|ระยะเวลาทำงาน (`duration`) |5 นาที – 24 ชั่วโมง |
+|ช่วงเวลาระหว่างคำสั่งย่อย (`interval`) |5 – 120 วินาที |
+|จำนวนของคำสั่งย่อย |≤ 50% ของขนาดคำสั่งซื้อขายเดี่ยวสูงสุดที่แพลตฟอร์มกำหนด |
+|ความผันแปรของจำนวนแบบสุ่ม |±20% หากเปิดใช้ `isRandom` |
+
+---
+
+### Chase Order (คำสั่งลิมิตแบบไล่ราคา)
+สร้างและปรับคำสั่งลิมิตที่ราคาเสนอซื้อ/เสนอขายที่ดีที่สุดอย่างต่อเนื่อง เพื่อไล่ตามการเคลื่อนไหวของตลาด จนกระทั่งคำสั่งจับคู่สำเร็จทั้งจำนวน ถูกยกเลิก หรือถึงระยะไล่ราคาสูงสุด
+
+**ตรรกะการทำงาน:** ราคาคำสั่งซื้อขายจะอัปเดตทุกวินาที คำสั่งลิมิตแบบไล่ราคาทั้งหมดเป็น **Post Only** ตามค่าเริ่มต้น (จับคู่แบบ maker) หากคำสั่งถูกปฏิเสธจากเงื่อนไข Post Only ติดต่อกัน 5 ครั้ง ระบบจะยกเลิกกลยุทธ์นั้น
+
+โปรดดู [คำสั่งลิมิตแบบไล่ราคา](https://support.waanx.com/en/support/home) สำหรับรายละเอียดเพิ่มเติม
+
+---
+
+### คำสั่งซื้อขายแบบ Iceberg
+แบ่งคำสั่งซื้อขายขนาดใหญ่ออกเป็นคำสั่งย่อยขนาดเล็กหลายรายการที่ถูกส่งตามลำดับ โดยแสดงเพียงส่วนเล็ก ๆ ของจำนวนคำสั่งซื้อขายทั้งหมดต่อตลาดในแต่ละครั้ง
+
+**ตรรกะการทำงาน:** คำสั่งย่อยแต่ละรายการเข้าสู่สมุดคำสั่งซื้อขาย → เมื่อจับคู่สำเร็จ ระบบจะส่งคำสั่งย่อยรายการถัดไปโดยอัตโนมัติ → ทำซ้ำจนกระทั่งจับคู่ครบทั้งจำนวน
+
+โปรดดู [คำสั่งซื้อขายแบบ Iceberg](https://support.waanx.com/en/support/home) สำหรับรายละเอียดเพิ่มเติม
+
+**การตั้งค่าคำสั่งซื้อขาย:**
+
+| การตั้งค่า | พฤติกรรมการจับคู่ |
+|:---|:---|
+|`Chase Limit (Taker)` |ซื้อที่ Ask1 / ขายที่ Bid1 ให้ความสำคัญกับความเร็ว |
+|`Chase Limit` |ซื้อที่ Bid1 / ขายที่ Ask1 จับคู่แบบ maker |
+|`Chase Limit (offset)` |ระยะห่างคงที่จาก Ask1/Bid1 สร้างสมดุลระหว่างความเร็วและต้นทุน |
+|`Fixed Prices` |คำสั่งย่อยทั้งหมดถูกส่งที่ราคาคงที่ราคาเดียว |
+
+---
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/strategy/create" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+<Tabs groupId="strategy-type">
+<TabItem value="twap" label="TWAP" default>
+    <table border="0.8">
+        <tr>
+            <th>พารามิเตอร์</th><th>จำเป็น</th><th>ประเภท</th><th>คำอธิบาย</th>
+        </tr>
+        <tr>
+            <td>category</td><td><b>true</b></td><td>string</td><td>ประเภทผลิตภัณฑ์ <code>UTA_SPOT</code>(Spot)</td>
+        </tr>
+        <tr>
+            <td>symbol</td><td><b>true</b></td><td>string</td><td>ชื่อสัญลักษณ์คู่เทรด เช่น <code>BTCUSDT</code></td>
+        </tr>
+        <tr>
+            <td>side</td><td><b>true</b></td><td>string</td><td><code>Buy</code>, <code>Sell</code></td>
+        </tr>
+        <tr>
+            <td>size</td><td>false</td><td>string</td><td>จำนวนคำสั่งซื้อขายรวม (เหรียญ) <b>ต้องระบุ</b> "size" หรือ "positionValue" อย่างใดอย่างหนึ่ง</td>
+        </tr>
+        <tr>
+            <td>positionValue</td><td>false</td><td>string</td><td>จำนวนคำสั่งซื้อขายรวม (มูลค่า) <b>ต้องระบุ</b> "size" หรือ "positionValue" อย่างใดอย่างหนึ่ง</td>
+        </tr>
+        <tr>
+            <td>strategyType</td><td><b>true</b></td><td>string</td><td>ประเภทกลยุทธ์ <code>twap</code></td>
+        </tr>
+        <tr>
+            <td>duration</td><td><b>true</b></td><td>integer</td><td>ระยะเวลาการทำงานทั้งหมดเป็นวินาที ช่วง: [300, 86400] ต้องหารด้วย <code>interval</code> ได้ลงตัว</td>
+        </tr>
+        <tr>
+            <td>interval</td><td>false</td><td>integer</td><td>ช่วงเวลาการส่งคำสั่งย่อยเป็นวินาที <code>5</code>, <code>10</code>, <code>15</code>, <code>30</code>(default), <code>60</code>, <code>120</code></td>
+        </tr>
+        <tr>
+            <td>isRandom</td><td>false</td><td>boolean</td><td>จะสุ่มจำนวนของคำสั่งย่อยแต่ละรายการในช่วง ±20% หรือไม่</td>
+        </tr>
+        <tr>
+            <td>triggerPrice</td><td>false</td><td>string</td><td>การตั้งค่าขั้นสูง (Trigger price): กลยุทธ์จะเริ่มทำงานเมื่อราคาตลาดถึงค่านี้</td>
+        </tr>
+        <tr>
+            <td>maxChasePrice</td><td>false</td><td>string</td><td>การตั้งค่าขั้นสูง (Stop Price): กลยุทธ์จะยุติเมื่อราคาซื้อขายล่าสุดถึงค่านี้</td>
+        </tr>
+        <tr>
+            <td>chaseDistance</td><td>false</td><td>string</td><td>การตั้งค่าขั้นสูง - ordertype=Limit (default: market): ระยะห่างของราคาจากราคาเสนอซื้อ/เสนอขายที่ดีที่สุด (ค่าสัมบูรณ์) เช่น <code>"0.5"</code> ใช้ร่วมกับ <code>chasePercentE4</code> ไม่ได้ หากตั้งค่าทั้งสองรายการ <code>chaseDistance</code> จะมีลำดับความสำคัญก่อน</td>
+        </tr>
+        <tr>
+            <td>chasePercentE4</td><td>false</td><td>integer</td><td>การตั้งค่าขั้นสูง - ordertype=Limit (default: market): ส่วนต่างราคาจากราคาเสนอซื้อ/เสนอขายที่ดีที่สุดในหน่วยเบสิสพอยต์ (1/10000) เช่น <code>100</code> = 1% ใช้ร่วมกับ <code>chaseDistance</code> ไม่ได้</td>
+        </tr>
+    </table>
+</TabItem>
+
+<TabItem value="chaseOrder" label="Chase Order">
+    <table border="0.8">
+        <tr>
+            <th>พารามิเตอร์</th><th>จำเป็น</th><th>ประเภท</th><th>คำอธิบาย</th>
+        </tr>
+        <tr>
+            <td>category</td><td><b>true</b></td><td>string</td><td>ประเภทผลิตภัณฑ์ <code>UTA_SPOT</code>(Spot)</td>
+        </tr>
+        <tr>
+            <td>symbol</td><td><b>true</b></td><td>string</td><td>ชื่อสัญลักษณ์คู่เทรด เช่น <code>BTCUSDT</code></td>
+        </tr>
+        <tr>
+            <td>side</td><td><b>true</b></td><td>string</td><td><code>Buy</code>, <code>Sell</code></td>
+        </tr>
+        <tr>
+            <td>size</td><td>false</td><td>string</td><td>จำนวนคำสั่งซื้อขายรวม (เหรียญ) <b>ต้องระบุ</b> "size" หรือ "positionValue" อย่างใดอย่างหนึ่ง</td>
+        </tr>
+        <tr>
+            <td>positionValue</td><td>false</td><td>string</td><td>จำนวนคำสั่งซื้อขายรวม (มูลค่า) <b>ต้องระบุ</b> "size" หรือ "positionValue" อย่างใดอย่างหนึ่ง</td>
+        </tr>
+        <tr>
+            <td>strategyType</td><td><b>true</b></td><td>string</td><td>ประเภทกลยุทธ์ <code>chaseOrder</code></td>
+        </tr>
+        <tr>
+            <td>chaseDistance</td><td>false</td><td>string</td><td>ระยะห่างของราคาจากราคาเสนอซื้อ/เสนอขายที่ดีที่สุด (ค่าสัมบูรณ์) เช่น <code>"0.5"</code> ใช้ร่วมกับ <code>chasePercentE4</code> ไม่ได้ หากตั้งค่าทั้งสองรายการ <code>chaseDistance</code> จะมีลำดับความสำคัญก่อน</td>
+        </tr>
+        <tr>
+            <td>chasePercentE4</td><td>false</td><td>integer</td><td>ส่วนต่างราคาจากราคาเสนอซื้อ/เสนอขายที่ดีที่สุดในหน่วยเบสิสพอยต์ (1/10000) เช่น <code>100</code> = 1% ช่วง: [0, 500] ใช้ร่วมกับ <code>chaseDistance</code> ไม่ได้</td>
+        </tr>
+        <tr>
+            <td>triggerPrice</td><td>false</td><td>string</td><td>การตั้งค่าขั้นสูง (Trigger price): กลยุทธ์จะเริ่มทำงานเมื่อราคาตลาดถึงค่านี้</td>
+        </tr>
+        <tr>
+            <td>maxChasePrice</td><td>false</td><td>string</td><td>การตั้งค่าขั้นสูง (Max chase price): หยุดไล่ราคาเมื่อราคาซื้อขายล่าสุดถึงค่านี้</td>
+        </tr>
+    </table>
+</TabItem>
+
+<TabItem value="iceberg" label="Iceberg">
+    <table border="0.8">
+        <tr>
+            <th>พารามิเตอร์</th><th>จำเป็น</th><th>ประเภท</th><th>คำอธิบาย</th>
+        </tr>
+        <tr>
+            <td>category</td><td><b>true</b></td><td>string</td><td>ประเภทผลิตภัณฑ์ <code>UTA_SPOT</code>(Spot)</td>
+        </tr>
+        <tr>
+            <td>symbol</td><td><b>true</b></td><td>string</td><td>ชื่อสัญลักษณ์คู่เทรด เช่น <code>BTCUSDT</code></td>
+        </tr>
+        <tr>
+            <td>side</td><td><b>true</b></td><td>string</td><td><code>Buy</code>, <code>Sell</code></td>
+        </tr>
+        <tr>
+            <td>size</td><td>false</td><td>string</td><td>จำนวนคำสั่งซื้อขายรวม (เหรียญ) <b>ต้องระบุ</b> "size" หรือ "positionValue" อย่างใดอย่างหนึ่ง</td>
+        </tr>
+        <tr>
+            <td>positionValue</td><td>false</td><td>string</td><td>จำนวนคำสั่งซื้อขายรวม (มูลค่า) <b>ต้องระบุ</b> "size" หรือ "positionValue" อย่างใดอย่างหนึ่ง</td>
+        </tr>
+        <tr>
+            <td>strategyType</td><td><b>true</b></td><td>string</td><td>ประเภทกลยุทธ์ <code>iceberg</code></td>
+        </tr>
+        <tr>
+            <td>subSize</td><td>false</td><td>string</td><td>จำนวนต่อคำสั่งย่อยหนึ่งรายการ ใช้ร่วมกับ <code>orderCount</code> ไม่ได้ หากตั้งค่าทั้งสองรายการ <code>subSize</code> จะมีลำดับความสำคัญก่อน</td>
+        </tr>
+        <tr>
+            <td>orderCount</td><td>false</td><td>integer</td><td>จำนวนคำสั่งย่อย ใช้ร่วมกับ <code>subSize</code> หรือ <code>subPositionValue</code> ไม่ได้</td>
+        </tr>
+        <tr>
+            <td>subPositionValue</td><td>false</td><td>string</td><td>มูลค่าคำสั่งซื้อขายต่อคำสั่งย่อยหนึ่งรายการ ใช้ร่วมกับ <code>orderCount</code> ไม่ได้ หากตั้งค่าทั้งสองรายการ <code>subPositionValue</code> จะมีลำดับความสำคัญก่อน</td>
+        </tr>
+        <tr>
+            <td>postOnly</td><td>false</td><td>integer</td><td>โหมด maker เท่านั้น <code>0</code>: post-only (maker เท่านั้น), <code>1</code>: อนุญาต taker</td>
+        </tr>
+        <tr>
+            <td>maxChasePrice</td><td>false</td><td>string</td><td>พารามิเตอร์จำกัดราคา คำสั่งซื้อจะถูกส่งเฉพาะเมื่อราคาอยู่ที่หรือต่ำกว่าขีดจำกัดนี้ และจะหยุดชั่วคราวหากราคาสูงขึ้นเกินขีดจำกัด คำสั่งขายจะถูกส่งเฉพาะเมื่อราคาอยู่ที่หรือสูงกว่าขีดจำกัดนี้ และจะหยุดชั่วคราวหากราคาลดลงต่ำกว่าขีดจำกัด</td>
+        </tr>
+         <tr>
+            <td>limitPrice</td><td>false</td><td>string</td><td><b>การตั้งค่าคำสั่งซื้อขาย: Limit Price</b>, ราคาลิมิตที่ใช้กับคำสั่งย่อยทั้งหมด</td>
+        </tr>
+        <tr>
+            <td>chaseDistance</td><td>false</td><td>string</td><td><b>การตั้งค่าคำสั่งซื้อขาย: Chase Limit (offset)</b>, ระยะห่างของราคาจากราคาเสนอซื้อ/เสนอขายที่ดีที่สุด (ค่าสัมบูรณ์) เช่น <code>"0.5"</code> ใช้ร่วมกับ <code>chasePercentE4</code> ไม่ได้ หากตั้งค่าทั้งสองรายการ <code>chaseDistance</code> จะมีลำดับความสำคัญก่อน <br/><b>การตั้งค่าคำสั่งซื้อขาย: Chase Limit (Taker)</b>, <code>"-1"</code> หมายถึงจับคู่ทันทีที่ราคาของคู่สัญญา</td>
+        </tr>
+        <tr>
+            <td>chasePercentE4</td><td>false</td><td>integer</td><td><b>การตั้งค่าคำสั่งซื้อขาย: Chase Limit (offset)</b>, ส่วนต่างราคาจากราคาเสนอซื้อ/เสนอขายที่ดีที่สุดในหน่วยเบสิสพอยต์ (1/10000) เช่น <code>100</code> = 1% ช่วง: [0, 100] ใช้ร่วมกับ <code>chaseDistance</code> ไม่ได้</td>
+        </tr>
+    </table>
+</TabItem>
+</Tabs>
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย |
+|:----- |:-----|----- |
+|strategyId |string |ID ของกลยุทธ์ (รูปแบบ UUID) |
+|result |string |ผลการดำเนินการ เป็น `null` หากสร้างสำเร็จ |
+
+### ตัวอย่างคำขอ
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/strategy/create HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1773711467000
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{
+    "side": "Buy",
+    "symbol": "BTCUSDT",
+    "category": "UTA_USDT",
+    "size": "0.1",
+    "strategyType": "chaseOrder",
+    "chasePrice": "75967.7",
+    "maxChasePrice": "83564.5",
+    "triggerPrice": "75000.0"
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+```
+
+</TabItem>
+<TabItem value="Node" label="Node.js">
+
+```n4js
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "strategyId": "119b6211-2611-461b-be5e-5ac557099e82",
+        "result": null
+    },
+    "retExtInfo": {},
+    "time": 1773711467052
+}
+```

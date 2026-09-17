@@ -1,0 +1,76 @@
+---
+title: Get Order Price Limit
+sidebar_label: Get Order Price Limit
+sidebar_position: 17
+---
+
+For spot trading order price limit, refer to <a href="https://waanx.com/en/gb/announcements">announcement</a><br/>
+
+### HTTP Request
+<APIEndpoint method="GET" url="/v5/market/price-limit" />
+
+### Request Parameters
+| Parameter | Required | Type | Comments|
+|:----- |:-------|:-----|------|
+|[category](../enum#category) |false |string |Product type. `spot` <ul><li>When `category` is not passed, use `spot` by default</li></ul>|
+|[symbol](../enum#symbol) |<b>true</b> |string |Symbol name, like `BTCUSDT`, uppercase only|
+
+### Response Parameters
+| Parameter | Type | Comments|
+|:----- |:-----|----- |
+|symbol |string |Symbol name |
+|buyLmt |string |Highest Bid Price |
+|sellLmt |string |Lowest Ask Price |
+|ts |string |timestamp in milliseconds |
+
+### Request Example
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/market/price-limit?category=spot&symbol=BTCUSDT HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+<TabItem value="Go" label="Go">
+
+```go
+
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+
+```
+
+</TabItem>
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### Response Example
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "symbol": "BTCUSDT",
+        "buyLmt": "105878.10",
+        "sellLmt": "103781.60",
+        "ts": "1750302284491"
+    },
+    "retExtInfo": {},
+    "time": 1750302285376
+}
+```

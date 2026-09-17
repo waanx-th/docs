@@ -1,0 +1,171 @@
+---
+title: คำแนะนำการเชื่อมต่อ
+sidebar_label: คำแนะนำการเชื่อมต่อ
+---
+
+:::tip
+หากต้องการเรียนรู้เพิ่มเติมเกี่ยวกับ API V5 โปรดอ่าน[บทนำ](intro#)
+:::
+
+:::caution
+ที่อยู่ IP ที่อยู่ในสหรัฐอเมริกาหรือจีนแผ่นดินใหญ่ถูกจำกัดการเข้าถึง และคำขอไปยัง API ของ WaanX จะได้รับข้อผิดพลาด 403 Forbidden
+:::
+
+## แหล่งข้อมูล API และช่องทางการสนับสนุน
+* 📌 [ศูนย์ช่วยเหลือ](https://support.waanx.com/en/support/home)
+
+
+## การยืนยันตัวตน {#authentication}
+:::info
+โปรดไปที่[แอปพลิเคชัน WaanX](https://app.waanx.com) เพื่อสร้างคีย์ API
+:::
+
+เอนด์พอยต์พื้นฐานของ REST API:
+`https://api.waanx.com`
+
+### เลือกประเภทคีย์ API ของคุณ
+**คีย์ API ที่ระบบสร้างให้**: คีย์ API ที่ระบบของ WaanX สร้างขึ้นจะใช้การเข้ารหัสแบบ HMAC โดยคุณจะได้รับ
+คู่คีย์สาธารณะและคีย์ส่วนตัว โปรดปฏิบัติกับคู่คีย์นี้เสมือนเป็นรหัสผ่านและเก็บรักษาไว้อย่างปลอดภัย
+
+> ทำตามสคริปต์ตัวอย่างของ HMAC เพื่อดำเนินขั้นตอนการเข้ารหัสให้เสร็จสมบูรณ์
+
+**คีย์ API ที่สร้างขึ้นเอง**: คีย์ API ที่คุณสร้างขึ้นเองจะใช้การเข้ารหัสแบบ RSA คุณต้องสร้างคีย์สาธารณะและคีย์ส่วนตัว
+ผ่านซอฟต์แวร์ แล้วส่งเฉพาะคีย์สาธารณะให้ WaanX เท่านั้น เราจะไม่เก็บคีย์ส่วนตัวของคุณไว้เลย
+
+> 1. ใช้ api-rsa-generator เพื่อสร้างคีย์ส่วนตัวและคีย์สาธารณะแบบ RSA
+> 2. ทำตามสคริปต์ตัวอย่างของ RSA เพื่อดำเนินขั้นตอนการเข้ารหัสให้เสร็จสมบูรณ์
+
+### HTTP header สำหรับเอนด์พอยต์ที่ต้องยืนยันตัวตน
+ต้องใช้คีย์ HTTP header ต่อไปนี้ในการยืนยันตัวตน:
+
+* `X-BAPI-API-KEY` - คีย์ API
+* `X-BAPI-TIMESTAMP` - ประทับเวลา UTC หน่วยมิลลิวินาที
+* `X-BAPI-SIGN` - ลายเซ็นที่คำนวณจากพารามิเตอร์ของคำขอ
+* `X-Referer` or `Referer` - header สำหรับผู้ใช้ที่เป็นโบรกเกอร์เท่านั้น
+
+เรายังมี `X-BAPI-RECV-WINDOW` (หน่วยเป็นมิลลิวินาที และค่าเริ่มต้นคือ 5,000) เพื่อระบุว่าคำขอ HTTP มีอายุใช้งานนานเท่าใด และยังใช้เพื่อป้องกันการโจมตีแบบ replay ด้วย
+
+ค่า `X-BAPI-RECV-WINDOW` ที่เล็กลงจะปลอดภัยมากขึ้น แต่คำขอของคุณอาจล้มเหลวหากเวลาในการส่งข้อมูลมากกว่าค่า `X-BAPI-RECV-WINDOW` ของคุณ
+
+:::caution
+โปรดตรวจสอบว่าพารามิเตอร์ timestamp เป็นไปตาม**กฎต่อไปนี้**:<br/>
+_server_time - recv_window <= timestamp < server_time + 1000_<br/>
+ซึ่งหมายความว่า timestamp ของคุณต้องอยู่ในช่วง: [server_time - recv_window; server_time + 1000)<br/>
+server_time หมายถึงเวลาของเซิร์ฟเวอร์ WaanX ซึ่งสามารถค้นหาได้ผ่าน[เอนด์พอยต์เวลาเซิร์ฟเวอร์](/v5/market/time#) โปรดทราบว่าเราแนะนำอย่างยิ่งให้ใช้เวลาของอุปกรณ์ในเครื่องสำหรับ `timestamp` และซิงโครไนซ์กับ NTP อยู่เสมอ
+:::
+
+### สร้างคำขอ
+
+:::tip
+เพื่อช่วยวินิจฉัยปัญหาเครือข่ายที่ซับซ้อน คุณอาจพิจารณาเพิ่ม `cdn-request-id` ใน header ของคำขอ โดยค่าดังกล่าวควรไม่ซ้ำกันในแต่ละคำขอ
+:::
+
+**ขั้นตอนพื้นฐาน:**
+1. คำนวณสตริงที่คุณต้องการลงลายเซ็นดังนี้:
+สำหรับคำขอ GET: timestamp + API key + recv_window + queryString
+สำหรับคำขอ POST: timestamp + API key + recv_window + jsonBodyString
+2. ใช้อัลกอริทึม <b>HMAC_SHA256</b> หรือ <b>RSA_SHA256</b> เพื่อลงลายเซ็นสตริงจากขั้นตอนที่ 1 แล้วแปลงเป็นสตริง HEX ตัวพิมพ์เล็กสำหรับ HMAC_SHA256 หรือเป็น base64 สำหรับ RSA_SHA256 เพื่อให้ได้ค่าสตริงของลายเซ็นของคุณ
+3. เพิ่มลายเซ็นของคุณใน header `X-BAPI-API-KEY` แล้วส่งคำขอ HTTP คุณสามารถดูตัวอย่างด้านล่างเพื่อดูข้อมูลเพิ่มเติม
+
+:::info
+<b>ดูตัวอย่างอัลกอริทึมการลงลายเซ็นได้ที่นี่</b>
+:::
+
+> ตัวอย่างวิธีสร้างข้อความธรรมดาสำหรับนำไปเข้ารหัส
+
+<Tabs>
+<TabItem value="GET" label="GET">
+
+```shell
+# rule:
+timestamp+api_key+recv_window+queryString
+
+# example values:
+timestamp = "1658384314791"
+api_key = "XXXXXXXXXX"
+recv_window = "5000"
+queryString = "category=spot&symbol=BTCUSDT"
+
+# resulting string that needs to be signed:
+"1658384314791XXXXXXXXXX5000category=spot&symbol=BTCUSDT"
+
+# resulting example signature for HMAC:
+"410e0f387bafb7afd0f1722c068515e09945610124fa11774da1da857b72f30b"
+```
+
+</TabItem>
+
+<TabItem value="POST" label="POST">
+
+```shell
+# rule:
+timestamp+api_key+recv_window+jsonBodyString
+
+# example values:
+timestamp = 1658385579423
+api_key = XXXXXXXXXX
+recv_window = 5000
+jsonBodyString = {"category": "spot"}
+
+# resulting string that needs to be signed:
+1658385579423XXXXXXXXXX5000{"category": "spot"}
+
+# resulting example signature for HMAC:
+"f0da71972ce1811c882ca5e3fd1779791fb1fed499bef40e5558e50259acfd66"
+```
+
+</TabItem>
+</Tabs>
+
+> ตัวอย่างคำขอ HTTP
+
+<Tabs>
+<TabItem value="GET" label="GET">
+
+```http
+GET /v5/order/realtime?category=spot&symbol=BTCUSDT HTTP/1.1
+Host: api.waanx.com
+-H 'X-BAPI-SIGN: XXXXXXXXXX' \
+-H 'X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx' \
+-H 'X-BAPI-TIMESTAMP: 1658384431891' \
+-H 'X-BAPI-RECV-WINDOW: 5000'
+```
+
+</TabItem>
+
+<TabItem value="POST" label="POST">
+
+```http
+POST /v5/order/create HTTP/1.1
+Host: api.waanx.com
+-H 'X-Referer: XXXXXXXXXX' \ [the header for broker users only]
+-H 'X-BAPI-SIGN: XXXXXXXXXX' \
+-H 'X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx' \
+-H 'X-BAPI-TIMESTAMP: 1658385589135' \
+-H 'X-BAPI-RECV-WINDOW: 5000' \
+-H 'Content-Type: application/json' \
+-d '{"category": "spot"}'
+```
+
+</TabItem>
+</Tabs>
+
+## พารามิเตอร์การตอบกลับทั่วไป
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|retCode |number |รหัสสำเร็จ/ข้อผิดพลาด |
+|retMsg |string |ข้อความสำเร็จ/ข้อผิดพลาด โดย `OK`, `success`, `SUCCESS`, `""` หมายถึงการตอบกลับที่สำเร็จ|
+|result |Object |ผลลัพธ์ข้อมูลทางธุรกิจ|
+|retExtInfo |Object |ข้อมูลเพิ่มเติม ส่วนใหญ่จะเป็น `{}`|
+|time |number |ประทับเวลาปัจจุบัน (มิลลิวินาที)|
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+    },
+    "retExtInfo": {},
+    "time": 1671017382656
+}
+```

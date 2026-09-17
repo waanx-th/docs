@@ -1,0 +1,124 @@
+---
+title: กระเป๋าเงิน
+sidebar_label: กระเป๋าเงิน
+sidebar_position: 4
+---
+
+สมัครรับข้อมูลสตรีมกระเป๋าเงินเพื่อดูการเปลี่ยนแปลงในกระเป๋าเงินของคุณแบบ**เรียลไทม์**
+
+:::info
+* ไม่มีอีเวนต์สแนปช็อตส่งมาให้ในตอนที่สมัครรับข้อมูลสำเร็จ
+* การเปลี่ยนแปลงของ PnL ที่ยังไม่รับรู้จะไม่ทริกเกอร์อีเวนต์
+* ภายใต้ลอจิกใหม่ของการกู้ยืมด้วยตนเองใน UTA ฟิลด์ `spotBorrow` ที่สอดคล้องกับหนี้สินสปอตมีรายละเอียดอยู่ใน<a href="https://waanx.com/en/gb/announcements"> ประกาศ</a>.<br/>
+`walletBalance` เดิม = `walletBalance` ใหม่ - `spotBorrow`
+:::
+
+
+**หัวข้อ:** `wallet`
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|id |string |รหัสข้อความ|
+|topic |string |ชื่อหัวข้อ |
+|creationTime |number |ประทับเวลาที่สร้างข้อมูล (มิลลิวินาที) |
+|data |array |อ็อบเจกต์ |
+|> accountType |string |ประเภทบัญชี `UNIFIED`|
+|> accountIMRate |string |อัตรา IM ของบัญชี <ul><li>คุณสามารถดู[อภิธานศัพท์](https://support.waanx.com/en/support/home)นี้เพื่อทำความเข้าใจวิธีคำนวณและความหมายของฟิลด์ด้านล่าง</li><li>ฟิลด์ระดับบัญชีทั้งหมด<b>ไม่</b>สามารถใช้กับมาร์จิ้นแบบแยกได้</li></ul>|
+|> accountMMRate |string |อัตรา MM ของบัญชี|
+|> totalEquity |string |อิควิตี้รวมของบัญชี (USD): ∑Asset Equity By USD value of each asset|
+|> totalWalletBalance |string |ยอดคงเหลือในกระเป๋าเงินของบัญชี (USD): ∑Asset Wallet Balance By USD value of each asset|
+|> totalMarginBalance |string |ยอดคงเหลือมาร์จิ้นของบัญชี (USD): totalWalletBalance|
+|> totalAvailableBalance |string |ยอดคงเหลือที่ใช้ได้ของบัญชี (USD), <ul><li>Cross Margin: totalMarginBalance - Haircut - totalInitialMargin.</li><li> Porfolio Margin: total Equity - Haircut - totalInitialMargin </li></ul>|
+|> totalInitialMargin |string |มาร์จิ้นเริ่มต้นของบัญชี (USD): ∑Asset Total Initial Margin Base Coin|
+|> totalMaintenanceMargin |string |มาร์จิ้นรักษาสภาพของบัญชี (USD): ∑ Asset Total Maintenance Margin Base Coin|
+|> accountIMRateByMp |string |คุณสามารถ**ละเว้น**ฟิลด์นี้ได้ และให้ดู `accountIMRate` ซึ่งมีวิธีคำนวณเดียวกัน|
+|> accountMMRateByMp |string |คุณสามารถ**ละเว้น**ฟิลด์นี้ได้ และให้ดู `accountMMRate` ซึ่งมีวิธีคำนวณเดียวกัน|
+|> totalInitialMarginByMp |string |คุณสามารถ**ละเว้น**ฟิลด์นี้ได้ และให้ดู `totalInitialMargin` ซึ่งมีวิธีคำนวณเดียวกัน|
+|> totalMaintenanceMarginByMp |string |คุณสามารถ**ละเว้น**ฟิลด์นี้ได้ และให้ดู `totalMaintenanceMargin` ซึ่งมีวิธีคำนวณเดียวกัน|
+|> accountLTV |string |ฟิลด์ที่**เลิกใช้แล้ว**|
+|> coin |array |อ็อบเจกต์ |
+|>> coin |string |ชื่อเหรียญ เช่น BTC, ETH, USDT, USDC |
+|>> equity |string |อิควิตี้ของเหรียญ Asset Equity = Asset Wallet Balance = `walletBalance` - `spotBorrow`|
+|>> usdValue |string |มูลค่า USD ของเหรียญ หากเหรียญนี้ไม่สามารถใช้เป็นหลักประกันได้ ค่าจะเป็น 0|
+|>> walletBalance |string |ยอดคงเหลือในกระเป๋าเงินของเหรียญ |
+|>> locked |string |ยอดคงเหลือที่ถูกล็อกเนื่องจากคำสั่งสปอตที่ยังไม่จับคู่ |
+|>> spotHedgingQty |string |จำนวนสินทรัพย์สปอตที่ใช้ป้องกันความเสี่ยงในโหมด portfolio margin ตัดทศนิยมที่ 8 ตำแหน่ง และมีค่าเริ่มต้นเป็น "0"|
+|>> borrowAmount |string |จำนวนที่กู้ยืมของเหรียญ = หนี้สินสปอต|
+|>> accruedInterest	|string	|ดอกเบี้ยค้างชำระ |
+|>> totalOrderIM |string |มาร์จิ้นที่ถูกกันไว้ล่วงหน้าสำหรับคำสั่งซื้อขาย สำหรับโหมด portfolio margin จะคืนค่าเป็น ""|
+|>> totalPositionIM	|string	|ผลรวมของมาร์จิ้นเริ่มต้นของทุกสถานะ + ค่าธรรมเนียมการบังคับปิดที่กันไว้ล่วงหน้า สำหรับโหมด portfolio margin จะคืนค่าเป็น "" |
+|>> totalPositionMM	|string |ผลรวมของมาร์จิ้นรักษาสภาพของทุกสถานะ สำหรับโหมด portfolio margin จะคืนค่าเป็น ""|
+|>> unrealisedPnl |string |กำไรขาดทุนที่ยังไม่รับรู้ |
+|>> cumRealisedPnl |string |กำไรขาดทุนที่รับรู้แล้วแบบสะสม |
+|>> bonus |string |โบนัส|
+|>> collateralSwitch |boolean |สามารถใช้เป็นสกุลเงินหลักประกันมาร์จิ้นได้หรือไม่ (ระดับแพลตฟอร์ม) <ul><li>เมื่อ marginCollateral=false ค่า collateralSwitch จะไม่มีความหมาย</li></ul> |
+|>> marginCollateral |boolean |ผู้ใช้เปิดใช้งานหลักประกันหรือไม่ (ระดับผู้ใช้) <ul><li>เมื่อ marginCollateral=true ค่า collateralSwitch จะมีความหมาย</li></ul> |
+|>> colRes |string |สถานะการจำกัดหลักประกันระดับแพลตฟอร์ม `-1`: ไม่ทราบ `0`: ไม่ได้เปิดใช้การจำกัด `1`: ไม่ได้เปิดใช้การจำกัด แต่คริปโทนี้ใกล้ถึงเพดานหลักประกันของแพลตฟอร์มแล้ว `2`: เปิดใช้การจำกัดแล้ว การเพิ่มหลักประกัน การเปิดสวิตช์หลักประกัน และการสลับโหมดมาร์จิ้นจะถูกปฏิเสธทั้งหมด ดูรายละเอียดเพิ่มเติมได้ที่[ประกาศ](https://waanx.com/en/gb/announcements)|
+|>> spotBorrow |string |จำนวนที่กู้ยืมจากการเทรดสปอตมาร์จิ้นและจำนวนที่กู้ยืมด้วยตนเอง (ไม่รวมจำนวนที่กู้ยืมจากคำสั่งสปอตมาร์จิ้นที่ยังทำงานอยู่) ฟิลด์ `spotBorrow` ที่สอดคล้องกับหนี้สินสปอตมีรายละเอียดอยู่ใน<a href="https://waanx.com/en/gb/announcements"> ประกาศ</a>.|
+|>> free |string |**เลิกใช้แล้ว** เนื่องจากไม่มีกระเป๋าเงินสปอตอีกต่อไป|
+|>> availableToBorrow |string |ฟิลด์ที่**เลิกใช้แล้ว** จะคืนค่า `""` เสมอ โปรดดู `availableToBorrow` ใน[เรียกดูข้อมูลหลักประกัน](../../account/collateral-info#) |
+|>> availableToWithdraw |string |**เลิกใช้แล้ว** สำหรับ `accountType=UNIFIED` ตั้งแต่วันที่ 9 ม.ค. 2025 <ul><li>ยอดคงเหลือที่โอนได้: คุณสามารถใช้ [ดูจำนวนที่โอนได้ (Unified)](../../account/unified-trans-amnt#) หรือ [ดึงยอดคงเหลือของเหรียญทั้งหมด](../../asset/balance/all-balance#) แทนได้</li><li>ยอดคงเหลือที่ใช้ได้ของสปอต (มาร์จิ้น): ดูที่ [เรียกดูโควตาการยืม (สปอต)](../../order/spot-borrow-quota#)</li></ul>|
+
+### ตัวอย่างการสมัครรับข้อมูล
+```json
+{
+    "op": "subscribe",
+    "args": [
+        "wallet"
+    ]
+}
+```
+
+
+
+### ตัวอย่างสตรีมข้อมูล
+
+```json
+{
+    "id": "592324d2bce751-ad38-48eb-8f42-4671d1fb4d4e",
+    "topic": "wallet",
+    "creationTime": 1700034722104,
+    "data": [
+        {
+            "accountIMRate": "0",
+            "accountIMRateByMp": "0",
+            "accountMMRate": "0",
+            "accountMMRateByMp": "0",
+            "totalEquity": "10262.91335023",
+            "totalWalletBalance": "9684.46297164",
+            "totalMarginBalance": "9684.46297164",
+            "totalAvailableBalance": "9556.6056555",
+            "totalInitialMargin": "0",
+            "totalInitialMarginByMp": "0",
+            "totalMaintenanceMargin": "0",
+            "totalMaintenanceMarginByMp": "0",
+            "coin": [
+                {
+                    "coin": "BTC",
+                    "equity": "0.00102964",
+                    "usdValue": "36.70759517",
+                    "walletBalance": "0.00102964",
+                    "availableToWithdraw": "0.00102964",
+                    "availableToBorrow": "",
+                    "borrowAmount": "0",
+                    "accruedInterest": "0",
+                    "totalOrderIM": "",
+                    "totalPositionIM": "",
+                    "totalPositionMM": "",
+                    "unrealisedPnl": "0",
+                    "cumRealisedPnl": "-0.00000973",
+                    "bonus": "0",
+                    "collateralSwitch": true,
+                    "marginCollateral": true,
+                    "locked": "0",
+                    "spotHedgingQty": "0.01592413",
+                    "spotBorrow": "0"
+                }
+            ],
+            "accountLTV": "0",
+            "accountType": "UNIFIED"
+        }
+    ]
+}
+```

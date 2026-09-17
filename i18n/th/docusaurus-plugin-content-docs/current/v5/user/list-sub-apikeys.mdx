@@ -1,0 +1,124 @@
+---
+title: ดึงคีย์ API ทั้งหมดของบัญชีย่อย
+sidebar_label: ดึงคีย์ API ทั้งหมดของบัญชีย่อย
+sidebar_position: 5.4
+---
+สอบถามข้อมูลคีย์ API ทั้งหมดของ UID บัญชีย่อย
+
+:::tip
+* สิทธิ์ใดก็สามารถเข้าถึงเอนด์พอยต์นี้ได้
+* เฉพาะบัญชีหลักเท่านั้นที่เรียกเอนด์พอยต์นี้ได้
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/user/sub-apikeys" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|subMemberId |**true** |string |UID บัญชีย่อย|
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหนึ่งหน้า [`1`, `20`] ค่าเริ่มต้น: `20` |
+|cursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextPageCursor` จากการตอบกลับเพื่อดึงข้อมูลหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|result |array |อ็อบเจกต์|
+|> id |string |ID ที่ไม่ซ้ำกัน ใช้ภายในระบบ|
+|> ips |array&#60;string&#62; |IP ที่ผูกไว้|
+|> apiKey |string |คีย์ API |
+|> note |string |หมายเหตุ |
+|> status |integer |`1`: ถาวร, `2`: หมดอายุแล้ว, `3`: อยู่ในช่วงที่ใช้งานได้, `4`: ใกล้หมดอายุ (น้อยกว่า 7 วัน) |
+|> expiredAt |datetime |วันหมดอายุของคีย์ API ใช้เฉพาะกับคีย์ API ที่ไม่ได้ผูก IP หรือมีการเปลี่ยนรหัสผ่านแล้ว|
+|> createdAt |datetime |วันที่สร้างคีย์ API |
+|> type |integer |ประเภทของคีย์ API `1`: ส่วนบุคคล, `2`: เชื่อมต่อกับแอปของบุคคลที่สาม |
+|> permissions |Object |ประเภทของสิทธิ์ |
+|>> Spot |array |สิทธิ์ของสปอต `SpotTrade` |
+|>> Wallet |array |สิทธิ์ของกระเป๋าเงิน `AccountTransfer`, `SubMemberTransferList` |
+|>> Exchange |array |สิทธิ์ของการแปลงสกุลเงิน `ExchangeHistory` |
+|>> Earn |array |สิทธิ์ของผลิตภัณฑ์ Earn `Earn` |
+|>> Affiliate |array |ไม่ใช้กับบัญชีย่อย จะเป็น `[]` เสมอ |
+|>> BlockTrade |array |ไม่ใช้กับบัญชีย่อย จะเป็น `[]` เสมอ|
+|>> NFT |array |**เลิกใช้งานแล้ว**, จะเป็น `[]` เสมอ|
+|>> CopyTrading |array |**เลิกใช้งานแล้ว**, จะเป็น `[]` เสมอ|
+|> secret |string |เป็น `"******"` เสมอ |
+|> readOnly |boolean |`true`, `false`|
+|> deadlineDay |integer |จำนวนวันที่เหลือที่คีย์ API ยังใช้งานได้ ใช้เฉพาะกับคีย์ API ที่ไม่ได้ผูก IP หรือมีการเปลี่ยนรหัสผ่านแล้ว |
+|> flag |string |ประเภทของคีย์ API |
+|nextPageCursor |string |ดูพารามิเตอร์คำขอ `cursor` |
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/user/sub-apikeys?subMemberId=100400345 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1699515251088
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: XXXXXX
+Content-Type: application/json
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "result": [
+            {
+                "id": "24828209",
+                "ips": [
+                    "*"
+                ],
+                "apiKey": "XXXXXX",
+                "note": "UTA",
+                "status": 3,
+                "expiredAt": "2023-12-01T02:36:06Z",
+                "createdAt": "2023-08-25T06:42:39Z",
+                "type": 1,
+                "permissions": {
+                    "Spot": [
+                        "SpotTrade"
+                    ],
+                    "Wallet": [
+                        "AccountTransfer",
+                        "SubMemberTransferList"
+                    ],
+                    "Options": [
+                        "OptionsTrade"
+                    ],
+                    "CopyTrading": [],
+                    "BlockTrade": [],
+                    "Exchange": [
+                        "ExchangeHistory"
+                    ],
+                    "NFT": [],
+                    "Affiliate": [],
+                    "Earn": []
+                },
+                "secret": "******",
+                "readOnly": false,
+                "deadlineDay": 21,
+                "flag": "hmac"
+            }
+        ],
+        "nextPageCursor": ""
+    },
+    "retExtInfo": {},
+    "time": 1699515251698
+}
+```

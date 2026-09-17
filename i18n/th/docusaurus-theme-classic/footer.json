@@ -1,0 +1,14 @@
+{
+  "link.title.WaanX": {
+    "message": "WaanX",
+    "description": "The title of the footer links column with title=WaanX in the footer"
+  },
+  "link.item.label.Website": {
+    "message": "เว็บไซต์",
+    "description": "The label of footer link with label=Website linking to https://www.waanx.com"
+  },
+  "link.item.label.Help Centre": {
+    "message": "ศูนย์ช่วยเหลือ",
+    "description": "The label of footer link with label=Help Centre linking to https://support.waanx.com/en/support/home"
+  }
+}

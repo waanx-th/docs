@@ -1,0 +1,103 @@
+---
+title: ดึงราคาอ้างอิง
+sidebar_label: ดึงราคาอ้างอิง
+sidebar_position: 2
+---
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/fiat/reference-price" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|symbol |**true** |string |คู่เหรียญ เช่น EUR-USDT|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|result |array|อาร์เรย์ของใบเสนอราคา|
+|> symbol |string|สัญลักษณ์คู่เทรด |
+|> fiat |string|สกุลเงินเฟียตของคู่เทรด (เช่น "EUR")|
+|> crypto |string|สกุลเงินคริปโทของคู่เทรด (เช่น "USDT")|
+|> timestamp |string|ประทับเวลาแบบ Unix|
+|> buys |array|อาร์เรย์ของออบเจ็กต์ใบเสนอราคาฝั่งซื้อ|
+|>> unitPrice |string|unitPrice: 1 crypto=x fiat|
+|>> paymentMethod |string|ประเภทเหรียญต้นทาง `fiat` หรือ `crypto`|
+|> sells |array|อาร์เรย์ของออบเจ็กต์ใบเสนอราคาฝั่งขาย|
+|>> unitPrice |string|unitPrice: 1 crypto=x fiat |
+|>> paymentMethod |string|ประเภทเหรียญต้นทาง `fiat` หรือ `crypto`|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/fiat/reference-price HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1720074159814
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "symbol": "EUR-USDT",
+        "fiat": "EUR",
+        "crypto": "USDT",
+        "timestamp": "1765181161",
+        "buys": [
+            {
+                "unitPrice": "0.8581",
+                "paymentMethod": "Cash Balance"
+            },
+            {
+                "unitPrice": "0.9297487",
+                "paymentMethod": "Credit Card"
+            },
+            {
+                "unitPrice": "0.9807915",
+                "paymentMethod": "Apple Pay"
+            },
+            {
+                "unitPrice": "0.8631747",
+                "paymentMethod": "Google Pay"
+            }
+        ],
+        "sells": [
+            {
+                "unitPrice": "0.8581",
+                "paymentMethod": "Cash Balance"
+            },
+            {
+                "unitPrice": "0.9297487",
+                "paymentMethod": "Credit Card"
+            },
+            {
+                "unitPrice": "0.9807915",
+                "paymentMethod": "Apple Pay"
+            },
+            {
+                "unitPrice": "0.8631747",
+                "paymentMethod": "Google Pay"
+            },
+            {
+                "unitPrice": "0.8584759",
+                "paymentMethod": "SEPA"
+            }
+        ]
+    }
+}
+```

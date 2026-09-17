@@ -1,0 +1,97 @@
+---
+title: ตั้งค่าเหรียญหลักประกันแบบกลุ่ม
+sidebar_label: ตั้งค่าเหรียญหลักประกันแบบกลุ่ม
+sidebar_position: 12
+---
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/account/set-collateral-switch-batch" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|request |**true** |array |Object|
+|> coin |**true** |string |ชื่อเหรียญ ตัวพิมพ์ใหญ่เท่านั้น <ul><li>คุณสามารถดูเหรียญหลักประกันได้ [ที่นี่](collateral-info)</li><li>ไม่สามารถตั้งค่า USDT, USDC ได้</li></ul>|
+|> collateralSwitch |**true** |string |`ON`: เปิดใช้หลักประกัน, `OFF`: ปิดใช้หลักประกัน|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|------ |
+|result |Object | |
+|> list |array |Object|
+|>> coin |string |ชื่อเหรียญ|
+|>> collateralSwitch |string |`ON`: เปิดใช้หลักประกัน, `OFF`: ปิดใช้หลักประกัน|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/account/set-collateral-switch-batch HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1704782042755
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+Content-Length: 371
+
+{
+    "request": [
+        {
+            "coin": "MATIC",
+            "collateralSwitch": "OFF"
+        },
+        {
+            "coin": "BTC",
+            "collateralSwitch": "OFF"
+        },
+        {
+            "coin": "ETH",
+            "collateralSwitch": "OFF"
+        },
+        {
+            "coin": "SOL",
+            "collateralSwitch": "OFF"
+        }
+    ]
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "SUCCESS",
+    "result": {
+        "list": [
+            {
+                "coin": "MATIC",
+                "collateralSwitch": "OFF"
+            },
+            {
+                "coin": "BTC",
+                "collateralSwitch": "OFF"
+            },
+            {
+                "coin": "ETH",
+                "collateralSwitch": "OFF"
+            },
+            {
+                "coin": "SOL",
+                "collateralSwitch": "OFF"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1704782042913
+}
+```
