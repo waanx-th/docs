@@ -1,0 +1,61 @@
+---
+title: ลบ UID บัญชีย่อย
+sidebar_label: ลบ UID บัญชีย่อย
+sidebar_position: 7.5
+---
+ลบ UID บัญชีย่อย หากบัญชีย่อยมียอดสินทรัพย์คงเหลือมากกว่า 0.001 USDT จะไม่สามารถลบได้<br/>
+ใช้คีย์ API ของผู้ใช้**บัญชีหลัก**เท่านั้น**
+
+:::tip
+คีย์ API ต้องมีสิทธิ์อย่างใดอย่างหนึ่งด้านล่างนี้จึงจะเรียกเอนด์พอยต์นี้ได้
+* คีย์ API ของบัญชีหลัก: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/user/del-submember" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|subMemberId |<b>true</b> |string |UID บัญชีย่อย|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+ไม่มี
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/user/del-submember HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1698907012755
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: XXXXXX
+Content-Type: application/json
+Content-Length: 34
+
+{
+    "subMemberId": "112725187"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {},
+    "retExtInfo": {},
+    "time": 1698907012962
+}
+```

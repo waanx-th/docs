@@ -1,0 +1,109 @@
+---
+title: ดูโพซิชันที่สเตคไว้
+sidebar_label: ดูโพซิชันที่สเตคไว้
+sidebar_position: 4
+---
+:::info
+คีย์ API ต้องมีสิทธิ์ "Earn"
+:::
+
+:::note
+สำหรับ Flexible Saving การตอบกลับจะรวมโพซิชันที่ไถ่ถอนครบทั้งจำนวนแล้วด้วย
+สำหรับ Onchain การตอบกลับจะมีเฉพาะโพซิชันที่ยังทำงานอยู่เท่านั้น
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/earn/position" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|category|**true**|string|`FlexibleSaving`,`OnChain`|
+|productId|false|string|รหัสผลิตภัณฑ์|
+|coin|false|string|ชื่อเหรียญ|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list|array|Object|
+|> coin|string |ชื่อเหรียญ |
+|> productId|string |รหัสผลิตภัณฑ์|
+|> amount|string |จำนวนที่สเตคไว้ทั้งหมด|
+|> totalPnl|string |ส่งกลับกำไรของโพซิชันปัจจุบัน มีค่าเฉพาะในโหมด Onchain non-LST เท่านั้น|
+|> claimableYield|string |ผลตอบแทนจะสะสมเป็นรายชั่วโมงและจ่ายทุกวันเวลา 00:30 UTC หากคุณยกเลิกการสเตคสินทรัพย์ก่อนการจ่ายผลตอบแทน ผลตอบแทนที่ยังไม่ได้จ่ายจะถูกโอนเข้าบัญชีของคุณพร้อมกับเงินต้น ผลิตภัณฑ์ Onchain จะไม่ส่งค่ากลับมา|
+|> id|string |รหัสโพซิชัน ใช้กับ Onchain เท่านั้น|
+|> status|string |`Processing`,`Active` ใช้กับ Onchain เท่านั้น|
+|> orderId|string |รหัสคำสั่งซื้อขาย ใช้กับ Onchain เท่านั้น|
+|> estimateRedeemTime|string |เวลาไถ่ถอนโดยประมาณ หน่วยมิลลิวินาที ใช้กับ Onchain เท่านั้น|
+|> estimateStakeTime|string |เวลาสเตคโดยประมาณ หน่วยมิลลิวินาที ใช้กับ Onchain เท่านั้น|
+|> estimateInterestCalculationTime|string |เวลาเริ่มคิดดอกเบี้ยโดยประมาณ หน่วยมิลลิวินาที ใช้กับ Onchain เท่านั้น |
+|> settlementTime|string |เวลาชำระราคา หน่วยมิลลิวินาที มีค่าเฉพาะผลิตภัณฑ์ Onchain แบบ `Fixed` เท่านั้น|
+|> autoReinvest|string |สถานะการลงทุนต่อโดยอัตโนมัติ `Enable`: เปิดใช้งาน, `Disable`: ปิดใช้งาน ดู[แก้ไขโพซิชัน](modify-position.mdx)|
+|> availableAmount|string |จำนวนที่ไถ่ถอนได้|
+|> freezeDetails|array |รายการรายละเอียดการอายัด|
+|>> amount|string |จำนวนที่ถูกอายัด|
+|>> description|string |เหตุผลของการอายัด|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/earn/position?category=FlexibleSaving&coin=USDT HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1739944576277
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+```
+
+</TabItem>
+
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "list": [
+            {
+                "coin": "BTC",
+                "productId": "8",
+                "amount": "0.1",
+                "totalPnl": "0.000027397260273973",
+                "claimableYield": "0",
+                "id": "326",
+                "status": "Active",
+                "orderId": "1a5a8945-e042-4dd5-a93f-c0f0577377ad",
+                "estimateRedeemTime": "",
+                "estimateStakeTime": "",
+                "estimateInterestCalculationTime": "1744243200000",
+                "settlementTime": "1744675200000",
+                "autoReinvest": "Enable",
+                "availableAmount": "4900",
+                "freezeDetails": [
+                    {
+                        "amount": "100",
+                        "description": "Locked in Fixed-Rate Loan"
+                    }
+                ]
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1739944577575
+}
+```

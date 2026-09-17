@@ -1,0 +1,676 @@
+---
+title: นิยามค่า Enum
+sidebar_label: นิยามค่า Enum
+---
+
+### locale
+* `de-DE`
+* `en-US`
+* `es-AR`
+* `es-ES`
+* `es-MX`
+* `fr-FR`
+* `kk-KZ`
+* `id-ID`
+* `uk-UA`
+* `ja-JP`
+* `ru-RU`
+* `th-TH`
+* `pt-BR`
+* `tr-TR`
+* `vi-VN`
+* `zh-TW`
+* `ar-SA`
+* `hi-IN`
+* `fil-PH`
+
+### announcementType
+* `new_crypto`
+* `latest_waanx_news`
+* `delistings`
+* `latest_activities`
+* `product_updates`
+* `maintenance_updates`
+* `new_fiat_listings`
+* `other`
+
+### announcementTag
+* `Spot`
+* `Spot Listings`
+* `BTC`
+* `ETH`
+* `Trading Bots`
+* `USDC`
+* `Leveraged Tokens`
+* `USDT`
+* `Margin Trading`
+* `Partnerships`
+* `Launchpad`
+* `Upgrades`
+* `ByVotes`
+* `Delistings`
+* `VIP`
+* `Institutions`
+* `WEB3`
+* `Copy Trading`
+* `Earn`
+* `WaanX Savings`
+* `Dual Asset`
+* `Liquidity Mining`
+* `Shark Fin`
+* `Launchpool`
+* `NFT     GrabPic`
+* `Buy Crypto`
+* `P2P Trading`
+* `Fiat Deposit`
+* `Crypto Deposit`
+* `Спот`
+* `Спот лістинги`
+* `Торгові боти`
+* `Токени з кредитним плечем`
+* `Маржинальна торгівля`
+* `Партнерство`
+* `Оновлення`
+* `Делістинги`
+* `Копітрейдинг`
+* `WaanX Накопичення`
+* `Бівалютні інвестиції`
+* `Майнінг ліквідності`
+* `Купівля криптовалюти`
+* `P2P торгівля`
+* `Фіатні депозити`
+* `Криптодепозити`
+* `Копитрейдинг`
+* `Торговые боты`
+* `P2P`
+* `Спот листинги`
+* `MT4`
+* `Lucky Draw`
+* `Unified Trading Account`
+* `Єдиний торговий акаунт`
+* `Единый торговый аккаунт`
+* `Институциональный трейдинг`
+* `Інституціональний трейдинг`
+* `Делистинг`
+
+### category
+* `spot`
+
+### orderStatus
+_สถานะที่ยังดำเนินอยู่_
+* `New`&emsp;สร้างคำสั่งซื้อขายสำเร็จแล้ว
+* `PartiallyFilled`
+* `Untriggered`&emsp;คำสั่งแบบมีเงื่อนไขถูกสร้างขึ้นแล้ว
+
+_สถานะสิ้นสุด_
+* `Rejected`
+* `PartiallyFilledCanceled`&emsp;มีเฉพาะสปอตเท่านั้นที่มีสถานะคำสั่งซื้อขายนี้
+* `Filled`
+* `Cancelled`
+* `Triggered`&emsp;สถานะชั่วขณะของคำสั่งแบบมีเงื่อนไขที่เปลี่ยนจาก Untriggered ไปเป็น New
+* `Deactivated`&emsp;UTA: คำสั่ง tp/sl ของสปอต คำสั่งแบบมีเงื่อนไข และคำสั่ง OCO ถูกยกเลิกก่อนที่จะถูกทริกเกอร์
+
+### timeInForce
+- `GTC`&emsp;มีผลจนกว่าจะยกเลิก
+- `IOC`&emsp;จับคู่ทันทีเท่าที่ทำได้แล้วยกเลิกส่วนที่เหลือ
+- `FOK`&emsp;ต้องจับคู่ทั้งจำนวนหรือยกเลิกทั้งหมด
+- <a href="https://support.waanx.com/en/support/home">PostOnly</a>
+- [RPI](https://support.waanx.com/en/support/home)&emsp;คุณสมบัติ:
+  - <b>การจับคู่แบบจำกัดเฉพาะ</b>: จับคู่กับผู้ใช้ที่ไม่ใช้อัลกอริทึมเท่านั้น ไม่จับคู่กับคำสั่งซื้อขายจาก Open API
+  - <b>กลไก Post-Only</b>: ทำหน้าที่เป็นคำสั่งฝั่ง maker เพื่อเพิ่มสภาพคล่อง
+  - <b>ลำดับความสำคัญต่ำกว่า</b>: จับคู่หลังคำสั่งซื้อขายที่ไม่ใช่ RPI ที่ระดับราคาเดียวกัน
+  - <b>การเข้าถึงแบบจำกัด</b>: ในช่วงแรกเปิดให้เฉพาะ market maker ที่ได้รับคัดเลือกในหลายคู่เทรด
+  - <b>การอัปเดตสมุดคำสั่งซื้อขาย</b>: ไม่รวมอยู่ใน API แต่จะแสดงบน GUI
+
+### createType
+* `CreateByUser`
+* `CreateByAdminClosing`
+* `CreateByChaseOrder`&emsp;คำสั่งลิมิตแบบไล่ราคา
+* `CreateByFGridBot`&emsp;คำสั่งซื้อขายที่สร้างผ่านกริดบอท
+* `CloseByFGridBot`&emsp;คำสั่งซื้อขายที่ปิดผ่านกริดบอท
+* `CreateByTWAP`&emsp;คำสั่งซื้อขายที่สร้างโดย TWAP
+* `CreateByMartingaleBot`&emsp;คำสั่งซื้อขายที่สร้างโดยมาร์ติงเกลบอท
+* `CloseByMartingaleBot`&emsp;คำสั่งซื้อขายที่ปิดโดยมาร์ติงเกลบอท
+* `CreateByIceBerg`&emsp;คำสั่งซื้อขายที่สร้างโดยกลยุทธ์ Ice berg
+* `CreateByBboOrder`&emsp;คำสั่งซื้อขายแบบ BBO
+* `CreateByTVSignal`&emsp;คำสั่งซื้อขายที่สร้างโดย TV webhook - web/app
+* `CreateByArbitrage`&emsp;คำสั่งซื้อขายที่สร้างโดยการทำอาร์บิทราจ - web/app
+
+### execType
+* `Trade`
+* `ForwardSplitSettle`&emsp;การชำระราคาเศษหุ้นจากการแตกหุ้นแบบปกติ
+* `ReverseSplitSettle`&emsp;การชำระราคาเศษหุ้นจากการรวมหุ้นแบบย้อนกลับ
+* `Dividend`&emsp;การจ่ายเงินปันผล
+* `UNKNOWN`&emsp;ไม่สามารถค้นหาข้อมูลด้วยประเภทนี้ได้
+
+### orderType
+* `Market`
+* `Limit`
+* `UNKNOWN`&emsp;ไม่ใช่ค่าพารามิเตอร์คำขอที่ใช้ได้ ใช้ปรากฏเฉพาะในการตอบกลับบางรายการเท่านั้น
+
+### stopOrderType
+* `Stop`
+* `tpslOrder`&emsp;คำสั่ง TP/SL ของสปอต
+* `OcoOrder`&emsp;คำสั่ง Oco ของสปอต
+* `BidirectionalTpslOrder`&emsp;คำสั่ง tpsl สองทิศทางของสปอต
+
+### tickDirection
+* `PlusTick`&emsp;ราคาปรับขึ้น
+* `ZeroPlusTick`&emsp;การเทรดเกิดขึ้นที่ราคาเดียวกับการเทรดครั้งก่อน ซึ่งการเทรดครั้งก่อนนั้นเกิดขึ้นที่ราคาสูงกว่าการเทรดก่อนหน้านั้นอีกครั้ง
+* `MinusTick`&emsp;ราคาปรับลง
+* `ZeroMinusTick`&emsp;การเทรดเกิดขึ้นที่ราคาเดียวกับการเทรดครั้งก่อน ซึ่งการเทรดครั้งก่อนนั้นเกิดขึ้นที่ราคาต่ำกว่าการเทรดก่อนหน้านั้นอีกครั้ง
+
+### interval
+* `1` `3` `5` `15` `30` `60` `120` `240` `360` `720`&emsp;นาที
+* `D`&emsp;วัน
+* `W`&emsp;สัปดาห์
+* `M`&emsp;เดือน
+
+### intervalTime
+* `5min` `15min` `30min`&emsp;นาที
+* `1h` `4h`&emsp;ชั่วโมง
+* `1d`&emsp;วัน
+
+### positionIdx
+* `0`&emsp;โพซิชันในโหมดทางเดียว
+
+### rejectReason
+* `EC_NoError`
+* `EC_Others`
+* `EC_UnknownMessageType`
+* `EC_MissingClOrdID`
+* `EC_MissingOrigClOrdID`
+* `EC_ClOrdIDOrigClOrdIDAreTheSame`
+* `EC_DuplicatedClOrdID`
+* `EC_OrigClOrdIDDoesNotExist`
+* `EC_TooLateToCancel`
+* `EC_UnknownOrderType`
+* `EC_UnknownSide`
+* `EC_UnknownTimeInForce`
+* `EC_WronglyRouted`
+* `EC_MarketOrderPriceIsNotZero`
+* `EC_LimitOrderInvalidPrice`
+* `EC_NoEnoughQtyToFill`
+* `EC_NoImmediateQtyToFill`&emsp;ไม่พบ maker ที่จะจับคู่กับคำสั่งซื้อขายของคุณ
+* `EC_PerCancelRequest`
+* `EC_MarketOrderCannotBePostOnly`
+* `EC_PostOnlyWillTakeLiquidity`&emsp;คำสั่ง post only ของคุณจะถูกจับคู่ในฐานะ taker จึงถูกปฏิเสธ
+* `EC_CancelReplaceOrder`
+* `EC_InvalidSymbolStatus`
+* `EC_CancelForNoFullFill`
+* `EC_BySelfMatch`
+* `EC_InCallAuctionStatus`&emsp;ใช้กับการดำเนินการคำสั่งซื้อขายช่วงพรีมาร์เก็ต เช่น ในเฟสที่สองของ call auction จะไม่อนุญาตให้ยกเลิกคำสั่งซื้อขาย และเมื่อคำขอยกเลิกไม่ถูกปฏิเสธโดยเซิร์ฟเวอร์เทรด คำขอนั้นจะถูกปฏิเสธโดย matching box ในขั้นสุดท้าย
+* `EC_QtyCannotBeZero`
+* `EC_MarketOrderNoSupportTIF`
+* `EC_ReachMaxTradeNum`
+* `EC_InvalidPriceScale`
+* `EC_BitIndexInvalid`
+* `EC_StopBySelfMatch`
+* `EC_InvalidSmpType`
+* `EC_CancelByMMP`
+* `EC_InvalidUserType`
+* `EC_InvalidMirrorOid`
+* `EC_InvalidMirrorUid`
+* `EC_EcInvalidQty`
+* `EC_InvalidAmount`
+* `EC_LoadOrderCancel`
+* `EC_MarketQuoteNoSuppSell`
+* `EC_DisorderOrderID`
+* `EC_InvalidBaseValue`
+* `EC_LoadOrderCanMatch`
+* `EC_SecurityStatusFail`
+* `EC_ReachRiskPriceLimit`
+* `EC_OrderNotExist`
+* `EC_CancelByOrderValueZero`&emsp;คำสั่งซื้อขายถูกยกเลิกเนื่องจากมูลค่าคงเหลือเป็นศูนย์
+* `EC_CancelByMatchValueZero`&emsp;คำสั่งซื้อขายถูกยกเลิกเนื่องจากคำสั่งซื้อขายที่จับคู่ด้วยมีมูลค่าคงเหลือเป็นศูนย์
+* `EC_ReachMarketPriceLimit`
+
+### accountType
+* `UNIFIED`&emsp;บัญชีเทรดแบบรวม
+* `FUND`&emsp;บัญชีเงินทุน
+
+### assetCategory
+* `Easy Earn`&emsp;หมวดย่อยของบัญชี Earn
+* `Futures Grid Bot`&emsp;หมวดย่อยของบัญชี Trading Bot
+* `Futures Combo Bot`&emsp;หมวดย่อยของบัญชี Trading Bot
+* `Futures Martingale Bot`&emsp;หมวดย่อยของบัญชี Trading Bot
+* `Copy Trading Classic`&emsp;หมวดย่อยของบัญชี Copy Trading
+* `Copy Trading Pro`&emsp;หมวดย่อยของบัญชี Copy Trading
+* `trade`&emsp;หมวดย่อยของบัญชี Alpha — โทเคน alpha สปอตที่ถือครองอยู่
+* `farm`&emsp;หมวดย่อยของบัญชี Alpha — โพซิชัน farming ของ alpha สปอต
+* `Predication`&emsp;หมวดย่อยของบัญชี Predication
+
+### assetAccountType
+* `FundingAccount`&emsp;บัญชีเงินทุน
+* `UnifiedTradingAccount`&emsp;บัญชีเทรดแบบรวม
+* `Earn`&emsp;บัญชี Earn
+* `TradingBot`&emsp;บัญชี Trading Bot
+* `CopyTrading`&emsp;บัญชี Copy Trading
+* `CryptoLoans`&emsp;บัญชี Crypto Loans
+* `CryptoLoans_legacy`&emsp;บัญชี Crypto Loans (เวอร์ชันเดิม)
+* `PayLater`&emsp;บัญชี WaanX Pay Later
+* `Launchpool`&emsp;บัญชี Launchpool
+* `MarginStakedSOL`&emsp;บัญชี Margin Staked SOL
+* `Alpha`&emsp;บัญชี Alpha
+
+### transferStatus
+* `SUCCESS`
+* `PENDING`
+* `FAILED`
+
+### depositStatus
+* `0`&emsp;ไม่ทราบสถานะ
+* `1`&emsp;รอการยืนยัน
+* `2`&emsp;กำลังดำเนินการ
+* `3`&emsp;สำเร็จ (นี่คือสถานะสุดท้ายที่สะท้อนจากสถานะการฝากที่สิ้นสุดแล้ว หากเกิดการย้อนกลับของบล็อกเชน รายการฝากจะได้รับสถานะ 7XXXX ซึ่งแสดงผลลัพธ์สุดท้ายของกรณีการย้อนกลับนั้น)
+* `4`&emsp;การฝากล้มเหลว
+* `7`&emsp;**กำลังดำเนินการย้อนกลับ**: เกิดการย้อนกลับของบล็อกเชนหลังจากที่ยอดฝากถูกเพิ่มเข้าบัญชีแล้ว
+* `70011`&emsp;**การฝากถูกย้อนกลับ**: เกิดการย้อนกลับของบล็อกเชนและรายการฝากถูกกลับรายการแล้ว เงินที่เพิ่มเข้าบัญชีถูกหักออกและไม่มียอดที่เพิ่มเข้าบัญชีคงเหลืออยู่
+* `70012`&emsp;**การฝากยังคงสำเร็จหลังการตรวจสอบการย้อนกลับ**: แม้เกิดการย้อนกลับของบล็อกเชน แต่รายการฝากยังคงมีผล หลังการตรวจสอบพบว่าไม่จำเป็นต้องเรียกคืนหรือหักเงินใด ๆ
+* `70013`&emsp;**การย้อนกลับรายการฝากล้มเหลว**: ยอดฝากถูกเพิ่มเข้าบัญชีในตอนแรก แต่ระบบเบื้องหลังไม่สามารถประมวลผลการย้อนกลับของบล็อกเชนโดยอัตโนมัติได้ กรณีนี้อยู่ระหว่างรอการตรวจสอบด้วยตนเอง
+* `10011`&emsp;รอการเพิ่มเข้าฟันดิ้งพูล
+* `10012`&emsp;เพิ่มเข้าฟันดิ้งพูลสำเร็จแล้ว
+
+### withdrawStatus
+* `SecurityCheck`
+* `Pending`
+* `success`
+* `CancelByUser`
+* `Reject`
+* `Fail`
+* `BlockchainConfirmed`
+* `MoreInformationRequired`
+* `Unknown`&emsp;สถานะที่พบได้น้อย
+
+### triggerBy
+* `LastPrice`
+* `IndexPrice`
+* `MarkPrice`
+
+### cancelType
+* `CancelByUser`
+* `CancelByAdmin`
+* `CancelBySettle`&emsp;ยกเลิกเนื่องจากการถอดออกจากกระดานเทรด
+* `CancelBySmp`&emsp;ยกเลิกโดย [SMP](./smp)
+* `CancelByDCP`&emsp;ยกเลิกเนื่องจากการทริกเกอร์ DCP
+* `CancelByOCOTpCanceledBySlTriggered`&emsp;คำสั่งทำกำไรถูกยกเลิกเนื่องจากคำสั่งหยุดขาดทุนถูกทริกเกอร์
+* `CancelByOCOSlCanceledByTpTriggered`&emsp;คำสั่งหยุดขาดทุนถูกยกเลิกเนื่องจากคำสั่งทำกำไรถูกทริกเกอร์
+
+### dataRecordingPeriod
+* `5min` `15min` `30min`&emsp;นาที
+* `1h` `4h`&emsp;ชั่วโมง
+* `4d`&emsp;วัน
+
+### status
+* `Trading`
+* `Closed`
+
+### symbolType
+* `adventure`&emsp;สปอต
+* `xstocks`&emsp;สปอต
+
+### marginTrading
+* `none`&emsp;คู่เทรดนี้ไม่รองรับการเทรดมาร์จิ้น
+* `both`&emsp;คู่เทรดนี้รองรับการเทรดมาร์จิ้น
+* `utaOnly`&emsp;คู่เทรดนี้รองรับการเทรดมาร์จิ้น
+* `normalSpotOnly`&emsp;คู่เทรดนี้ไม่รองรับการเทรดมาร์จิ้นสำหรับบัญชี UTA
+
+### copyTrading
+* `none`&emsp;คู่เทรดนี้ไม่รองรับการคัดลอกการเทรด
+* `both`&emsp;คู่เทรดนี้รองรับการคัดลอกการเทรด
+* `utaOnly`&emsp;คู่เทรดนี้รองรับการคัดลอกการเทรด
+* `normalOnly`&emsp;คู่เทรดนี้ไม่รองรับการคัดลอกการเทรดสำหรับบัญชี UTA
+
+### type(uta-translog)
+* `TRANSFER_IN`&emsp;สินทรัพย์ที่โอนเข้ากระเป๋า Unified
+* `TRANSFER_OUT`&emsp;สินทรัพย์ที่โอนออกจากกระเป๋า Unified
+* `TRADE`
+* `AIRDROP`
+* `BONUS`&emsp;รับโบนัสแล้ว
+* `BONUS_RECOLLECT`&emsp;โบนัสหมดอายุ
+* `FEE_REFUND`&emsp;คืนค่าธรรมเนียมการเทรด
+* `INTEREST`&emsp;ดอกเบี้ยที่เกิดขึ้นจากการกู้ยืม
+* `CURRENCY_BUY`&emsp;การแปลงสกุลเงิน และการบังคับชำระสำหรับสินทรัพย์ที่กู้ยืม (UTA loan)
+* `CURRENCY_SELL`&emsp;การแปลงสกุลเงิน และการบังคับชำระสำหรับสินทรัพย์ที่กู้ยืม (UTA loan)
+* `DIVIDEND_SETTLEMENT`&emsp;การชำระราคาเงินปันผล
+* `FORWARD_SPLIT_SETTLE`&emsp;การชำระราคาเศษหุ้นจากการแตกหุ้นแบบปกติ
+* `REVERSE_SPLIT_SETTLE`&emsp;การชำระราคาเศษหุ้นจากการรวมหุ้นแบบย้อนกลับ
+* `BORROWED_AMOUNT_INS_LOAN`
+* `PRINCIPLE_REPAYMENT_INS_LOAN`
+* `INTEREST_REPAYMENT_INS_LOAN`
+* `AUTO_SOLD_COLLATERAL_INS_LOAN`&emsp;การบังคับชำระสำหรับสินทรัพย์ที่กู้ยืม (INS loan)
+* `AUTO_BUY_LIABILITY_INS_LOAN`&emsp;การบังคับชำระสำหรับสินทรัพย์ที่กู้ยืม (INS loan)
+* `AUTO_PRINCIPLE_REPAYMENT_INS_LOAN`
+* `AUTO_INTEREST_REPAYMENT_INS_LOAN`
+* `TRANSFER_IN_INS_LOAN`&emsp;การโอนเข้าในระหว่างการบังคับชำระของ OTC loan
+* `TRANSFER_OUT_INS_LOAN`&emsp;การโอนออกในระหว่างการบังคับชำระของ OTC loan
+* `SPOT_REPAYMENT_SELL`&emsp;การขายสกุลเงินสำหรับการชำระคืนแบบคลิกเดียว
+* `SPOT_REPAYMENT_BUY`&emsp;การซื้อสกุลเงินสำหรับการชำระคืนแบบคลิกเดียว
+* `TOKENS_SUBSCRIPTION`&emsp;การสมัครซื้อโทเคนเลเวอเรจสปอต
+* `TOKENS_REDEMPTION`&emsp;การไถ่ถอนโทเคนเลเวอเรจสปอต
+* `AUTO_DEDUCTION`&emsp;สินทรัพย์ถูกหักอัตโนมัติโดยระบบ (การย้อนกลับรายการ)
+* `FLEXIBLE_STAKING_SUBSCRIPTION`&emsp;การสมัครซื้อ Earn แบบยืดหยุ่น
+* `FLEXIBLE_STAKING_REDEMPTION`&emsp;การไถ่ถอน Earn แบบยืดหยุ่น
+* `FIXED_STAKING_SUBSCRIPTION`&emsp;การสมัครซื้อ Earn แบบกำหนดระยะเวลา
+* `FLEXIBLE_STAKING_REFUND`&emsp;การคืนเงิน Earn แบบยืดหยุ่น
+* `FIXED_STAKING_REFUND`&emsp;การคืนเงิน Earn แบบกำหนดระยะเวลา
+* `PREMARKET_TRANSFER_OUT`
+* `PREMARKET_DELIVERY_SELL_NEW_COIN`
+* `PREMARKET_DELIVERY_BUY_NEW_COIN`
+* `PREMARKET_DELIVERY_PLEDGE_PAY_SELLER`
+* `PREMARKET_DELIVERY_PLEDGE_BACK`
+* `PREMARKET_ROLLBACK_PLEDGE_BACK`
+* `PREMARKET_ROLLBACK_PLEDGE_PENALTY_TO_BUYER`
+* `CUSTODY_NETWORK_FEE`&emsp;ธุรกิจ fireblocks
+* `CUSTODY_SETTLE_FEE`&emsp;ธุรกิจ fireblocks
+* `CUSTODY_LOCK`&emsp;ธุรกิจ fireblocks / copper
+* `CUSTODY_UNLOCK`&emsp;ธุรกิจ fireblocks
+* `CUSTODY_UNLOCK_REFUND`&emsp;ธุรกิจ fireblocks
+* `LOANS_BORROW_FUNDS`&emsp;สินเชื่อคริปโต
+* `LOANS_PLEDGE_ASSET`&emsp;การชำระคืนสินเชื่อคริปโต
+* `BONUS_TRANSFER_IN`
+* `BONUS_TRANSFER_OUT`
+* `PEF_TRANSFER_IN`
+* `PEF_TRANSFER_OUT`
+* `PEF_PROFIT_SHARE`
+* `ONCHAINEARN_SUBSCRIPTION`&emsp;การโอนออกสำหรับ on chain earn
+* `ONCHAINEARN_REDEMPTION`&emsp;การโอนเข้าสำหรับ on chain earn
+* `ONCHAINEARN_REFUND`&emsp;การโอนเข้าสำหรับ on chain earn ล้มเหลว
+* `STRUCTURE_PRODUCT_SUBSCRIPTION`&emsp;การโอนออกสำหรับ structure product
+* `STRUCTURE_PRODUCT_REFUND`&emsp;การโอนเข้าสำหรับ structure product
+* `CLASSIC_WEALTH_MANAGEMENT_SUBSCRIPTION`&emsp;การโอนออกสำหรับ classic wealth management
+* `PREMIMUM_WEALTH_MANAGEMENT_SUBSCRIPTION`&emsp;การโอนเข้าสำหรับ classic wealth management
+* `PREMIMUM_WEALTH_MANAGEMENT_REFUND`&emsp;การโอนเข้าสำหรับการคืนเงิน classic wealth management
+* `LIQUIDITY_MINING_SUBSCRIPTION`&emsp;การโอนออกสำหรับ liquidity mining
+* `LIQUIDITY_MINING_REFUND`&emsp;การโอนเข้าสำหรับ liquidity mining
+* `PWM_SUBSCRIPTION`&emsp;การโอนออกสำหรับ PWM
+* `PWM_REFUND`&emsp;การโอนเข้าสำหรับ PWM
+* `DEFI_INVESTMENT_SUBSCRIPTION`&emsp;การโอนออกสำหรับการสมัครซื้อ DEFI
+* `DEFI_INVESTMENT_REFUND`&emsp;การโอนเข้าสำหรับการคืนเงิน DEFI
+* `DEFI_INVESTMENT_REDEMPTION`&emsp;การโอนเข้าสำหรับการไถ่ถอน DEFI
+* `INSTITUTION_LOAN_IN`&emsp;จำนวนเงินที่กู้ยืม (INS Loan)
+* `INSTITUTION_PAYBACK_PRINCIPAL_OUT`&emsp;การชำระคืนเงินต้น (INS Loan)
+* `INSTITUTION_PAYBACK_INTEREST_OUT`&emsp;การชำระคืนดอกเบี้ย (INS Loan) 
+* `INSTITUTION_EXCHANGE_SELL`&emsp;ขายหลักประกันโดยอัตโนมัติ (INS Loan)
+* `INSTITUTION_EXCHANGE_BUY`&emsp;ซื้อคืนหนี้สินโดยอัตโนมัติ (INS Loan)
+* `INSTITUTION_LIQ_PRINCIPAL_OUT`&emsp;การบังคับชำระคืนเงินต้น กล่าวคือการบังคับชำระ (INS Loan)
+* `INSTITUTION_LIQ_INTEREST_OUT`&emsp;การบังคับชำระคืนดอกเบี้ย กล่าวคือการบังคับชำระ (INS Loan)
+* `INSTITUTION_LOAN_TRANSFER_IN`&emsp;การโอนเข้า (INS Loan)
+* `INSTITUTION_LOAN_TRANSFER_OUT`&emsp;การโอนออก (INS Loan)
+* `INSTITUTION_LOAN_WITHOUT_WITHDRAW`&emsp;การโอนออก (INS Loan)
+* `INSTITUTION_LOAN_RESERVE_IN`&emsp;การนำเงินสำรองเข้า (INS Loan)
+* `INSTITUTION_LOAN_RESERVE_OUT`&emsp;การนำเงินสำรองออก (INS Loan)
+* `SPREAD_FEE_OUT`&emsp;ค่าธรรมเนียมสเปรดสำหรับ EU Broker
+* `PLATFORM_TOKEN_MNT_LIQRECALLEDMMNT`&emsp;เรียกคืน MNT
+* `PLATFORM_TOKEN_MNT_LIQRETURNEDMNT`&emsp;คืน MNT
+* `BORROW`&emsp;การกู้ยืมแบบกำหนดเองและการกู้ยืมอัตโนมัติ
+* `REPAY`&emsp;การชำระคืนแบบกำหนดเองและการชำระคืนอัตโนมัติ
+* `CONVERT`&emsp;การชำระคืนด้วยการแปลงสกุลเงิน
+* `BROKER_ABACCOUNT_FEE`&emsp;การหักค่าธรรมเนียม AB ของโบรกเกอร์
+* `EARNING_REDEMPTION_SELL`
+* `EARNING_REDEMPTION_BUY`
+* `DBS_CASH_OUT`
+* `DBS_CASH_IN`
+* `DBS_CASH_OUT_TR`
+* `DBS_CASH_IN_TR`
+* `CUSTODY_CASH_RECOVER_TR`
+* `ALPHA_SMALL_TOKEN_REFUND`
+* `TWAP_BUDGET_AIRDROP`
+* `TWAP_BUDGET_RECALL`
+* `FLOATING_TO_FIXED_BORROW`
+* `FLOATING_TO_FIXED_REPAY`
+* `IDN_CONVERT_IN`
+* `IDN_CONVERT_OUT`
+
+
+
+### unifiedMarginStatus
+* `3`&emsp;บัญชีเทรดแบบรวม 1.0
+* `4`&emsp;บัญชีเทรดแบบรวม 1.0 (เวอร์ชัน pro)
+* `5`&emsp;บัญชีเทรดแบบรวม 2.0
+* `6`&emsp;บัญชีเทรดแบบรวม 2.0 (เวอร์ชัน pro)
+
+### convertAccountType
+* `eb_convert_uta`&emsp;บัญชีเทรดแบบรวม
+* `eb_convert_funding`&emsp;บัญชีเงินทุน
+
+### symbol
+_สปอต_:
+* `BTCUSDT`
+* `ETHUSDC`
+
+### vipLevel
+* No VIP
+* VIP-1
+* VIP-2
+* VIP-3
+* VIP-4
+* VIP-5
+* VIP-Supreme
+* PRO-1
+* PRO-2
+* PRO-3
+* PRO-4
+* PRO-5
+* PRO-6
+
+### smpType
+* ค่าเริ่มต้น: `None`
+* `CancelMaker`
+* `CancelTaker`
+* `CancelBoth`
+
+### extraFees.feeType
+* `UNKNOWN`
+* `TAX`&emsp;ภาษีของรัฐ ใช้กับไซต์อินโดนีเซียเท่านั้น
+* `CFX`&emsp;ภาษีการแลกเปลี่ยนเงินตราต่างประเทศของอินโดนีเซีย ใช้กับไซต์อินโดนีเซียเท่านั้น
+* `WHT`&emsp;ภาษีหัก ณ ที่จ่ายของสหภาพยุโรป ใช้กับไซต์สหภาพยุโรปเท่านั้น
+* `GST`&emsp;ภาษี GST ของอินเดีย ใช้กับผู้ใช้ kyc=Indian เท่านั้น
+* `VAT`&emsp;ภาษีมูลค่าเพิ่มของสหรัฐอาหรับเอมิเรตส์ ใช้กับผู้ใช้ kyc=ARE เท่านั้น
+
+### extraFees.subFeeType
+* `UNKNOWN`
+* `TAX_PNN`&emsp;ค่าภาษี จากเงินสกุลปกติเป็นสกุลเงินดิจิทัล ใช้กับไซต์อินโดนีเซียเท่านั้น
+* `TAX_PPH`&emsp;ค่าภาษี จากสกุลเงินดิจิทัลเป็นเงินสกุลปกติ ใช้กับไซต์อินโดนีเซียเท่านั้น
+* `CFX_FIEE`&emsp;ค่าธรรมเนียม CFX จากเงินสกุลปกติเป็นสกุลเงินดิจิทัล ใช้กับไซต์อินโดนีเซียเท่านั้น
+* `AUT_WITHHOLDING_TAX`&emsp;ภาษีหัก ณ ที่จ่ายของไซต์สหภาพยุโรป ใช้กับไซต์สหภาพยุโรปเท่านั้น
+* `IND_GST`&emsp;ภาษี GST ของอินเดีย ใช้กับผู้ใช้ kyc=Indian เท่านั้น
+* `ARE_VAT`&emsp;ภาษีมูลค่าเพิ่มของสหรัฐอาหรับเอมิเรตส์ ใช้กับผู้ใช้ kyc=ARE เท่านั้น
+
+### predictionSide (ตลาดพยากรณ์ — ทิศทางการเทรด)
+* `1`&emsp;YES / BUY — ซื้อส่วนแบ่งโทเคนผลลัพธ์
+* `2`&emsp;NO / SELL — ขายส่วนแบ่งโทเคนผลลัพธ์
+
+### predictionOrderType (ตลาดพยากรณ์ — ประเภทคำสั่ง)
+* `1`&emsp;FOK (Fill-or-Kill) — ต้องจับคู่สำเร็จทั้งจำนวนหรือยกเลิกทั้งหมด รองรับเฉพาะเฟส 1 เท่านั้น
+
+### predictionOrderStatus (ตลาดพยากรณ์ — สถานะคำสั่ง)
+* `1`&emsp;PENDING
+* `2`&emsp;FILLED
+* `3`&emsp;PARTIALLY_FILLED
+* `4`&emsp;CANCELLED
+* `5`&emsp;REJECTED
+
+### predictionPositionResult (ตลาดพยากรณ์ — ผลลัพธ์ของโพซิชัน)
+* `1`&emsp;WIN — เหตุการณ์ตัดสินผลเป็นไปตามโทเคนนี้
+* `2`&emsp;LOSE — เหตุการณ์ตัดสินผลไม่เป็นไปตามโทเคนนี้
+* `3`&emsp;MANUAL_CLOSE — โพซิชันถูกปิดโดยผู้ใช้ก่อนการตัดสินผล
+
+### predictionMatchStatus (ตลาดพยากรณ์ — สถานะการจับคู่)
+* `1`&emsp;Live — การแข่งขันกำลังดำเนินอยู่
+* `2`&emsp;Upcoming — การแข่งขันยังไม่เริ่ม
+* `3`&emsp;Ended — การแข่งขันสิ้นสุดแล้ว
+
+### predictionMarketType (ตลาดพยากรณ์ — ประเภทตลาด)
+* `1`&emsp;ตลาดสองทางเลือกแบบ YES/NO — มีโทเคนผลลัพธ์สองรายการ (YES และ NO)
+* `2`&emsp;ตลาดหลายผลลัพธ์ — มีโทเคนผลลัพธ์มากกว่าสองรายการ
+
+### predictionSortBy (ตลาดพยากรณ์ — ฟิลด์การเรียงลำดับ)
+* `volume`&emsp;เรียงตามปริมาณการเทรด 24 ชั่วโมงจากมากไปน้อย
+* `liquidity`&emsp;เรียงตามสภาพคล่องที่ใช้ได้จากมากไปน้อย
+* `endDate`&emsp;เรียงตามวันตัดสินผลจากน้อยไปมาก
+
+### predictionPriceInterval (ตลาดพยากรณ์ — ช่วงราคา)
+* `1H`&emsp;1 ชั่วโมง
+* `6H`&emsp;6 ชั่วโมง
+* `1D`&emsp;1 วัน
+* `1W`&emsp;1 สัปดาห์
+* `1M`&emsp;1 เดือน
+* `ALL`&emsp;ประวัติทั้งหมด
+
+### predictionStageCode (ตลาดพยากรณ์ — รหัสขั้นตอน)
+* `Groups`&emsp;รอบแบ่งกลุ่ม
+* `R32`&emsp;รอบ 32 ทีมสุดท้าย
+* `R16`&emsp;รอบ 16 ทีมสุดท้าย
+* `QF`&emsp;รอบก่อนรองชนะเลิศ
+* `SF`&emsp;รอบรองชนะเลิศ
+* `Final`&emsp;รอบชิงชนะเลิศ
+
+### predictionEventType (ตลาดพยากรณ์ — ประเภทเหตุการณ์)
+* `1`&emsp;FIFA_2026 — ฟุตบอลโลก FIFA 2026
+
+### predictionTimelineStatus (ตลาดพยากรณ์ — สถานะไทม์ไลน์)
+* `1`&emsp;Done — รอบนี้เสร็จสิ้นแล้ว
+* `2`&emsp;Active — รอบนี้กำลังดำเนินอยู่
+* `3`&emsp;Upcoming — รอบนี้ยังไม่เริ่ม
+
+### state
+* `scheduled`
+* `ongoing`
+* `completed`
+* `canceled`
+
+### serviceTypes
+* `1`&emsp;บริการเทรด
+* `2`&emsp;บริการเทรดผ่านคำขอ http
+* `3`&emsp;บริการเทรดผ่าน websocket
+* `4`&emsp;สตรีม websocket ส่วนตัว
+* `5`&emsp;บริการข้อมูลตลาด
+
+### product
+* `2`&emsp;สปอต
+
+### maintainType
+* `1`&emsp;การบำรุงรักษาตามแผน
+* `2`&emsp;การบำรุงรักษาชั่วคราว
+* `3`&emsp;เหตุขัดข้องของระบบ
+
+### env
+* `1`&emsp;ระบบจริง
+* `2`&emsp;บริการเดโมบนระบบจริง
+
+### bizType
+* `SPOT`
+
+### msg
+* `API limit updated successfully`
+* `Requested limit exceeds maximum allowed per user`
+* `No permission to operate these UIDs`
+* `API cap configuration not found`
+* `API cap configuration not found for bizType`
+* `Requested limit would exceed institutional quota`
+
+### groupId
+* `1`&emsp;เหรียญหลัก
+* `2`&emsp;เหรียญเติบโตสูง
+* `3`&emsp;สภาพคล่องระดับกลาง
+* `4`&emsp;การเปิดใช้งานระดับกลาง
+* `5`&emsp;สินทรัพย์ปลายหาง
+* `6`&emsp;โซนนวัตกรรม
+* `7`&emsp;ช่วงก่อนเข้ากระดานเทรด
+
+### groupName
+* `G1(Major Coins)`&emsp;เหรียญหลัก
+* `G2(High Growth)`&emsp;เหรียญเติบโตสูง
+* `G3(Mid-Tier Liquidity)`&emsp;สภาพคล่องระดับกลาง
+* `G4(Mid-Tier Activation)`&emsp;การเปิดใช้งานระดับกลาง
+* `G5(Long Tail)`&emsp;สินทรัพย์ปลายหาง
+* `Innovation-Zone`&emsp;โซนนวัตกรรม
+* `Pre-listing`&emsp;ช่วงก่อนเข้ากระดานเทรด
+
+### คำอธิบายสกุลเงินค่าธรรมเนียมสปอต {#spot-fee-currency-instruction}
+ตัวอย่างโดยใช้ BTCUSDT:
+
+- makerFeeRate เป็นค่าบวกหรือไม่?
+    - TRUE
+        - Side = Buy -> เหรียญฐาน (BTC)
+        - Side = Sell -> เหรียญอ้างอิง (USDT)
+    - FALSE
+        - IsMakerOrder = TRUE
+            - Side = Buy -> เหรียญอ้างอิง (USDT)
+            - Side = Sell -> เหรียญฐาน (BTC)
+        - IsMakerOrder = FALSE
+            - Side = Buy -> เหรียญฐาน (BTC)
+            - Side = Sell -> เหรียญอ้างอิง (USDT)
+### sbe-orderStatus
+* `5`&emsp;Rejected
+* `6`&emsp;New
+* `7`&emsp;Cancelled
+* `8`&emsp;PartiallyFilled
+* `9`&emsp;Filled
+* `0`&emsp;อื่นๆ
+### sbe-rejectReason
+* `0`&emsp;EC_NoError  
+* `1`&emsp;EC_Others  
+* `2`&emsp;EC_UnknownMessageType  
+* `3`&emsp;EC_MissingClOrdID  
+* `4`&emsp;EC_OrderNotExist  
+* `5`&emsp;EC_MissingOrigClOrdID  
+* `6`&emsp;EC_ClOrdIDOrigClOrdIDAreTheSame  
+* `7`&emsp;EC_OrigClOrdIDDoesNotExist  
+* `8`&emsp;EC_TooLateToCancel  
+* `9`&emsp;EC_UnknownOrderType  
+* `10`&emsp;EC_UnknownSide  
+* `11`&emsp;EC_UnknownTimeInForce  
+* `12`&emsp;EC_WronglyRouted  
+* `13`&emsp;EC_MarketOrderPriceIsNotZero  
+* `14`&emsp;EC_LimitOrderInvalidPrice  
+* `15`&emsp;EC_NoEnoughQtyToFill  
+* `16`&emsp;EC_NoImmediateQtyToFill  
+* `17`&emsp;EC_QtyCannotBeZero  
+* `18`&emsp;EC_PerCancelRequest  
+* `19`&emsp;EC_MarketOrderCannotBePostOnly  
+* `20`&emsp;EC_PostOnlyWillTakeLiquidity  
+* `21`&emsp;EC_CancelReplaceOrder  
+* `22`&emsp;EC_InvalidSymbolStatus  
+* `23`&emsp;EC_MarketOrderNoSupportTIF  
+* `24`&emsp;EC_ReachMaxTradeNum  
+* `25`&emsp;EC_InvalidPriceScale  
+* `28`&emsp;EC_BySelfMatch  
+* `29`&emsp;EC_InvalidSmpType  
+* `30`&emsp;EC_CancelByMMP  
+* `31`&emsp;EC_InCallAuctionStatus  
+* `34`&emsp;EC_InvalidUserType  
+* `35`&emsp;EC_InvalidMirrorOid  
+* `36`&emsp;EC_InvalidMirrorUid  
+* `100`&emsp;EC_EcInvalidQty  
+* `101`&emsp;EC_InvalidAmount  
+* `102`&emsp;EC_LoadOrderCancel  
+* `103`&emsp;EC_CancelForNoFullFill  
+* `104`&emsp;EC_MarketQuoteNoSuppSell  
+* `105`&emsp;EC_DisorderOrderID  
+* `106`&emsp;EC_InvalidBaseValue  
+* `107`&emsp;EC_LoadOrderCanMatch  
+* `108`&emsp;EC_SecurityStatusFail  
+* `110`&emsp;EC_ReachRiskPriceLimit  
+* `111`&emsp;EC_CancelByOrderValueZero  
+* `112`&emsp;EC_CancelByMatchValueZero  
+* `113`&emsp;EC_CancelByMatchValueZero  
+* `200`&emsp;EC_ReachMarketPriceLimit
+
+### Advanced-Earn-category
+* `DualAssets`
+
+### Advanced-Earn-Product-Status
+* `Available`
+* `NotAvailable`
+
+### Advanced-Earn-Position-Status
+* `Active`
+* `Redeeming`
+
+### Advanced-Earn-Order-Status
+* `Pending`
+* `Success`
+* `Settled`
+* `Fail`

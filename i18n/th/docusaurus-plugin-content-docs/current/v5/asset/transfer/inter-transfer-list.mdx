@@ -1,0 +1,89 @@
+---
+title: ดึงประวัติการโอนภายใน
+sidebar_label: ดึงประวัติการโอนภายใน
+sidebar_position: 2
+---
+
+สอบถามประวัติการโอนภายในระหว่าง[ประเภทบัญชี](../../enum#accounttype)ที่ต่างกันภายใต้ UID เดียวกัน
+
+:::info
+* หากไม่ได้ระบุ startTime และ endTime API จะคืนค่าข้อมูลของ 7 วันล่าสุดเป็นค่าเริ่มต้น
+* หากระบุเฉพาะ startTime API จะคืนค่าประวัติตั้งแต่ startTime ถึง startTime + 7 วัน
+* หากระบุเฉพาะ endTime API จะคืนค่าประวัติตั้งแต่ endTime - 7 วัน ถึง endTime
+* หากระบุทั้งสองค่า ช่วงเวลาสูงสุดที่อนุญาตคือ 7 วัน (endTime - startTime ≤ 7 วัน)
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/transfer/query-inter-transfer-list" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|transferId |false |string |UUID ใช้ค่าที่คุณสร้างไว้ใน [createTransfer](create-inter-transfer#response-parameters) |
+|coin |false |string |เหรียญ ตัวพิมพ์ใหญ่เท่านั้น |
+|[status](../../enum#transferstatus) |false |string |สถานะการโอน |
+|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) _หมายเหตุ: ตรรกะการสอบถามมีผลจริงในระดับ**วินาที**_ |
+|endTime |false |integer |ประทับเวลาสิ้นสุด (มิลลิวินาที) _หมายเหตุ: ตรรกะการสอบถามมีผลจริงในระดับ**วินาที**_|
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `50`] ค่าเริ่มต้น: `20`|
+|cursor |false |string |เคอร์เซอร์ ใช้โทเคน `nextPageCursor` จากการตอบกลับเพื่อดึงหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array|ออบเจ็กต์ |
+|> transferId |string |รหัสการโอน |
+|> coin |string |เหรียญที่โอน |
+|> amount |string |จำนวนที่โอน |
+|> [fromAccountType](../../enum#accounttype) |string |ประเภทบัญชีต้นทาง |
+|> [toAccountType](../../enum#accounttype) |string |ประเภทบัญชีปลายทาง |
+|> timestamp |string |ประทับเวลาที่สร้างการโอน (มิลลิวินาที) |
+|> [status](../../enum#transferstatus) |string |สถานะการโอน |
+|nextPageCursor |string|ดูพารามิเตอร์คำขอ `cursor` |
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/transfer/inter-transfer-list-query?coin=USDT&limit=1 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1670988271299
+X-BAPI-RECV-WINDOW: 50000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+    "list": [
+        {
+            "transferId": "selfTransfer_a1091cc7-9364-4b74-8de1-18f02c6f2d5c",
+            "coin": "USDT",
+            "amount": "5000",
+            "fromAccountType": "SPOT",
+            "toAccountType": "UNIFIED",
+            "timestamp": "1667283263000",
+            "status": "SUCCESS"
+        }
+    ],
+    "nextPageCursor": "eyJtaW5JRCI6MTM1ODQ2OCwibWF4SUQiOjEzNTg0Njh9"
+},
+    "retExtInfo": {},
+    "time": 1670988271677
+}
+```

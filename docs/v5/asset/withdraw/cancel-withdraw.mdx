@@ -1,0 +1,59 @@
+---
+title: Cancel Withdrawal
+sidebar_label: Cancel Withdrawal
+sidebar_position: 17
+---
+
+Cancel the withdrawal
+
+### HTTP Request
+<APIEndpoint method="POST" url="/v5/asset/withdraw/cancel" />
+
+### Request Parameters
+| Parameter | Required | Type | Comments|
+|:----- |:-------|:-----|------ |
+|id |**true** |string |Withdrawal ID |
+
+### Response Parameters
+| Parameter | Type | Comments|
+|:----- |:-----|----- |
+|status |integer|`0`: fail. `1`: success |
+
+### Request Example
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/asset/withdraw/cancel HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672197227732
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: XXXXX
+Content-Type: application/json
+
+{
+    "id": "10197"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### Response Example
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "status": 1
+    },
+    "retExtInfo": {},
+    "time": 1672197228408
+}
+```

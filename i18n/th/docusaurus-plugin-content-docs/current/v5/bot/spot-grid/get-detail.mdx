@@ -1,0 +1,154 @@
+---
+title: ดูรายละเอียดบอทกริด
+sidebar_label: ดูรายละเอียดบอทกริด
+sidebar_position: 4
+---
+
+ดึงรายละเอียดทั้งหมดของบอทกริดสปอตที่ระบุ รวมถึงการตั้งค่า สถานะ ตัวชี้วัดกำไร จำนวนครั้งของการทำอาร์บิทราจ การตั้งค่า TP/SL และสาเหตุการปิด
+
+:::info
+- **`grid_id`:**<br/>
+ได้จากการตอบกลับของ [สร้างบอทกริดสปอต](./create) หรือจากการค้นหารายการกริด
+
+- **ฟิลด์ APR:**<br/>
+`grid_apr` และ `total_apr` จะถูกส่งคืนเป็นอัตราส่วนทศนิยม (เช่น `"0.15"` หมายถึง APR 15%) คูณด้วย 100 เพื่อแปลงเป็นเปอร์เซ็นต์
+
+- **`current_profit` / `current_per`:**<br/>
+มีค่าเฉพาะบอทที่อยู่ในสถานะ `RUNNING` เท่านั้น
+
+- **การจำกัดอัตราการเรียก:**<br/>
+10 คำขอต่อวินาทีต่อ UID
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/grid/query-grid-detail" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย |
+|:----------|:---------|:-----|---------|
+|grid_id |**true** |string |ID ของบอทกริดที่ต้องการค้นหา|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย |
+|:----------|:-----|---------|
+|status_code |integer |รหัสสถานะทางธุรกิจ|
+|debug_msg |string |ข้อความดีบัก (เทสต์เน็ตเท่านั้น)|
+|detail |object |ออบเจ็กต์รายละเอียดบอทกริด (ดูด้านล่าง)|
+|> grid_id |integer |ID ของบอทกริด|
+|> symbol |string |คู่เทรด (เช่น `BTCUSDT`)|
+|> base_token |string |สัญลักษณ์โทเคนฐาน (เช่น `BTC`)|
+|> quote_token |string |สัญลักษณ์โทเคนอ้างอิง (เช่น `USDT`)|
+|> status |string |สถานะวงจรชีวิตของบอท: `RAW`, `REJECTED`, `NEW`, `INITIALIZING`, `RUNNING`, `CANCELLING`, `COMPLETED`|
+|> max_price |string |ขอบราคาบนของกริด (สตริงทศนิยม)|
+|> min_price |string |ขอบราคาล่างของกริด (สตริงทศนิยม)|
+|> cell_number |integer |จำนวนช่วงกริดที่ใช้งานอยู่|
+|> total_investment |string |ยอดเงินลงทุนรวมในหน่วยโทเคนอ้างอิง (สตริงทศนิยม)|
+|> total_profit |string |กำไรรวมในหน่วยโทเคนอ้างอิง (สตริงทศนิยม)|
+|> grid_profit |string |กำไรจากอาร์บิทราจของกริดในหน่วยโทเคนอ้างอิง (สตริงทศนิยม)|
+|> grid_apr |string |APR ของกริดในรูปอัตราส่วนทศนิยม (เช่น `"0.15"` = 15%)|
+|> total_apr |string |APR รวมในรูปอัตราส่วนทศนิยม (เช่น `"0.2"` = 20%)|
+|> arbitrage_num |integer |จำนวนรวมของการเทรดอาร์บิทราจที่สำเร็จแล้ว|
+|> arbitrage_num_24 |integer |จำนวนการเทรดอาร์บิทราจใน 24 ชั่วโมงที่ผ่านมา|
+|> current_price |string |ราคาตลาดปัจจุบัน (สตริงทศนิยม)|
+|> current_profit |string |กำไรขาดทุนที่ยังไม่รับรู้ในปัจจุบันของบอทที่กำลังทำงาน (สตริงทศนิยม)|
+|> current_per |string |กำไรขาดทุนปัจจุบันในรูปอัตราส่วนทศนิยม (เช่น `"0.05"` = 5%)|
+|> equity |string |มูลค่าสุทธิปัจจุบันในหน่วยโทเคนอ้างอิง (สตริงทศนิยม)|
+|> entry_price |string |ราคาทริกเกอร์เข้าตำแหน่งหากมีการตั้งค่า (สตริงทศนิยม)|
+|> stop_loss_price |string |ราคาหยุดขาดทุนหากมีการตั้งค่า (สตริงทศนิยม)|
+|> take_profit_price |string |ราคาทำกำไรหากมีการตั้งค่า (สตริงทศนิยม)|
+|> close_reason |string |สาเหตุการปิด: `UNKNOWN`, `CLOSED_MANUALLY`, `CLOSED_FAILED_INITIATION`, `CLOSED_SYMBOL_DELISTED`, `CLOSED_STOP_LOSS`, `CLOSED_TAKE_PROFIT`, `CLOSED_USER_BAN`, `CLOSED_TRAILING_STOP`, `CLOSE_STANDARD_CLEARANCE`, `CLOSE_TAX_TAG_CHANGE`|
+|> bot_close_code |string |รหัสการปิด: `Unknown`, `Failed initiation`, `Canceled manually`, `Auto canceled (other)`, `Auto canceled (take-profit)`, `Auto canceled (stop-loss)`, `Trailing stop`|
+|> ts_percent |string |อัตราการดึงกลับของ trailing stop ในรูปอัตราส่วนทศนิยม (เช่น `"0.05"` = 5%)|
+|> is_support_ts |boolean |สัญลักษณ์คู่เทรดนี้รองรับ trailing stop หรือไม่|
+|> enable_trailing |boolean |เปิดใช้การเลื่อนกริดตามราคาหรือไม่|
+|> limit_up_price |string |ราคาขีดจำกัดสูงสุดสำหรับการเลื่อนกริดตามราคา (สตริงทศนิยม)|
+|> ori_max_price |string |ราคาสูงสุดเดิมก่อนการเลื่อนกริด|
+|> ori_min_price |string |ราคาต่ำสุดเดิมก่อนการเลื่อนกริด|
+|> ori_cell_number |integer |จำนวนกริดเดิมก่อนการเลื่อนกริด|
+|> allow_follow |integer |อนุญาตให้คัดลอกการเทรดหรือไม่: `1` อนุญาต, `0` ไม่อนุญาต|
+|> follow_num |integer |จำนวนผู้ติดตามที่คัดลอกการเทรด|
+|> operation_time |integer |จำนวนมิลลิวินาทีตั้งแต่สร้างบอท|
+|> create_time |integer |ประทับเวลาที่สร้าง (Unix มิลลิวินาที)|
+|> end_time |integer |ประทับเวลาสิ้นสุด (Unix มิลลิวินาที) เป็น `0` หากยังทำงานอยู่|
+|> used_reward_amount |string |ยอดวอชเชอร์ที่ใช้ไปทั้งหมดในหน่วยโทเคนอ้างอิง (สตริงทศนิยม)|
+|> settlement_assets |string |ข้อมูลสินทรัพย์ที่ชำระราคาเมื่อปิดบอท|
+|> account_type |string |ประเภทบัญชี: `Unspecified`, `Unified account`, `Account upgrading`, `Spot account`, `UTA account`, `Fund account`|
+|> cum_withdrew_amount |string |กำไรที่ถอนออกสะสมในหน่วยโทเคนอ้างอิง (สตริงทศนิยม)|
+
+---
+
+### ตัวอย่างคำขอ
+
+```http
+POST /v5/grid/query-grid-detail HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672211928338
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{"grid_id":1234567890}
+```
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "status_code": 200,
+        "detail": {
+            "grid_id": "612340768081708828",
+            "symbol": "MNTUSDT",
+            "base_token": "MNT",
+            "quote_token": "USDT",
+            "total_investment": "200",
+            "total_profit": "40.4186",
+            "max_price": "1.0968",
+            "min_price": "0.3656",
+            "cell_number": 50,
+            "grid_profit": "61.3113",
+            "grid_apr": "111.893143923675",
+            "total_apr": "73.763945",
+            "arbitrage_num": 291,
+            "arbitrage_num_24": 0,
+            "allow_follow": 1,
+            "operation_time": "986587",
+            "status": "RUNNING",
+            "entry_price": "",
+            "stop_loss_price": "",
+            "take_profit_price": "",
+            "current_price": "0.7279",
+            "close_reason": "UNKNOWN_GridCloseReason",
+            "bot_close_code": "BOT_CLOSE_CODE_UNKNOWN",
+            "follow_num": 0,
+            "create_time": "1774513139000",
+            "end_time": "0",
+            "used_reward_amount": "",
+            "settlement_assets": "",
+            "account_type": "BOT_ACCOUNT_TYPE_FUND",
+            "cum_withdrew_amount": "0",
+            "current_profit": "40.4186",
+            "current_per": "0.202093",
+            "spot_symbol_status": "ONLINE",
+            "used_reward_id": "",
+            "taker_fee_rate": "0.0006",
+            "maker_fee_rate": "0.0004",
+            "equity": "237.412782",
+            "ts_exit_equity": "0",
+            "ts_percent": "0",
+            "is_support_ts": true,
+            "enable_trailing": false,
+            "limit_up_price": "",
+            "ori_max_price": "",
+            "ori_min_price": "",
+            "ori_cell_number": 0
+        },
+        "debug_msg": ""
+    },
+    "retExtInfo": {},
+    "time": 1774514125596
+}
+```

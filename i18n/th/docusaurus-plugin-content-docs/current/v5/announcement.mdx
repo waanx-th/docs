@@ -1,0 +1,82 @@
+---
+title: ดูประกาศ
+sidebar_label: ดูประกาศ
+---
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/announcements/index" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|[locale](enum#locale) |**true** |string |สัญลักษณ์ภาษา|
+|[type](enum#announcementtype) |false |string |ประเภทประกาศ|
+|[tag](enum#announcementtag) |false |string |แท็กประกาศ|
+|page |false |integer |หมายเลขหน้า ค่าเริ่มต้น: `1`|
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า ค่าเริ่มต้น: `20`|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|total |integer |จำนวนรายการทั้งหมด |
+|list |array |Object |
+|> title |string |หัวเรื่องประกาศ |
+|> description |string |คำอธิบายประกาศ |
+|> type |Object | |
+|>> title |string |หัวเรื่องของประเภทประกาศ |
+|>> [key](enum#announcementtype) |string |คีย์ของประเภทประกาศ |
+|> [tags](enum#announcementtag) |array&lt;string&gt; |แท็กของประกาศ |
+|> url |string |URL ของประกาศ |
+|> dateTimestamp |number |ประทับเวลาที่ผู้เขียนกรอก |
+|> startDataTimestamp |number |ประทับเวลาเริ่มต้น (มิลลิวินาที) ของกิจกรรม ใช้ได้เฉพาะเมื่อ `list.type.key == "latest_activities"` |
+|> endDataTimestamp |number |ประทับเวลาสิ้นสุด (มิลลิวินาที) ของกิจกรรม ใช้ได้เฉพาะเมื่อ `list.type.key == "latest_activities"` |
+|> publishTime |number |ประทับเวลาที่เผยแพร่ประกาศ|
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/announcements/index?locale=en-US&limit=1 HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "total": 735,
+        "list": [
+            {
+                "title": "New Listing: Arbitrum (ARB) — Deposit, Trade and Stake ARB to Share a 400,000 USDT Prize Pool!",
+                "description": "WaanX is excited to announce the listing of ARB on our trading platform!",
+                "type": {
+                    "title": "New Listings",
+                    "key": "new_crypto"
+                },
+                "tags": [
+                    "Spot",
+                    "Spot Listings"
+                ],
+                "url": "https://waanx.com/en/gb/announcements",
+                "dateTimestamp": 1679045608000,
+                "startDateTimestamp": 1679045608000,
+                "endDateTimestamp": 1679045608000
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1679415136117
+}
+```

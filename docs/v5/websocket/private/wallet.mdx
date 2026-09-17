@@ -1,0 +1,124 @@
+---
+title: Wallet
+sidebar_label: Wallet
+sidebar_position: 4
+---
+
+Subscribe to the wallet stream to see changes to your wallet in **real-time**.
+
+:::info
+* There is no snapshot event given at the time when the subscription is successful
+* The unrealised PnL change does not trigger an event
+* Under the new logic of UTA manual borrow, `spotBorrow` field corresponding to spot liabilities is detailed in the <a href="https://waanx.com/en/gb/announcements"> announcement</a>.<br/>
+Old `walletBalance` = New `walletBalance` - `spotBorrow`
+:::
+
+
+**Topic:** `wallet`
+
+### Response Parameters
+| Parameter | Type | Comments|
+|:----- |:-----|----- |
+|id |string |Message ID|
+|topic |string |Topic name |
+|creationTime |number |Data created timestamp (ms) |
+|data |array |Object |
+|> accountType |string |Account type `UNIFIED`|
+|> accountIMRate |string |Account IM rate <ul><li>You can refer to this [Glossary](https://support.waanx.com/en/support/home) to understand the below fields calculation and mearning</li><li>All account wide fields are <b>not</b> applicable to isolated margin</li></ul>|
+|> accountMMRate |string |Account MM rate|
+|> totalEquity |string |Account total equity (USD): ∑Asset Equity By USD value of each asset|
+|> totalWalletBalance |string |Account wallet balance (USD): ∑Asset Wallet Balance By USD value of each asset|
+|> totalMarginBalance |string |Account margin balance (USD): totalWalletBalance|
+|> totalAvailableBalance |string |Account available balance (USD), <ul><li>Cross Margin: totalMarginBalance - Haircut - totalInitialMargin.</li><li> Porfolio Margin: total Equity - Haircut - totalInitialMargin </li></ul>|
+|> totalInitialMargin |string |Account initial margin (USD): ∑Asset Total Initial Margin Base Coin|
+|> totalMaintenanceMargin |string |Account maintenance margin (USD): ∑ Asset Total Maintenance Margin Base Coin|
+|> accountIMRateByMp |string |You can **ignore** this field, and refer to `accountIMRate`, which has the same calculation|
+|> accountMMRateByMp |string |You can **ignore** this field, and refer to `accountMMRate`, which has the same calculation|
+|> totalInitialMarginByMp |string |You can **ignore** this field, and refer to `totalInitialMargin`, which has the same calculation|
+|> totalMaintenanceMarginByMp |string |You can **ignore** this field, and refer to `totalMaintenanceMargin`, which has the same calculation|
+|> accountLTV |string |**Deprecated** field|
+|> coin |array |Object |
+|>> coin |string |Coin name, such as BTC, ETH, USDT, USDC |
+|>> equity |string |Equity of coin. Asset Equity = Asset Wallet Balance = `walletBalance` - `spotBorrow`|
+|>> usdValue |string |USD value of coin. If this coin cannot be collateral, then it is 0|
+|>> walletBalance |string |Wallet balance of coin |
+|>> locked |string |Locked balance due to the Spot open order |
+|>> spotHedgingQty |string |The spot asset qty that is used to hedge in the portfolio margin, truncate to 8 decimals and "0" by default|
+|>> borrowAmount |string |Borrow amount of coin = spot liabilities|
+|>> accruedInterest	|string	|Accrued interest |
+|>> totalOrderIM |string |Pre-occupied margin for order. For portfolio margin mode, it returns ""|
+|>> totalPositionIM	|string	|Sum of initial margin of all positions + Pre-occupied liquidation fee. For portfolio margin mode, it returns "" |
+|>> totalPositionMM	|string |Sum of maintenance margin for all positions. For portfolio margin mode, it returns ""|
+|>> unrealisedPnl |string |Unrealised P&L |
+|>> cumRealisedPnl |string |Cumulative Realised P&L |
+|>> bonus |string |Bonus|
+|>> collateralSwitch |boolean |Whether it can be used as a margin collateral currency (platform) <ul><li>When marginCollateral=false, then collateralSwitch is meaningless</li></ul> |
+|>> marginCollateral |boolean |Whether the collateral is turned on by user (user) <ul><li>When marginCollateral=true, then collateralSwitch is meaningful</li></ul> |
+|>> colRes |string |Platform level collateral restriction status. `-1`: Unknown. `0`: The restriction is not enabled. `1`: The restriction is not enabled. But the crypto is close to the platform's collateral limit. `2`: The restriction is enabled. Adding collateral, enabling the collateral switch, and switching margin mode will all be rejected. Refer to the [announcement](https://waanx.com/en/gb/announcements) for more details.|
+|>> spotBorrow |string |Borrow amount by spot margin trade and manual borrow amount(does not include borrow amount by spot margin active order). `spotBorrow` field corresponding to spot liabilities is detailed in the <a href="https://waanx.com/en/gb/announcements"> announcement</a>.|
+|>> free |string |**Deprecated** since there is no Spot wallet any more|
+|>> availableToBorrow |string |**Deprecated** field, always return `""`. Please refer to `availableToBorrow` in the [Get Collateral Info](../../account/collateral-info#) |
+|>> availableToWithdraw |string |**Deprecated** for `accountType=UNIFIED` from 9 Jan, 2025 <ul><li>Transferable balance: you can use [Get Transferable Amount (Unified)](../../account/unified-trans-amnt#) or [Get All Coins Balance](../../asset/balance/all-balance#) instead</li><li>Spot (margin) available balance: refer to [Get Borrow Quota (Spot)](../../order/spot-borrow-quota#)</li></ul>|
+
+### Subscribe Example
+```json
+{
+    "op": "subscribe",
+    "args": [
+        "wallet"
+    ]
+}
+```
+
+
+
+### Stream Example
+
+```json
+{
+    "id": "592324d2bce751-ad38-48eb-8f42-4671d1fb4d4e",
+    "topic": "wallet",
+    "creationTime": 1700034722104,
+    "data": [
+        {
+            "accountIMRate": "0",
+            "accountIMRateByMp": "0",
+            "accountMMRate": "0",
+            "accountMMRateByMp": "0",
+            "totalEquity": "10262.91335023",
+            "totalWalletBalance": "9684.46297164",
+            "totalMarginBalance": "9684.46297164",
+            "totalAvailableBalance": "9556.6056555",
+            "totalInitialMargin": "0",
+            "totalInitialMarginByMp": "0",
+            "totalMaintenanceMargin": "0",
+            "totalMaintenanceMarginByMp": "0",
+            "coin": [
+                {
+                    "coin": "BTC",
+                    "equity": "0.00102964",
+                    "usdValue": "36.70759517",
+                    "walletBalance": "0.00102964",
+                    "availableToWithdraw": "0.00102964",
+                    "availableToBorrow": "",
+                    "borrowAmount": "0",
+                    "accruedInterest": "0",
+                    "totalOrderIM": "",
+                    "totalPositionIM": "",
+                    "totalPositionMM": "",
+                    "unrealisedPnl": "0",
+                    "cumRealisedPnl": "-0.00000973",
+                    "bonus": "0",
+                    "collateralSwitch": true,
+                    "marginCollateral": true,
+                    "locked": "0",
+                    "spotHedgingQty": "0.01592413",
+                    "spotBorrow": "0"
+                }
+            ],
+            "accountLTV": "0",
+            "accountType": "UNIFIED"
+        }
+    ]
+}
+```

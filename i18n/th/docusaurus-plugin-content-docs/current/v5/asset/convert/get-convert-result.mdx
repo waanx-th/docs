@@ -1,0 +1,81 @@
+---
+title: ดึงสถานะการ Convert 
+sidebar_label: ดึงสถานะการ Convert
+sidebar_position: 4
+---
+คุณสามารถเรียกดูผลการแลกเปลี่ยนได้โดยส่ง quoteTxId
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/exchange/convert-result-query" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|quoteTxId |**true** |string |ID ธุรกรรมของราคาเสนอ|
+|[accountType](/v5/enum#convertaccounttype) |**true** |string |ประเภทวอลเล็ต|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|result |object||
+|> [accountType](/v5/enum#convertaccounttype) |string|ประเภทวอลเล็ต |
+|> exchangeTxId |string |ID ธุรกรรมการแลกเปลี่ยน เหมือนกับ ID ธุรกรรมของราคาเสนอ |
+|> userId |string |ID ผู้ใช้ |
+|> fromCoin |string|เหรียญต้นทาง|
+|> fromCoinType |string|ประเภทเหรียญต้นทาง `crypto`|
+|> toCoin |string|เหรียญปลายทาง|
+|> toCoinType |string|ประเภทเหรียญปลายทาง `crypto`|
+|> fromAmount |string|จำนวนเหรียญต้นทาง (จำนวนที่ต้องการขาย)|
+|> toAmount |string|จำนวนเหรียญปลายทาง (จำนวนที่จะซื้อได้ตามอัตราแลกเปลี่ยน)|
+|> exchangeStatus |string|สถานะการแลกเปลี่ยน <ul><li>init</li><li>processing</li><li>success</li><li>failure</li></ul>|
+|> extInfo |object|ฟิลด์ที่สงวนไว้ ยังไม่มีการใช้งาน|
+|> convertRate |string|อัตราแลกเปลี่ยน|
+|> createdAt |string|เวลาที่สร้างราคาเสนอ|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/exchange/convert-result-query?quoteTxId=10100108106409343501030232064&accountType=eb_convert_funding HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1720073659847
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "ok",
+    "result": {
+        "result": {
+            "accountType": "eb_convert_funding",
+            "exchangeTxId": "10100108106409343501030232064",
+            "userId": "XXXXX",
+            "fromCoin": "ETH",
+            "fromCoinType": "crypto",
+            "fromAmount": "0.1",
+            "toCoin": "BTC",
+            "toCoinType": "crypto",
+            "toAmount": "0.00534882723991",
+            "exchangeStatus": "success",
+            "extInfo": {},
+            "convertRate": "0.0534882723991",
+            "createdAt": "1720071899995"
+        }
+    },
+    "retExtInfo": {},
+    "time": 1720073660696
+}
+```

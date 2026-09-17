@@ -1,0 +1,67 @@
+---
+title: ยืนยันราคาเสนอ 
+sidebar_label: ยืนยันราคาเสนอ
+sidebar_position: 4
+---
+:::info
+1. การแลกเปลี่ยนเป็นแบบ async กรุณาตรวจสอบสถานะสุดท้ายโดยเรียก API ประวัติการ convert
+2. โปรดยืนยันราคาเสนอก่อนที่จะหมดอายุ
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/fiat/trade-execute" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|quoteTxId |**true** |string |ID ธุรกรรมของราคาเสนอที่ได้จาก [ขอราคาเสนอ](quote-apply#response-parameters)|
+|subUserId |**true** |string|subUserId ของผู้ใช้ใน WaanX|
+|webhookUrl |false |string|URL ของ API ที่จะเรียกเมื่อคำสั่งซื้อขายสำเร็จหรือล้มเหลว (ยาวไม่เกิน 256 อักขระ)|
+|MerchantRequestId | false |string|ID คำขอที่กำหนดเอง (ความยาวสูงสุด 36)<ul><li>โดยทั่วไปไม่มีความจำเป็น แต่หากกรอกฟิลด์นี้จะช่วยให้ติดตามคำขอราคาเสนอภายในระบบของคุณได้สะดวก</li></ul>|
+
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|tradeNo |string|เลขที่คำสั่งซื้อขาย|
+|merchantRequestId |string|ID คำขอที่กำหนดเอง|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/fiat/trade-execute HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1720071899789
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+Content-Length: 52
+
+{
+    "quoteTxId": "QuoteTaxId123456",
+    "subUserId":"43456"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "tradeNo": "TradeNo123456",
+        "merchantRequestId": ""
+    }
+}
+```

@@ -1,0 +1,417 @@
+---
+title: กฎการจำกัดอัตราการเรียก
+sidebar_label: กฎการจำกัดอัตราการเรียก
+sidebar_position: 1
+---
+
+## การจำกัดตาม IP
+### การจำกัดตาม IP สำหรับ HTTP
+โดยค่าเริ่มต้น คุณสามารถส่งได้ **600 คำขอภายในกรอบเวลา 5 วินาทีต่อหนึ่ง IP** ข้อจำกัดนี้ใช้กับทราฟฟิกทั้งหมดที่ส่งไปยัง `api.waanx.com`, `api.waanx.com` และชื่อโฮสต์ของไซต์ท้องถิ่น เช่น `api.waanx.com`
+หากคุณพบข้อผิดพลาด **"403, access too frequent"** แสดงว่า IP ของคุณเรียกใช้บ่อยเกินความถี่ที่อนุญาต ในกรณีนี้ คุณควรยุติเซสชัน HTTP ทั้งหมดและรออย่างน้อย 10 นาที ระบบจะยกเลิกการระงับให้โดยอัตโนมัติ
+
+เราไม่แนะนำให้เรียกใช้แอปพลิเคชันของคุณที่ระดับใกล้เคียงกับขีดจำกัดเหล่านี้ เพราะกิจกรรมเครือข่ายที่ผิดปกติ
+อาจทำให้เกิดการละเมิดขีดจำกัดโดยไม่คาดคิดได้
+
+### การจำกัดตาม IP สำหรับ WebSocket
+* อย่าสร้างการเชื่อมต่อเกิน 500 การเชื่อมต่อภายในกรอบเวลา 5 นาที ข้อจำกัดนี้ใช้กับการเชื่อมต่อทั้งหมดที่ส่งไปยัง `stream.waanx.com` รวมถึงชื่อโฮสต์ของไซต์ท้องถิ่น เช่น `stream.waanx.com`
+* อย่าเชื่อมต่อและตัดการเชื่อมต่อบ่อยครั้ง
+* อย่าสร้างการเชื่อมต่อเกิน 1,000 การเชื่อมต่อต่อหนึ่ง IP สำหรับข้อมูลตลาด
+
+## การจำกัดอัตราการเรียก API
+:::caution
+หากคุณได้รับ `"retCode": 10006, "retMsg": "Too many visits!"` ในการตอบกลับแบบ JSON แสดงว่าคุณเรียกใช้เกินการจำกัดอัตราการเรียก API แล้ว
+:::
+การจำกัดอัตราการเรียก API คิดตาม**กรอบเวลาแบบเลื่อนต่อวินาทีและต่อ UID** กล่าวคือ เป็นการนับต่อวินาทีต่อหนึ่ง UID
+ทุกคำขอที่ส่งไปยัง API จะคืนค่าเฮดเดอร์ของการตอบกลับตามที่แสดงในแผงโค้ด:
+* `X-Bapi-Limit-Status` - จำนวนคำขอที่คุณเหลือสำหรับเอนด์พอยต์ปัจจุบัน
+* `X-Bapi-Limit` - ขีดจำกัดปัจจุบันของคุณสำหรับเอนด์พอยต์ปัจจุบัน
+* `X-Bapi-Limit-Reset-Timestamp` - ประทับเวลาที่ระบุว่าขีดจำกัดคำขอของคุณจะรีเซ็ตเมื่อใด ในกรณีที่คุณเรียกใช้เกิน rate_limit หากไม่เกิน ค่านี้จะเป็นเพียงประทับเวลาปัจจุบัน (ซึ่งอาจไม่ตรงกับ `timeNow` เสมอ)
+
+> ตัวอย่างเฮดเดอร์การตอบกลับ HTTP
+
+```http
+▶Response Headers
+Content-Type: application/json; charset=utf-8
+Content-Length: 141
+X-Bapi-Limit: 10
+X-Bapi-Limit-Status: 9
+X-Bapi-Limit-Reset-Timestamp: 1672738134824
+```
+
+### ตารางการจำกัดอัตราการเรียก API
+#### การเทรด {#trade}
+<span class="blocky_table">
+<table border="0.8">
+    <tr>
+        <th>เมธอด</th><th>พาธ</th><th align="center">UTA2.0 Pro</th><th>เพิ่มได้</th>
+    </tr>
+    <tr>
+        <td rowSpan="8">POST</td><td>/v5/order/create</td><td align="center">20/s</td><td align="center">Y</td>
+    </tr>
+    <tr>
+        <td>/v5/order/amend</td><td align="center">10/s</td><td align="center">Y</td>
+    </tr>
+    <tr>
+        <td>/v5/order/cancel</td><td align="center">20/s</td><td align="center">Y</td>
+    </tr>
+    <tr>
+        <td>/v5/order/cancel-all</td><td align="center">20/s</td><td align="center">Y</td>
+    </tr>
+    <tr>
+        <td>/v5/order/create-batch</td><td align="center">20/s</td><td align="center">Y</td>
+    </tr>
+    <tr>
+        <td>/v5/order/amend-batch</td><td align="center">20/s</td><td align="center">Y</td>
+    </tr>
+    <tr>
+        <td>/v5/order/cancel-batch</td><td align="center">20/s</td><td align="center">Y</td>
+    </tr>
+    <tr>
+        <td>/v5/order/disconnected-cancel-all</td><td align="center">5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td rowSpan="4">GET</td><td>/v5/order/realtime</td><td align="center">50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/order/history</td><td align="center">50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/execution/list</td><td align="center">50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/order/spot-borrow-check</td><td align="center">50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td rowSpan="7">POST</td><td>/v5/grid/validate-input</td><td align="center">100/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/grid/create-grid</td><td align="center">3/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/grid/close-grid</td><td align="center">3/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/grid/query-grid-detail</td><td align="center">10/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/dca/create-bot</td><td align="center">3/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/dca/close-bot</td><td align="center">3/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/strategy/create</td><td align="center">100/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td rowSpan="2">GET</td><td>/v5/strategy/list</td><td align="center">200/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/strategy/order-list</td><td align="center">200/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>POST</td><td>/v5/strategy/stop</td><td align="center">100/s</td><td align="center">N</td>
+    </tr>
+</table>
+</span>
+
+#### บัญชี
+<span class="blocky_table">
+<table border="0.8">
+    <tr>
+        <th>เมธอด</th><th>พาธ</th><th></th><th>ขีดจำกัด</th><th>เพิ่มได้</th>
+    </tr>
+    <tr>
+        <td rowSpan="18">GET</td><td>/v5/account/wallet-balance</td><td>accountType=UNIFIED</td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/withdrawal</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/borrow-history</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/borrow</td><td></td><td>1/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/repay</td><td></td><td>1/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/no-convert-repay</td><td></td><td>1/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/collateral-info</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/coin-greeks</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/transaction-log</td><td>accountType=UNIFIED</td><td>25/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/fee-rate</td><td></td><td>5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/info</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/instruments-info</td><td></td><td>10/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/mmp-state</td><td></td><td>-</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/pay-info</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/query-dcp-info</td><td></td><td>5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/smp-group</td><td></td><td>5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/trade-info-for-analysis</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/user-setting-config</td><td></td><td>50/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td rowSpan="10">POST</td><td>/v5/account/mmp-modify</td><td></td><td>5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/mmp-reset</td><td></td><td>5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/quick-repayment</td><td></td><td>1/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/set-collateral-switch</td><td></td><td>-</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/set-collateral-switch-batch</td><td></td><td>5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/set-delta-mode</td><td></td><td>-</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/set-hedging-mode</td><td></td><td>-</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/set-limit-px-action</td><td></td><td>10/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/set-margin-mode</td><td></td><td>5/s</td><td align="center">N</td>
+    </tr>
+    <tr>
+        <td>/v5/account/upgrade-to-uta</td><td></td><td>1/s</td><td align="center">N</td>
+    </tr>
+
+</table>
+</span>
+
+#### สินทรัพย์
+<span class="blocky_table">
+<table border="0.8">
+    <tr>
+        <th>เมธอด</th><th>พาธ</th><th>ขีดจำกัด</th><th>เพิ่มได้</th>
+    </tr>
+    <tr>
+        <td rowSpan="27">GET</td><td>/v5/asset/transfer/query-transfer-coin-list</td><td>60 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/transfer/query-inter-transfer-list</td><td>60 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/transfer/query-sub-member-list</td><td>60 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/transfer/query-universal-transfer-list</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/transfer/query-account-coins-balance</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/transfer/query-account-coin-balance</td><td>450 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/asset-overview</td><td>50 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/withdraw/withdrawable-amount</td><td>300 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/deposit/query-record</td><td>100 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/deposit/query-sub-member-record</td><td>300 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/deposit/query-address</td><td>300 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/deposit/query-sub-member-address</td><td>300 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/withdraw/query-record</td><td>300 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/coin/query-info</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/exchange/order-record</td><td>600 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/exchange/query-coin-list</td><td>30 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/covert/small-balance-history</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/covert/small-balance-list</td><td>10 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/deposit/query-internal-record</td><td>300 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/fiat/balance-query</td><td>1000 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/fiat/query-coin-list</td><td>1000 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/fiat/trade-query</td><td>1000 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/fiat/query-trade-history</td><td>1000 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/fundinghistory</td><td>30 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/total-members-assets</td><td>50 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/withdraw/vasp/list</td><td>1 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/withdraw/query-address</td><td>300 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td rowSpan="11">POST</td><td>/v5/asset/transfer/inter-transfer</td><td>60 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/transfer/universal-transfer</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/withdraw/create</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/withdraw/cancel</td><td>60 req/min</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/exchange/quote-apply</td><td>20 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/exchange/convert-execute</td><td>20 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/covert/small-balance-execute</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/covert/get-quote</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/deposit/deposit-to-account</td><td>300 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/fiat/trade-execute</td><td>100 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/fiat/quote-apply</td><td>1000 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td rowSpan="3">GET</td><td>/v5/asset/exchange/convert-result-query</td><td>50 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/asset/exchange/query-convert-history</td><td>50 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/fiat/reference-price</td><td>1000 req/s</td><td>N</td>
+    </tr>
+</table>
+</span>
+
+#### ผู้ใช้
+<span class="blocky_table">
+<table border="0.8">
+    <tr>
+        <th>เมธอด</th><th>พาธ</th><th>ขีดจำกัด</th><th>เพิ่มได้</th>
+    </tr>
+    <tr>
+        <td rowSpan="7">POST</td><td>/v5/user/create-sub-member</td><td>1 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/create-sub-api</td><td>1 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/frozen-sub-member</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/update-api</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/update-sub-api</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/delete-api</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/delete-sub-api</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td rowSpan="3">GET</td><td>/v5/user/query-sub-members</td><td>10 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/query-api</td><td>10 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/aff-customer-info</td><td>10 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td rowSpan="4">GET</td><td>/v5/user/submembers</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/escrow_sub_members</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/sub-apikeys</td><td>10 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>/v5/user/get-member-type</td><td>10 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>POST</td><td>/v5/user/del-submember</td><td>5 req/s</td><td>N</td>
+    </tr>
+    <tr>
+        <td>GET</td><td>/v5/user/invitation/referrals</td><td>10 req/s</td><td>N</td>
+    </tr>
+</table>
+</span>
+
+## คำอธิบายสำหรับเอนด์พอยต์แบบกลุ่ม {#instructions-for-batch-endpoints}
+:::tip
+เอนด์พอยต์คำสั่งซื้อขายแบบกลุ่ม ซึ่งครอบคลุมการสร้าง การแก้ไข และการยกเลิก มีการจำกัดอัตราการเรียกเป็นของตัวเอง และ
+ไม่ได้แบ่งใช้ร่วมกับคำขอแบบรายการเดียว *ตัวอย่างเช่น สมมติว่าการจำกัดอัตราการเรียกของเอนด์พอยต์สร้างคำสั่งซื้อขายแบบรายการเดียวคือ 100/s และเอนด์พอยต์สร้างคำสั่งซื้อขายแบบกลุ่ม
+คือ 100/s ในกรณีนี้ ฉันจะสามารถสร้างคำสั่งซื้อขายได้ 200 รายการในหนึ่งวินาที หากใช้ทั้งสองเอนด์พอยต์ในการสร้างคำสั่งซื้อขาย*
+
+- สำหรับ API สร้าง/แก้ไข/ยกเลิกคำสั่งซื้อขายแบบกลุ่ม ความถี่ของ API จะเป็นไปตามการตั้งค่าปัจจุบัน
+แต่การนับปริมาณที่ใช้ไปจะคิดตามจำนวนคำสั่งซื้อขายที่เกิดขึ้นจริง (จำนวนที่ใช้ไป = จำนวน
+คำขอ * จำนวนคำสั่งซื้อขายที่รวมอยู่ในหนึ่งคำขอ) และการตั้งค่าของแต่ละสายธุรกิจนั้นแยกจากกันโดยอิสระ
+
+- API แบบกลุ่มอนุญาตให้ส่งได้ 1-10 คำสั่งต่อหนึ่งคำขอ ตัวอย่างเช่น หากส่งคำขอคำสั่งซื้อขายแบบกลุ่มหนึ่งครั้งซึ่งมี 5 คำสั่ง
+ระบบจะนับว่าใช้ขีดจำกัดคำขอไป 5 หน่วย
+
+- หากคำสั่งซื้อขายกลุ่มสุดท้ายที่ส่งเข้ามาภายใน 1 วินาทีมีส่วนที่เกินขีดจำกัด ส่วนที่เกินขีดจำกัดจะล้มเหลว และ
+ส่วนที่ไม่เกินขีดจำกัดจะสำเร็จ ตัวอย่างเช่น ในวินาทีนั้น ขีดจำกัดคงเหลือคือ 5 แต่มีการส่งคำขอแบบกลุ่ม
+ที่มี 8 คำสั่งเข้ามาในขณะนั้น คำสั่ง 5 รายการแรกจะถูกสร้างสำเร็จ ส่วนคำสั่งรายการที่ 6-8
+จะแจ้งข้อผิดพลาดว่าเกินขีดจำกัด และคำสั่งเหล่านั้นจะล้มเหลว
+:::

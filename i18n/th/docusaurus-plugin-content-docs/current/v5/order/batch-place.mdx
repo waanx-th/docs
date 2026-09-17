@@ -1,0 +1,158 @@
+---
+title: สร้างคำสั่งซื้อขายแบบกลุ่ม
+sidebar_label: สร้างคำสั่งซื้อขายแบบกลุ่ม
+sidebar_position: 7
+---
+:::tip
+เอนด์พอยต์นี้ช่วยให้คุณสร้างคำสั่งซื้อขายได้มากกว่าหนึ่งคำสั่งในคำขอเดียว
+- โปรดตรวจสอบว่าคุณมีเงินทุนเพียงพอในบัญชีขณะสร้างคำสั่งซื้อขาย เมื่อคำสั่งซื้อขายถูกสร้างขึ้นแล้ว
+เงินทุนในบัญชีของคุณจะถูกกันไว้ตามจำนวนที่คำสั่งซื้อขายนั้นต้องใช้
+ตลอดวงจรอายุของคำสั่งซื้อขาย
+- สร้างได้สูงสุด 10 คำสั่ง (สปอต) ต่อหนึ่งคำขอ รายการข้อมูลที่ส่งกลับจะแบ่งออกเป็นสองรายการ
+รายการแรกจะระบุว่าการสร้างคำสั่งซื้อขายสำเร็จหรือไม่ และรายการที่สองจะแสดงรายละเอียดข้อมูลของคำสั่งซื้อขายที่สร้างขึ้น โครงสร้างของทั้งสองรายการเหมือนกันทั้งหมด
+:::
+
+:::info
+- **คำแนะนำเกี่ยวกับการจำกัดอัตราการเรียกของสปอต** โปรดดู[ที่นี่](../rate-limit#instructions-for-batch-endpoints)
+- **ประกาศเกี่ยวกับข้อจำกัดในการควบคุมความเสี่ยง:**<br/>
+WaanX จะตรวจสอบและติดตามคำขอ API ของคุณ เมื่อจำนวนคำสั่งซื้อขายรวมของผู้ใช้รายเดียว (นับรวมจำนวนคำสั่งซื้อขายของบัญชีหลักและบัญชีย่อยทั้งหมด) ภายในหนึ่งวัน (UTC 0 - UTC 24) เกินขีดจำกัดที่กำหนด แพลตฟอร์มขอสงวนสิทธิ์ในการแจ้งเตือน ตักเตือน และกำหนดข้อจำกัดที่จำเป็น
+ลูกค้าที่ใช้ API ถือว่ายอมรับข้อกำหนดเหล่านี้โดยปริยาย และมีหน้าที่ให้ความร่วมมือในการปรับเปลี่ยน
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/order/create-batch" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|[category](../enum#category) |**true** |string |ประเภทผลิตภัณฑ์ `spot`|
+|request |**true** |array |อ็อบเจกต์ |
+|> symbol |**true** |string |ชื่อสัญลักษณ์คู่เทรด เช่น `BTCUSDT` ตัวพิมพ์ใหญ่เท่านั้น |
+|> isLeverage |false |integer |จะยืมหรือไม่ ใช้ได้กับ `spot`** เท่านั้น `0`(default): ไม่ยืม เป็นการเทรดสปอต, `1`: ยืม เป็นการเทรดมาร์จิ้น|
+|> side |**true** |string |`Buy`, `Sell`|
+|> [orderType](../enum#ordertype) |**true** |string |`Market`, `Limit`|
+|> qty |**true** |string |จำนวนคำสั่งซื้อขาย <ul><li>สปอต: ตั้งค่า `marketUnit` เพื่อกำหนดหน่วยของจำนวนคำสั่งแบบราคาตลาด โดยคำสั่งซื้อแบบราคาตลาดจะใช้ `quoteCoin` เป็นค่าเริ่มต้น และคำสั่งขายแบบราคาตลาดจะใช้ `baseCoin` เป็นค่าเริ่มต้น</li></ul>|
+|> marketUnit |false |string |หน่วยของ `qty` เมื่อสร้างคำสั่ง**แบบราคาตลาดในตลาดสปอต** โดยรองรับ `orderFilter`="tpslOrder" และ "StopOrder" ด้วย<ul><li>`baseCoin`: ตัวอย่างเช่น ซื้อ BTCUSDT หน่วยของ "qty" จะเป็น BTC</li><li>`quoteCoin`: ตัวอย่างเช่น ขาย BTCUSDT หน่วยของ "qty" จะเป็น USDT</li></ul>|
+|> price |false |string |ราคาคำสั่งซื้อขาย <ul><li>คำสั่งแบบราคาตลาดจะไม่สนใจฟิลด์นี้</li><li>โปรดตรวจสอบราคาต่ำสุดและความละเอียดของราคาจากเอนด์พอยต์ [instrument info](../market/instrument#response-parameters)</li></ul> |
+|> orderFilter |false |string |หากไม่ส่งค่ามา จะใช้ `Order` เป็นค่าเริ่มต้น <ul><li>`Order`</li><li>`tpslOrder`: คำสั่ง TP/SL ของสปอต สินทรัพย์จะถูกกันไว้ตั้งแต่ก่อนที่คำสั่งจะถูกทริกเกอร์</li><li>`StopOrder`: คำสั่งแบบมีเงื่อนไขของสปอต สินทรัพย์จะยังไม่ถูกกันไว้จนกว่าราคาของสินทรัพย์อ้างอิงจะถึงราคาทริกเกอร์ และสินทรัพย์ที่จำเป็นจะถูกกันไว้หลังจากคำสั่งแบบมีเงื่อนไขถูกทริกเกอร์แล้ว</li></ul>ใช้ได้กับ `spot` **เท่านั้น**|
+|> triggerPrice |false |string |<ul><li>สำหรับสปอต นี่คือราคาทริกเกอร์ของ `orderFilter`="tpslOrder" หรือ "StopOrder"</li></ul>|
+|> [timeInForce](../enum#timeinforce) |false |string |<a href="https://support.waanx.com/en/support/home">ระยะเวลามีผลของคำสั่ง</a> <ul><li>คำสั่งแบบราคาตลาดจะใช้ `IOC` เสมอ</li><li>หากไม่ส่งค่ามา จะใช้ `GTC` เป็นค่าเริ่มต้น</li> </ul>|
+|> orderLinkId |false |string |รหัสคำสั่งซื้อขายที่ผู้ใช้กำหนดเอง ความยาวไม่เกิน 36 อักขระ รองรับการผสมกันของตัวเลข ตัวอักษร (ทั้งพิมพ์ใหญ่และพิมพ์เล็ก) เครื่องหมายขีดกลาง และเครื่องหมายขีดล่าง<br/>_สปอต: กฎของ orderLinkId:_ <ul><li>เป็นพารามิเตอร์ที่ไม่จำเป็น</li><li>ต้องไม่ซ้ำกันเสมอ</li></ul>_ออปชัน: กฎของ orderLinkId:_ <ul><li>เป็นพารามิเตอร์ที่**จำเป็น**</li><li>ต้องไม่ซ้ำกันเสมอ</li></ul>|
+|> takeProfit |false |string |ราคาทำกำไร|
+|> stopLoss |false |string |ราคาหยุดขาดทุน|
+|> [smpType](../enum#smptype) |false |string |ประเภทการดำเนินการของ Smp [SMP คืออะไร?](../smp)|
+|> tpLimitPrice |false |string |ราคาของคำสั่งแบบจำกัดราคาเมื่อราคาทำกำไรถูกทริกเกอร์ <ul><li>สปอต: จำเป็นเมื่อคำสั่งมีการตั้งค่า `takeProfit` และ `tpOrderType=Limit`</li></ul>|
+|> slLimitPrice |false |string |ราคาของคำสั่งแบบจำกัดราคาเมื่อราคาหยุดขาดทุนถูกทริกเกอร์<ul><li>สปอต: จำเป็นเมื่อคำสั่งมีการตั้งค่า `stopLoss` และ `slOrderType=Limit`</li></ul>|
+|> tpOrderType |false |string |ประเภทคำสั่งซื้อขายเมื่อการทำกำไรถูกทริกเกอร์ <ul><li>สปอต: <br/>`Market`: เมื่อคุณตั้งค่า "takeProfit", <br/>`Limit`: เมื่อคุณตั้งค่า "takeProfit" และ "tpLimitPrice" </li></ul>|
+|> slOrderType |false |string |ประเภทคำสั่งซื้อขายเมื่อการหยุดขาดทุนถูกทริกเกอร์ <ul><li>สปอต: <br/>`Market`: เมื่อคุณตั้งค่า "stopLoss", <br/>`Limit`: เมื่อคุณตั้งค่า "stopLoss" และ "slLimitPrice" </li></ul>|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|result |Object | |
+|> list |array |อ็อบเจกต์ |
+|>> category |string |ประเภทผลิตภัณฑ์ |
+|>> symbol |string |ชื่อสัญลักษณ์คู่เทรด |
+|>> orderId |string |รหัสคำสั่งซื้อขาย |
+|>> orderLinkId |string |รหัสคำสั่งซื้อขายที่ผู้ใช้กำหนดเอง |
+|>> createAt |string |เวลาที่สร้างคำสั่งซื้อขาย (ms) |
+|retExtInfo |Object | |
+|> list |array |อ็อบเจกต์ |
+|>> code |number |รหัสสำเร็จ/ข้อผิดพลาด |
+|>> msg |string |ข้อความสำเร็จ/ข้อผิดพลาด |
+
+:::info
+การตอบรับ (ack) ของคำขอสร้างคำสั่งซื้อขายหมายความเพียงว่าคำขอถูกรับเข้าระบบสำเร็จแล้ว คำขอนี้เป็นแบบอะซิงโครนัส ดังนั้นโปรดใช้ WebSocket เพื่อยืนยันสถานะของคำสั่งซื้อขาย
+:::
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/order/create-batch HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672222064519
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{
+    "category": "spot",
+    "request": [
+        {
+            "symbol": "BTCUSDT",
+            "side": "Buy",
+            "orderType": "Limit",
+            "isLeverage": 0,
+            "qty": "0.05",
+            "price": "30000",
+            "timeInForce": "GTC",
+            "orderLinkId": "spot-btc-03"
+        },
+        {
+            "symbol": "ATOMUSDT",
+            "side": "Sell",
+            "orderType": "Limit",
+            "isLeverage": 0,
+            "qty": "2",
+            "price": "12",
+            "timeInForce": "GTC",
+            "orderLinkId": "spot-atom-03"
+        }
+    ]
+}
+```
+
+</TabItem>
+
+
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "list": [
+            {
+                "category": "spot",
+                "symbol": "BTCUSDT",
+                "orderId": "1666800494330512128",
+                "orderLinkId": "spot-btc-03",
+                "createAt": "1713434102752"
+            },
+            {
+                "category": "spot",
+                "symbol": "ATOMUSDT",
+                "orderId": "1666800494330512129",
+                "orderLinkId": "spot-atom-03",
+                "createAt": "1713434102752"
+            }
+        ]
+    },
+    "retExtInfo": {
+        "list": [
+            {
+                "code": 0,
+                "msg": "OK"
+            },
+            {
+                "code": 0,
+                "msg": "OK"
+            }
+        ]
+    },
+    "time": 1713434102753
+}
+```

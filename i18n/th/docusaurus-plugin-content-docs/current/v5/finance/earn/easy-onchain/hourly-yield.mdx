@@ -1,0 +1,88 @@
+---
+title: ดูประวัติผลตอบแทนรายชั่วโมง
+sidebar_label: ดูประวัติผลตอบแทนรายชั่วโมง
+sidebar_position: 6
+---
+:::info
+คีย์ API ต้องมีสิทธิ์ "Earn"
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/earn/hourly-yield" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|category|**true**|string|`FlexibleSaving`|
+| productId   | false    | string    | รหัสผลิตภัณฑ์                                                                                                                      |
+| startTime   | false    | integer  | ประทับเวลาเริ่มต้น (มิลลิวินาที)<ul><li> 1. หากไม่ได้ระบุทั้งสองค่า ค่าเริ่มต้นคือส่งข้อมูล 7 วันล่าสุดกลับมา</li><li>2. หากระบุทั้งสองค่า ผลต่างระหว่าง endTime และ startTime ต้องน้อยกว่าหรือเท่ากับ 7 วัน </li></ul>                                                                                           |
+| endTime     | false    | integer  | ประทับเวลาสิ้นสุด (มิลลิวินาที)                                                                                                              |
+| limit       | false    | integer  | จำนวนข้อมูลสูงสุดต่อหน้า ช่วงค่า: [1, 100] ค่าเริ่มต้น: 50                                                                            |
+| cursor      | false    | string  | เคอร์เซอร์ ใช้ `nextPageCursor` ที่ส่งกลับมาเพื่อค้นหาข้อมูลหน้าถัดไป                                                       |
+
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|nextPageCursor |string |ดูพารามิเตอร์คำขอ `cursor` |
+| list                    | array  | Object                                                                                                     |
+| > productId             | string  | รหัสผลิตภัณฑ์                                                                                                 |
+| > coin                  | string | ชื่อเหรียญ: "BTC", "ETH"                                                                                               |
+| > id                    | string | คีย์ที่ไม่ซ้ำกัน (รับประกันความไม่ซ้ำภายในผู้ใช้รายเดียวกันเท่านั้น)                                              |
+| > amount                | string | จำนวนผลตอบแทน ตัวอย่าง: 10                                                                                                |
+| > effectiveStakingAmount| string | จำนวนที่สเตคซึ่งมีผล เช่น 1000.00                                                                    |
+| > status                | string | สถานะคำสั่ง: `Pending`, `Success`, `Fail`                                                                 |
+| > hourlyDate               | string | เวลาของผลตอบแทนรายชั่วโมง (มิลลิวินาที) เช่น 1755478800000                                                                                  |
+| > createdAt             | string | เวลาที่สร้างคำสั่งเป็นมิลลิวินาที เช่น 1684738540561                                                   |
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/earn/hourly-yield?category=FlexibleSaving HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1739937044221
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+```
+
+</TabItem>
+
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "list": [
+            {
+                "productId": "428",
+                "coin": "USDT",
+                "amount": "0.060810502283105022",
+                "effectiveStakingAmount": "1000",
+                "hourlyDate": "1759989600000",
+                "status": "Success",
+                "createdAt": "1759989603000"
+            }
+        ],
+        "nextPageCursor": ""
+    },
+    "retExtInfo": {},
+    "time": 1759993045287
+}
+```

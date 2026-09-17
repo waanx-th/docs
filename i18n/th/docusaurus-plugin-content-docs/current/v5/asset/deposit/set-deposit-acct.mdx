@@ -1,0 +1,66 @@
+---
+title: ตั้งค่าบัญชีรับเงินฝาก
+sidebar_label: ตั้งค่าบัญชีรับเงินฝาก
+sidebar_position: 11.5
+---
+ตั้งค่าบัญชีที่จะโอนเข้าอัตโนมัติหลังการฝาก มีฟังก์ชันเดียวกับการตั้งค่าการฝากบน <a href="https://waanx.com">web GUI</a>
+
+:::info
+* โดยค่าเริ่มต้น เงินของคุณจะถูกฝากเข้าวอลเล็ต `FUND` คุณสามารถตั้งค่าวอลเล็ตสำหรับการโอนอัตโนมัติหลังการฝากได้ผ่าน API นี้
+* เข้าถึงได้ด้วย UID **บัญชีหลัก** เท่านั้น
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/asset/deposit/deposit-to-account" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|[accountType](../../enum#accounttype)|**true** | string |ประเภทบัญชี `UNIFIED`, `FUND`, `EARN`(หากเหรียญนั้นไม่รองรับการออมแบบยืดหยุ่น เงินจะถูกโอนไปยัง funding wallet)|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|status|integer |ผลของคำขอ: <ul><li>`1`: SUCCESS</li><li>`0`: FAIL</li></ul>|
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/asset/deposit/deposit-to-account HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1676887913670
+X-BAPI-RECV-WINDOW: 50000
+Content-Type: application/json
+
+{
+    "accountType": "CONTRACT"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "status": 1
+    },
+    "retExtInfo": {},
+    "time": 1676887914363
+}
+```

@@ -1,0 +1,186 @@
+---
+title: ดึงข้อมูลสัญลักษณ์คู่เทรด
+sidebar_label: ดึงข้อมูลสัญลักษณ์คู่เทรด
+sidebar_position: 4.5
+---
+
+สอบถามข้อกำหนดของสัญลักษณ์คู่เทรดที่เปิดให้เทรดอยู่
+> **ครอบคลุม: สปอต**
+
+:::info
+* สปอตไม่รองรับการแบ่งหน้า ดังนั้น `limit`, `cursor` จึงไม่มีผล
+:::
+
+:::caution
+* ในช่วงที่ตลาดมีความผันผวนรุนแรง เอนด์พอยต์นี้อาจมีความหน่วงเพิ่มขึ้นหรือมีความล่าช้าในการส่งข้อมูลชั่วคราว
+* ฟิลด์ `maxLimitOrderQty`, `maxMarketOrderQty` และ `postOnlyMaxLimitOrderSize` จะถูกปรับทุกครึ่งเดือน (วันที่ 3 และ 17 เวลา 08:00 UTC+8) นักพัฒนาไม่ควรสันนิษฐานว่าค่าเหล่านี้จะคงที่เสมอ
+:::
+
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/market/instruments-info" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|[category](../enum#category) |**true** |string |ประเภทผลิตภัณฑ์ `spot`|
+|[symbol](../enum#symbol) |false |string |ชื่อสัญลักษณ์คู่เทรด เช่น `BTCUSDT` ตัวพิมพ์ใหญ่เท่านั้น|
+|[symbolType](../enum#symboltype) |false |string |SymbolType: ภูมิภาคที่สัญลักษณ์คู่เทรดนั้นสังกัดอยู่|
+|[status](../enum#status) |false |string |ตัวกรองสถานะของสัญลักษณ์คู่เทรด <ul><li>ค่าเริ่มต้นจะส่งกลับเฉพาะสัญลักษณ์คู่เทรดที่มีสถานะ `Trading`</li></ul>|
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `1000`] ค่าเริ่มต้น: `500`|
+|cursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextPageCursor` จากการตอบกลับเพื่อดึงข้อมูลหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+    <table border="0.8">
+        <tr>
+            <th>พารามิเตอร์</th><th>ประเภท</th><th>คำอธิบาย</th>
+        </tr>
+        <tr>
+            <td>category</td><td>string</td><td>ประเภทผลิตภัณฑ์</td>
+        </tr>
+        <tr>
+            <td>list</td><td>array</td><td>อ็อบเจกต์</td>
+        </tr>
+        <tr>
+            <td>> symbolId</td><td>integer</td><td>ID ของชื่อสัญลักษณ์คู่เทรด </td>
+        </tr>
+        <tr>
+            <td>> symbol</td><td>string</td><td>ชื่อสัญลักษณ์คู่เทรด </td>
+        </tr>
+        <tr>
+            <td>> baseCoin</td><td>string</td><td>เหรียญฐาน </td>
+        </tr>
+        <tr>
+            <td>> quoteCoin</td><td>string</td><td>เหรียญอ้างอิง </td>
+        </tr>
+        <tr>
+            <td>> innovation</td><td>string</td><td>เลิกใช้แล้ว โปรดใช้ <code>symbolType</code></td>
+        </tr>
+        <tr>
+            <td>> <a href="../enum#symboltype">symbolType</a></td><td>string</td><td>ภูมิภาคที่สัญลักษณ์คู่เทรดนี้สังกัดอยู่</td>
+        </tr>
+        <tr>
+            <td>> xstockMultiplier</td><td>string</td><td>ตัวคูณของ Xstock <li>ใช้ได้กับสัญลักษณ์คู่เทรดที่ "symbolType"=<code>xstocks</code> เท่านั้น<br/>ความสัมพันธ์: stock_price = token_price / mutiplier; stock_qty = token_qty * mutiplier</li><li>ค่าเริ่มต้น: "1"</li></td>
+        </tr>
+        <tr>
+            <td>> <a href="../enum#status">status</a></td><td>string</td><td>สถานะของสัญลักษณ์คู่เทรด </td>
+        </tr>
+        <tr>
+            <td>> <a href="../enum#margintrading">marginTrading</a></td><td>string</td><td>สัญลักษณ์คู่เทรดนี้รองรับการเทรดมาร์จิ้นหรือไม่<ul><li>ใช้ระบุว่าสัญลักษณ์คู่เทรดนี้รองรับการเทรดมาร์จิ้นภายใต้โหมดบัญชีต่าง ๆ หรือไม่</li><li>คุณอาจพบว่าสัญลักษณ์คู่เทรดบางรายการไม่รองรับการซื้อแบบมาร์จิ้นหรือการขายแบบมาร์จิ้น ดังนั้นคุณต้องไปที่ <a href="/v5/account/collateral-info">ข้อมูลหลักประกัน (UTA)</a> เพื่อตรวจสอบว่าเหรียญนั้นสามารถยืมได้หรือไม่</li><li>เมื่อกองทุนให้กู้มียอดคงเหลือไม่เพียงพอที่จะปล่อยกู้ (ซึ่งอาจเกิดขึ้นในช่วงที่ตลาดเคลื่อนไหวรุนแรง) ค่านี้จะเปลี่ยนเป็น <code>none</code> จนกว่าจะมียอดคงเหลือเพียงพอที่จะเปิดใช้งานการเทรดมาร์จิ้นได้อีกครั้ง</li></ul></td>
+        </tr>
+         <tr>
+            <td>> stTag</td><td>string</td><td>มี<a href="https://support.waanx.com/en/support/home">ป้ายกำกับการดูแลเป็นพิเศษ</a>หรือไม่ <code>0</code>: false, <code>1</code>: true </td>
+        </tr>
+        <tr>
+            <td>> lotSizeFilter</td><td>Object</td><td>คุณลักษณะเกี่ยวกับจำนวน </td>
+        </tr>
+        <tr>
+            <td>>> basePrecision</td><td>string</td><td>ความละเอียดของเหรียญฐาน </td>
+        </tr>
+        <tr>
+            <td>>> quotePrecision</td><td>string</td><td>ความละเอียดของเหรียญอ้างอิง </td>
+        </tr>
+        <tr>
+            <td>>> minOrderQty</td><td>string</td><td>จำนวนคำสั่งซื้อขายขั้นต่ำ เลิกใช้แล้ว ไม่มีการตรวจสอบ <code>minOrderQty</code> อีกต่อไป ให้ตรวจสอบ <code>minOrderAmt</code> แทน</td>
+        </tr>
+        <tr>
+            <td>>> maxOrderQty</td><td>string</td><td>จำนวนคำสั่งซื้อขายสูงสุด เลิกใช้แล้ว โปรดดู <code>maxLimitOrderQty</code>, <code>maxMarketOrderQty</code> ตามประเภทคำสั่งซื้อขาย </td>
+        </tr>
+        <tr>
+            <td>>> minOrderAmt</td><td>string</td><td>มูลค่าคำสั่งซื้อขายขั้นต่ำ </td>
+        </tr>
+        <tr>
+            <td>>> maxOrderAmt</td><td>string</td><td>มูลค่าคำสั่งซื้อขายสูงสุด เลิกใช้แล้ว ไม่มีการตรวจสอบ <code>maxOrderAmt</code> อีกต่อไป ให้ตรวจสอบ <code>maxLimitOrderQty</code> และ <code>maxMarketOrderQty</code> แทน</td>
+        </tr>
+        <tr>
+            <td>>> maxLimitOrderQty</td><td>string</td><td>จำนวนสูงสุดของคำสั่งแบบจำกัดราคา <ul><li>สำหรับคำสั่งแบบ post-only และคำสั่งแบบปรับปรุงราคาสำหรับนักลงทุนรายย่อย (RPI) จำนวนสูงสุดของคำสั่งแบบจำกัดราคาจะเท่ากับ 5 เท่าของ <code>maxLimitOrderQty</code></li></ul></td>
+        </tr>
+        <tr>
+            <td><nobr>>> maxMarketOrderQty</nobr></td><td>string</td><td>จำนวนสูงสุดของคำสั่งแบบราคาตลาด </td>
+        </tr>
+         <tr>
+            <td>>> postOnlyMaxLimitOrderSize </td><td>string</td><td>ขนาดสูงสุดของคำสั่งแบบจำกัดราคาสำหรับคำสั่งแบบ Post-only และ RPI </td>
+        </tr>
+        <tr>
+            <td>> priceFilter</td><td>Object</td><td>คุณลักษณะเกี่ยวกับราคา </td>
+        </tr>
+        <tr>
+            <td>>> tickSize</td><td>string</td><td>ขั้นการเพิ่ม/ลดราคาคำสั่งซื้อขาย </td>
+        </tr>
+        <tr>
+            <td>> riskParameters</td><td>Object</td><td>พารามิเตอร์ความเสี่ยงของราคาคำสั่งแบบจำกัดราคา ดูรายละเอียดได้ที่<a href="https://waanx.com/en/gb/announcements">ประกาศ</a></td>
+        </tr>
+        <tr>
+            <td>>> priceLimitRatioX</td><td>string</td><td>อัตราส่วน X</td>
+        </tr>
+        <tr>
+            <td>>> priceLimitRatioY</td><td>string</td><td>อัตราส่วน Y</td>
+        </tr>
+    </table>
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/market/instruments-info?category=spot&symbol=BTCUSDT HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "category": "spot",
+        "list": [
+            {
+                "symbolId": 9,
+                "symbol": "BTCUSDT",
+                "baseCoin": "BTC",
+                "quoteCoin": "USDT",
+                "innovation": "0",
+                "status": "Trading",
+                "marginTrading": "utaOnly",
+                "stTag": "0",
+                "lotSizeFilter": {
+                    "basePrecision": "0.000001",
+                    "quotePrecision": "0.0000001",
+                    "minOrderQty": "0.000011",
+                    "maxOrderQty": "83",
+                    "minOrderAmt": "5",
+                    "maxOrderAmt": "8000000",
+                    "maxLimitOrderQty": "83",
+                    "maxMarketOrderQty": "41.5",
+                    "postOnlyMaxLimitOrderSize":"60000"
+
+                },
+                "priceFilter": {
+                    "tickSize": "0.1"
+                },
+                "riskParameters": {
+                    "priceLimitRatioX": "0.005",
+                    "priceLimitRatioY": "0.01"
+                },
+                "symbolType": ""
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1760027412300
+}
+```

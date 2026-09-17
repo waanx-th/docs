@@ -1,0 +1,59 @@
+---
+title: ยกเลิกการถอน
+sidebar_label: ยกเลิกการถอน
+sidebar_position: 17
+---
+
+ยกเลิกการถอน
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/asset/withdraw/cancel" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|id |**true** |string |รหัสการถอน |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|status |integer|`0`: ล้มเหลว `1`: สำเร็จ |
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/asset/withdraw/cancel HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672197227732
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: XXXXX
+Content-Type: application/json
+
+{
+    "id": "10197"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "status": 1
+    },
+    "retExtInfo": {},
+    "time": 1672197228408
+}
+```

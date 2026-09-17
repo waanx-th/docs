@@ -1,0 +1,108 @@
+---
+title: ดูรายชื่อ Sub-Affiliate ของ Affiliate
+sidebar_label: ดูรายชื่อ Sub-Affiliate ของ Affiliate
+sidebar_position: 3
+---
+
+หากต้องการใช้เอนด์พอยต์นี้ คุณต้องมีบัญชี affiliate และเลือกเฉพาะสิทธิ์ "affiliate" ตอนสร้างคีย์ API<br/>
+ไซต์ Affiliate: https://waanx.com
+
+:::tip
+* ใช้ UID ของบัญชีหลักเท่านั้น
+* คีย์ API สามารถมีได้เพียงสิทธิ์ "Affiliate" เท่านั้น
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/affiliate/affiliate-sub-list" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|cursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextPageCursor` จากการตอบกลับเพื่อดึงหน้าถัดไปของชุดผลลัพธ์|
+|size |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`0`, `100`] ค่าเริ่มต้น: `0`|
+|startDate |false |string |วันเริ่มต้นของช่วงที่เรียกดู รูปแบบ `YYYY-MM-DD` ช่วงระหว่าง "startDate" และ "endTime" ต้องไม่เกิน 3 เดือน|
+|endDate |false |string |วันสิ้นสุดของช่วงที่เรียกดู รูปแบบ `YYYY-MM-DD` ต้องระบุ "startDate" และ "endDate" ทั้งคู่ หรือไม่ระบุทั้งคู่ หากไม่ระบุทั้งคู่ จะคืนข้อมูล T-1 เป็นค่าเริ่มต้น|
+|subAffId |false |integer |Sub-affiliate ID สำหรับค้นหาแบบตรงตัว ส่งค่า `0` หรือไม่ส่ง เพื่อคืนข้อมูล sub-affiliate ทั้งหมดโดยไม่กรอง|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array |Object |
+|> subAffId |string |Sub-affiliate ID |
+|> userId |string |UID ของ sub-affiliate |
+|> name |string |ชื่อเล่นของบัญชี sub-affiliate |
+|> email |string |อีเมลของ sub-affiliate (ปิดบังบางส่วน) |
+|> commissionsVol |json |จำนวนค่าคอมมิชชันของแต่ละสกุลเงินสำหรับช่วงวันที่ที่เรียกดู (สกุลเงินคงที่ห้าสกุล: BTC / ETH / MNT / USDC / USDT)|
+|> commissionsForUsdt |string |ค่าคอมมิชชันรวมที่แปลงเป็น USDT สำหรับช่วงวันที่ที่เรียกดู|
+|> becameAffTime |string |เวลาที่ผู้ใช้รายนี้กลายเป็น sub-affiliate รูปแบบ `YYYY-MM-DD HH:mm:ss` (UTC)|
+|> startDate |string |เวลาเริ่มต้นของการเรียกดูที่สะท้อนกลับจากพารามิเตอร์คำขอ รูปแบบ `YYYY-MM-DD HH:mm:ss`|
+|> endDate |string |เวลาสิ้นสุดของการเรียกดูที่สะท้อนกลับจากพารามิเตอร์คำขอ รูปแบบ `YYYY-MM-DD HH:mm:ss`|
+|nextPageCursor |string |ดูพารามิเตอร์คำขอ `cursor`|
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/affiliate/affiliate-sub-list?cursor=&size=100&startDate=2024-01-01&endDate=2024-01-31 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1706745600000
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: xxxxxx
+Content-Type: application/json
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+
+```
+
+</TabItem>
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "list": [
+            {
+                "subAffId": "10001",
+                "userId": "123456789",
+                "name": "sub_affiliate_nick",
+                "email": "sub***@example.com",
+                "commissionsVol": {
+                    "BTC": "0.005",
+                    "ETH": "0.2",
+                    "MNT": "40.0",
+                    "USDC": "100.0",
+                    "USDT": "400.0"
+                },
+                "commissionsForUsdt": "550.00",
+                "becameAffTime": "2023-06-01 10:00:00",
+                "startDate": "2024-01-01 00:00:00",
+                "endDate": "2024-01-31 23:59:59"
+            }
+        ],
+        "nextPageCursor": "eyJsYXN0SWQiOiIxMDAwMSJ9"
+    },
+    "retExtInfo": {},
+    "time": 1706745600000
+}
+```

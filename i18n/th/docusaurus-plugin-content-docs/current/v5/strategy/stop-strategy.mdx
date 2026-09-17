@@ -1,0 +1,73 @@
+---
+title: หยุดกลยุทธ์
+sidebar_label: หยุดกลยุทธ์
+sidebar_position: 4
+---
+
+หยุดกลยุทธ์ที่กำลังทำงานอยู่ เมื่อหยุดแล้วจะไม่สามารถเริ่มกลยุทธ์นั้นต่อได้อีก
+
+**ผลที่เกิดขึ้นเมื่อหยุด:**
+- สถานะกลยุทธ์เปลี่ยนเป็น `Terminated`
+- คำสั่งซื้อขายที่ยังไม่จับคู่จะถูกยกเลิกโดยอัตโนมัติ
+- คำสั่งซื้อขายที่จับคู่สำเร็จบางส่วนจะถูกยกเลิกในจำนวนที่เหลือ
+- คำสั่งซื้อขายที่จับคู่สำเร็จแล้วจะไม่ได้รับผลกระทบ
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/strategy/stop" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย |
+|:----- |:-------|:-----|------ |
+|strategyId |**true** |string |ID ของกลยุทธ์ที่ต้องการหยุด |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย |
+|:----- |:-----|----- |
+|strategyId |string |ID ของกลยุทธ์ที่ถูกหยุด |
+
+### ตัวอย่างคำขอ
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/strategy/stop HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1773711467000
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{
+    "strategyId": "119b6211-2611-461b-be5e-5ac557099e82"
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+```
+
+</TabItem>
+<TabItem value="Node" label="Node.js">
+
+```n4js
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "strategyId": "119b6211-2611-461b-be5e-5ac557099e82"
+    },
+    "retExtInfo": {},
+    "time": 1773711467052
+}
+```

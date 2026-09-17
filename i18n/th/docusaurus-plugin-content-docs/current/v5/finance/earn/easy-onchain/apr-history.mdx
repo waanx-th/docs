@@ -1,0 +1,101 @@
+---
+title: ดูประวัติ APR
+sidebar_label: ดูประวัติ APR
+sidebar_position: 7
+---
+:::info
+ไม่จำเป็นต้องยืนยันตัวตน
+:::
+
+:::note
+คุณสามารถค้นหาข้อมูล APR ย้อนหลังได้สูงสุด 6 เดือน
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/earn/apr-history" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|category|**true**|string|`FlexibleSaving`,`OnChain`|
+|productId|**true**|string|รหัสผลิตภัณฑ์ จาก [GET /v5/earn/product](product-info.mdx)|
+|startTime|false|integer|ประทับเวลาเริ่มต้น (มิลลิวินาที) หากไม่ได้ระบุทั้ง `startTime` และ `endTime` ระบบจะส่งข้อมูล 7 วันล่าสุดกลับมาเป็นค่าเริ่มต้น|
+|endTime|false|integer|ประทับเวลาสิ้นสุด (มิลลิวินาที) ผลต่างระหว่าง `endTime` และ `startTime` ต้องน้อยกว่าหรือเท่ากับ 182 วัน|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list|array|Object|
+|> timestamp|string|ประทับเวลา Unix (มิลลิวินาที) ณ เวลาเที่ยงคืนของวันที่ที่เกี่ยวข้อง|
+|> apr|string|APR เป็นสตริงทศนิยม เช่น `"0.055"` หมายถึง 5.5%|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/earn/apr-history?productId=8&category=OnChain HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+
+```
+
+</TabItem>
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "list": [
+            {
+                "timestamp": "1773705600000",
+                "apr": "15%"
+            },
+            {
+                "timestamp": "1773619200000",
+                "apr": "15%"
+            },
+            {
+                "timestamp": "1773532800000",
+                "apr": "15%"
+            },
+            {
+                "timestamp": "1773446400000",
+                "apr": "15%"
+            },
+            {
+                "timestamp": "1773360000000",
+                "apr": "15%"
+            },
+            {
+                "timestamp": "1773273600000",
+                "apr": "15%"
+            },
+            {
+                "timestamp": "1773187200000",
+                "apr": "15%"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1773741812091
+}
+```

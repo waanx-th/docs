@@ -1,0 +1,393 @@
+---
+title: ภาพรวมสินทรัพย์
+sidebar_label: ภาพรวมสินทรัพย์
+sidebar_position: 4
+---
+
+สอบถามสินทรัพย์รวมและรายละเอียดการถือครองสินทรัพย์ของบัญชีหลักหรือบัญชีย่อยหนึ่งบัญชี ครอบคลุมบัญชีและหมวดหมู่ผลิตภัณฑ์ต่าง ๆ
+
+:::info
+เอนด์พอยต์นี้ไม่รองรับบัญชีระดับภูมิภาคใด ๆ เช่น WaanX KZ, GE, EU เป็นต้น
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/asset-overview" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | หมายเหตุ|
+|:----- |:-------|:-----|------ |
+|memberId |false |string |ID ผู้ใช้ เมื่อใช้คีย์ API ของบัญชีหลักเพื่อสอบถามสินทรัพย์ของบัญชีย่อย ฟิลด์นี้จำเป็น |
+|valuationCurrency |false |string |สกุลเงินตราที่ใช้ตีมูลค่า ใช้ `USD` เป็นค่าเริ่มต้นหากไม่ได้ส่งค่า |
+|[accountType](../../enum#assetaccounttype) |false |string |ประเภทบัญชี  คืนค่าทั้งหมดหากไม่ได้ส่งค่า |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | หมายเหตุ|
+|:----- |:-----|----- |
+|totalEquity |string |ส่วนของผู้ถือรวมของทุกบัญชี ตีมูลค่าด้วยสกุลเงินตีมูลค่าของผู้ใช้ |
+|list |array |รายการการถือครองของบัญชี |
+|> [accountType](../../enum#assetaccounttype) |string |ประเภทบัญชี |
+|> totalEquity |string |ส่วนของผู้ถือรวมของบัญชีนี้ |
+|> valuationCurrency |string |สกุลเงินตีมูลค่าของบัญชีนี้ |
+|> snapshotTime |string |เวลาของสแนปช็อตข้อมูล เป็น Unix timestamp (มิลลิวินาที) |
+|> coinDetail |array |การถือครองระดับเหรียญ คืนค่าสำหรับบัญชีที่ไม่มีหมวดหมู่ย่อย |
+|>> coin |string |ชื่อเหรียญ |
+|>> equity |string |จำนวนส่วนของผู้ถือของเหรียญ |
+|> categories |array |การแยกตามหมวดหมู่ย่อย คืนค่าสำหรับบัญชีที่มีหมวดหมู่ย่อยของผลิตภัณฑ์ (เช่น `Earn`, `TradingBot`, `CopyTrading`, `UnifiedTradingAccount`) สำหรับ `UnifiedTradingAccount` หมวดหมู่คือ `crypto` และ `stocks` |
+|>> [category](../../enum#assetcategory) |string |ชื่อหมวดหมู่ย่อย |
+|>> equity |string |ส่วนของผู้ถือรวมของหมวดหมู่ย่อยนี้ |
+|>> coinDetail |array |การถือครองระดับเหรียญภายในหมวดหมู่ย่อยนี้ |
+|>>> coin |string |ชื่อเหรียญ |
+|>>> equity |string |จำนวนส่วนของผู้ถือของเหรียญ |
+|>>> extMap |object |ฟิลด์เพิ่มเติม คืนค่าเมื่อ `accountType=Alpha` และ `category=farm` เท่านั้น |
+|>>>> priceUpper |string |ราคาขอบบนของช่วงสถานะสภาพคล่อง |
+|>>>> priceLower |string |ราคาขอบล่างของช่วงสถานะสภาพคล่อง |
+|>>>> equityUnit |string |หน่วยของมูลค่าส่วนของผู้ถือ เช่น `USD` |
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/asset-overview HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1739433600000
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "Success",
+    "result": {
+        "totalEquity": "7457023",
+        "list": [
+            {
+                "totalEquity": "20429.51",
+                "valuationCurrency": "USD",
+                "accountType": "CryptoLoans",
+                "coinDetail": [
+                    {
+                        "equity": "-0.00100377",
+                        "coin": "BTC"
+                    },
+                    {
+                        "equity": "50",
+                        "coin": "MNT"
+                    },
+                    {
+                        "equity": "20383.9175",
+                        "coin": "USDT"
+                    }
+                ],
+                "snapshotTime": "1772449024908"
+            },
+            {
+                "totalEquity": "20888.1",
+                "valuationCurrency": "USD",
+                "accountType": "Earn",
+                "snapshotTime": "1772449024908",
+                "categories": [
+                    {
+                        "coinDetail": [
+                            {
+                                "equity": "0.3",
+                                "coin": "BTC"
+                            },
+                            {
+                                "equity": "100",
+                                "coin": "MNT"
+                            },
+                            {
+                                "equity": "200",
+                                "coin": "USDT"
+                            }
+                        ],
+                        "category": "Easy Earn",
+                        "equity": "20888.1"
+                    }
+                ]
+            },
+            {
+                "totalEquity": "120.53",
+                "valuationCurrency": "USD",
+                "accountType": "TradingBot",
+                "snapshotTime": "1772449024908",
+                "categories": [
+                    {
+                        "coinDetail": [
+                            {
+                                "equity": "4",
+                                "coin": "USDT"
+                            }
+                        ],
+                        "category": "Futures Grid Bot",
+                        "equity": "4"
+                    },
+                    {
+                        "coinDetail": [
+                            {
+                                "equity": "101.5392",
+                                "coin": "USDT"
+                            }
+                        ],
+                        "category": "Futures Combo Bot",
+                        "equity": "101.53"
+                    },
+                    {
+                        "coinDetail": [
+                            {
+                                "equity": "14.9923",
+                                "coin": "USDT"
+                            }
+                        ],
+                        "category": "Futures Martingale Bot",
+                        "equity": "14.99"
+                    }
+                ]
+            },
+            {
+                "totalEquity": "7175590.45",
+                "valuationCurrency": "USD",
+                "accountType": "FundingAccount",
+                "coinDetail": [
+                    {
+                        "equity": "100",
+                        "coin": "AED"
+                    },
+                    {
+                        "equity": "97.99999988",
+                        "coin": "BTC"
+                    },
+                    {
+                        "equity": "101",
+                        "coin": "SOL"
+                    },
+                    {
+                        "equity": "9950",
+                        "coin": "MNT"
+                    },
+                    {
+                        "equity": "10000",
+                        "coin": "TON"
+                    },
+                    {
+                        "equity": "98.9",
+                        "coin": "ETH"
+                    },
+                    {
+                        "equity": "12220.5558",
+                        "coin": "USDT"
+                    },
+                    {
+                        "equity": "100000",
+                        "coin": "USDC"
+                    },
+                    {
+                        "equity": "9000",
+                        "coin": "NEAR"
+                    },
+                    {
+                        "equity": "89490",
+                        "coin": "ADA"
+                    }
+                ],
+                "snapshotTime": "1772449024908"
+            },
+            {
+                "totalEquity": "254.37",
+                "valuationCurrency": "USD",
+                "accountType": "WaanXPayLater",
+                "coinDetail": [
+                    {
+                        "equity": "178",
+                        "coin": "USDT"
+                    },
+                    {
+                        "equity": "76.371564",
+                        "coin": "USDC"
+                    }
+                ],
+                "snapshotTime": "1772449024908"
+            },
+            {
+                "totalEquity": "213399.38",
+                "valuationCurrency": "USD",
+                "accountType": "UnifiedTradingAccount",
+                "snapshotTime": "1772449024908",
+                "categories": [
+                    {
+                        "category": "crypto",
+                        "equity": "210000.00",
+                        "coinDetail": [
+                            {
+                                "equity": "37283.5394",
+                                "coin": "USDT"
+                            },
+                            {
+                                "equity": "2.62897721",
+                                "coin": "BTC"
+                            },
+                            {
+                                "equity": "1",
+                                "coin": "ETH"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "stocks",
+                        "equity": "3399.38",
+                        "coinDetail": [
+                            {
+                                "equity": "399.6",
+                                "coin": "AED"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "totalEquity": "4491.24",
+                "valuationCurrency": "USD",
+                "accountType": "CopyTrading",
+                "snapshotTime": "1772449024908",
+                "categories": [
+                    {
+                        "coinDetail": [
+                            {
+                                "equity": "1379.2463",
+                                "coin": "USDT"
+                            }
+                        ],
+                        "category": "Copy Trading Classic",
+                        "equity": "1379.24"
+                    },
+                    {
+                        "coinDetail": [
+                            {
+                                "equity": "1001",
+                                "coin": "USDT"
+                            }
+                        ],
+                        "category": "Copy Trading Pro",
+                        "equity": "1001"
+                    }
+                ]
+            },
+            {
+                "totalEquity": "8304.15",
+                "valuationCurrency": "USD",
+                "accountType": "CryptoLoans_legacy",
+                "coinDetail": [
+                    {
+                        "equity": "0.13",
+                        "coin": "BTC"
+                    },
+                    {
+                        "equity": "0.14",
+                        "coin": "ETH"
+                    },
+                    {
+                        "equity": "-1000.5547",
+                        "coin": "USDT"
+                    }
+                ],
+                "snapshotTime": "1772449024908"
+            },
+            {
+                "totalEquity": "339.1",
+                "valuationCurrency": "USD",
+                "accountType": "Launchpool",
+                "coinDetail": [
+                    {
+                        "equity": "100",
+                        "coin": "MNT"
+                    },
+                    {
+                        "equity": "111",
+                        "coin": "USDT"
+                    }
+                ],
+                "snapshotTime": "1772449024908"
+            },
+            {
+                "totalEquity": "85.02",
+                "valuationCurrency": "USD",
+                "accountType": "MarginStakedSOL",
+                "coinDetail": [
+                    {
+                        "equity": "34.05211088",
+                        "coin": "SOL"
+                    }
+                ],
+                "snapshotTime": "1772449024908"
+            },
+            {
+                "totalEquity": "335.33",
+                "valuationCurrency": "USD",
+                "accountType": "Alpha",
+                "snapshotTime": "1773748881734",
+                "categories": [
+                    {
+                        "coinDetail": [
+                            {
+                                "equity": "112.46434565",
+                                "coin": "TSLAx"
+                            },
+                            {
+                                "equity": "43.36958077",
+                                "coin": "PUMP"
+                            }
+                        ],
+                        "category": "trade",
+                        "equity": "296.16"
+                    },
+                    {
+                        "coinDetail": [
+                            {
+                                "extMap": {
+                                    "priceUpper": "139.24762909452249825",
+                                    "priceLower": "125.99709511942565098",
+                                    "equityUnit": "USD"
+                                },
+                                "equity": "3.4268",
+                                "coin": "SOL-USDC"
+                            },
+                            {
+                                "extMap": {
+                                    "priceUpper": "3.91780569",
+                                    "priceLower": "3.54499491",
+                                    "equityUnit": "USD"
+                                },
+                                "equity": "3.3879",
+                                "coin": "JLP-USDC"
+                            }
+                        ],
+                        "category": "farm",
+                        "equity": "39.16"
+                    }
+                ]
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1772449025426
+}
+```

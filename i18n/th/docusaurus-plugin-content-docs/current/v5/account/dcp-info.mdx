@@ -1,0 +1,68 @@
+---
+title: ดึงข้อมูล DCP
+sidebar_label: ดึงข้อมูล DCP
+sidebar_position: 8.1
+---
+
+เรียกดูการตั้งค่า DCP ของบัญชี ก่อนเรียกอินเทอร์เฟซนี้ โปรดตรวจสอบว่าคุณได้ยื่นขอการตั้งค่า DCP ของบัญชี UTA กับผู้จัดการบัญชีของคุณแล้ว
+
+* เฉพาะบัญชีหลัก / บัญชีย่อยที่ตั้งค่าไว้แล้วจึงจะเรียกดูข้อมูลจาก API นี้ได้ การเรียก API นี้จากบัญชีอื่นจะคืนค่าว่างเสมอ
+
+:::info
+* รองรับสปอต [SPOT]
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/account/query-dcp-info" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+ไม่มี
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|dcpInfos |array&lt;object&gt; |การตั้งค่า DCP ของแต่ละผลิตภัณฑ์ |
+|> product |string |`SPOT`|
+|> dcpStatus |string |สถานะ [Disconnected-CancelAll-Prevention](../order/dcp): `ON`|
+|> timeWindow |string |ช่วงเวลาทริกเกอร์ DCP ที่ผู้ใช้ตั้งไว้ล่วงหน้า อยู่ระหว่าง [3, 300] วินาที ค่าเริ่มต้น: 10 วินาที|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/account/query-dcp-info HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1717065530867
+X-BAPI-RECV-WINDOW: 5000
+```
+</TabItem>
+
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+// it means my account enables Spot on the backend
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "dcpInfos": [
+            {
+                "product": "SPOT",
+                "dcpStatus": "ON",
+                "timeWindow": "10"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1717065531697
+}
+```

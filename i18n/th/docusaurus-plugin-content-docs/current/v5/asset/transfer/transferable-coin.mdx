@@ -1,0 +1,61 @@
+---
+title: ดึงรายการเหรียญที่โอนได้
+sidebar_label: ดึงรายการเหรียญที่โอนได้
+sidebar_position: 5
+---
+
+สอบถามรายการเหรียญที่โอนได้ระหว่างแต่ละ[ประเภทบัญชี](../../enum#accounttype)
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/transfer/query-transfer-coin-list" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|[fromAccountType](../../enum#accounttype) |**true** |string |ประเภทบัญชีต้นทาง |
+|[toAccountType](../../enum#accounttype) |**true** |string |ประเภทบัญชีปลายทาง |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array|รายการเหรียญ (ในรูปแบบสตริง) |
+
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/transfer/query-transfer-coin-list?fromAccountType=UNIFIED&toAccountType=CONTRACT HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672144322595
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "list": [
+            "BTC",
+            "ETH"
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1672144322954
+}
+```

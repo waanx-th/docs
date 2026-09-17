@@ -1,0 +1,88 @@
+---
+title: ประวัติธุรกรรมของบัญชี Funding
+sidebar_label: ประวัติธุรกรรมของบัญชี Funding
+---
+
+คืนค่าบันทึกธุรกรรมในบัญชี Funding เอนด์พอยต์นี้รองรับการกรองตามประเภทธุรกรรมและช่วงเวลา
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/fundinghistory" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|createTimeFrom |false |string |ประทับเวลาเริ่มต้น (วินาที) ต้องใช้ร่วมกับ `createTimeTo` ช่วงเวลาระหว่าง `createTimeFrom` และ `createTimeTo` ต้องไม่เกิน 7 วัน หากไม่ได้ระบุทั้งสองค่า จะใช้ข้อมูล 7 วันล่าสุด |
+|createTimeTo |false |string |ประทับเวลาสิ้นสุด (วินาที) ต้องใช้ร่วมกับ `createTimeFrom` ช่วงเวลาระหว่าง `createTimeFrom` และ `createTimeTo` ต้องไม่เกิน 7 วัน หากไม่ได้ระบุทั้งสองค่า จะใช้ข้อมูล 7 วันล่าสุด |
+|limit |false |string |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `100`] ค่าเริ่มต้น: `10` |
+|cursor |false |string |เคอร์เซอร์ ใช้สำหรับการแบ่งหน้า |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|nextPageCursor |string |เคอร์เซอร์สำหรับหน้าถัดไป |
+|list |array |รายการธุรกรรม |
+|> memberId |string |รหัสสมาชิก |
+|> currency |string |สัญลักษณ์เหรียญ |
+|> ioDirection |string |ทิศทาง `I`: เข้า, `O`: ออก |
+|> txnAmt |string |จำนวนเงินของธุรกรรม |
+|> afterAmt |string |ยอดคงเหลือหลังทำธุรกรรม |
+|> createTime |string |เวลาที่สร้าง (Unix วินาที) |
+|> showBusiType |string |ประเภทธุรกรรม (คีย์สำหรับแปลภาษา) |
+|> showBusiTypeEn |string |ประเภทธุรกรรมเป็นภาษาอังกฤษ |
+|> description |string |คำอธิบาย (คีย์สำหรับแปลภาษา) |
+|> descriptionEn |string |คำอธิบายเป็นภาษาอังกฤษ |
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/fundinghistory?limit=1&cursor=MTM3MTU3OTk= HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1739433600000
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "nextPageCursor": "MTM3MTU3OTk=",
+        "list": [
+            {
+                "memberId": "290118",
+                "currency": "BTC",
+                "ioDirection": "I",
+                "txnAmt": "0.00003561",
+                "afterAmt": "7.5547230662687035",
+                "createTime": "1772669763",
+                "showBusiType": "fundingAccountRecordEarn",
+                "showBusiTypeEn": "Earn",
+                "description": "fundingAccountRecordFlexSavingInterestDistribution",
+                "descriptionEn": "Easy Earn | Flexible Interest Distribution"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1772699449372
+}
+```

@@ -1,0 +1,90 @@
+---
+title: Get Orderbook
+sidebar_label: Get Orderbook
+sidebar_position: 5
+---
+
+Query for orderbook depth data.
+> **Covers: Spot**
+
+* Spot: 1000-level of orderbook data
+
+:::info
+* The response is in the snapshot format.
+* [Retail Price Improvement (RPI)](https://support.waanx.com/en/support/home) orders will not be included in the response message and will not be visible over API.
+:::
+
+### HTTP Request
+<APIEndpoint method="GET" url="/v5/market/orderbook" />
+
+### Request Parameters
+| Parameter | Required | Type | Comments|
+|:----- |:-------|:-----|------ |
+|[category](../enum#category) |**true** |string |Product type. `spot` |
+|symbol |**true** |string |Symbol name, like `BTCUSDT`, uppercase only|
+|limit |false |integer |Limit size for each bid and ask<ul><li>`spot`: [`1`, `1000`]. Default: `1`.</li></ul>|
+
+### Response Parameters
+| Parameter | Type | Comments|
+|:----- |:-----|----- |
+|s |string |Symbol name |
+|b |array |Bid, buyer. Sorted by price in descending order |
+|> b[0] |string |Bid price |
+|> b[1] |string |Bid size |
+|a |array |Ask, seller. Sorted by price in ascending order |
+|> a[0] |string |Ask price |
+|> a[1] |string |Ask size |
+|ts |integer |The timestamp (ms) that the system generates the data |
+|u |integer |Update ID, is always in sequence<ul><li>For contract, corresponds to `u` in the 1000-level [WebSocket orderbook stream](../websocket/public/orderbook)</li><li>For spot, corresponds to `u` in the 1000-level [WebSocket orderbook stream](../websocket/public/orderbook)</li></ul> |
+|seq |integer |Cross sequence <ul><li>You can use this field to compare different levels orderbook data, and for the smaller seq, then it means the data is generated earlier. </li></ul>|
+|cts |integer |The timestamp from the matching engine when this orderbook data is produced. It can be correlated with `T` from [public trade channel](../websocket/public/trade#)|
+
+
+---
+
+### Request Example
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/market/orderbook?category=spot&symbol=BTCUSDT HTTP/1.1
+Host: api.waanx.com
+```
+
+</TabItem>
+
+
+
+
+</Tabs>
+
+### Response Example
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {
+        "s": "BTCUSDT",
+        "a": [
+            [
+                "65557.7",
+                "16.606555"
+            ]
+        ],
+        "b": [
+            [
+                "65485.47",
+                "47.081829"
+            ]
+        ],
+        "ts": 1716863719031,
+        "u": 230704,
+        "seq": 1432604333,
+        "cts": 1716863718905
+    },
+    "retExtInfo": {},
+    "time": 1716863719382
+}
+```

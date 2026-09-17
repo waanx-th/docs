@@ -1,0 +1,30 @@
+---
+title: Bot Error Codes
+sidebar_label: Error Codes
+---
+
+HTTP-level error codes returned by the Bot APIs.
+
+## DCA Bot
+
+Applies to: [Create](./dca/create), [Close](./dca/close)
+
+| error_code | error_msg | Applicable Endpoint(s) |
+|:----------:|:----------|:----------------------|
+| 400 | Invalid parameters (e.g., duplicated symbols, invalid frequency) | Create |
+| 421 | User is banned | Create |
+| 503 | Bot cannot be closed currently (investment cycle in progress) | Close |
+
+---
+
+## Spot Grid Bot
+
+Applies to: [Create](./spot-grid/create), [Close](./spot-grid/close), [Get Detail](./spot-grid/get-detail), [Validate Input](./spot-grid/validate-input)
+
+| error_code | error_msg | Applicable Endpoint(s) |
+|:----------:|:----------|:----------------------|
+| 400 | Invalid request parameters | Create, Validate Input |
+| 401 | Insufficient balance | Create |
+| 404 | Grid bot not found | Get Detail |
+| 405 | Grid cannot be cancelled (already in CANCELLING or COMPLETED state) | Close |
+| 421 | User is banned | Create |

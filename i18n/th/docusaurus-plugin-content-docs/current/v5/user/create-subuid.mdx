@@ -1,0 +1,79 @@
+---
+title: สร้าง Sub UID
+sidebar_label: สร้าง Sub UID
+sidebar_position: 1
+---
+สร้าง ID ผู้ใช้บัญชีย่อยใหม่ ใช้คีย์ API ของบัญชี**หลัก**
+
+:::tip
+คีย์ API ต้องมีสิทธิ์ข้อใดข้อหนึ่งด้านล่างนี้จึงจะเรียกเอนด์พอยต์นี้ได้
+* คีย์ API ของบัญชีหลัก: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/user/create-sub-member" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|username |<b>true</b> |string |ชื่อผู้ใช้ของบัญชีย่อยใหม่ <ul><li>6-16 ตัวอักษร ต้องมีทั้งตัวเลขและตัวอักษร</li><li>ต้องไม่ซ้ำกับชื่อผู้ใช้ที่มีอยู่แล้วหรือที่ถูกลบไปแล้ว</li></ul>|
+|password |false |string |รหัสผ่านของบัญชีย่อยใหม่ <ul><li>8-30 ตัวอักษร ต้องมีตัวเลข ตัวอักษรพิมพ์ใหญ่และพิมพ์เล็ก</li></ul>|
+|memberType |<b>true</b> |integer |`1`: บัญชีย่อยทั่วไป, `6`: [บัญชีย่อยแบบ custodial](https://support.waanx.com/en/support/home)|
+|switch |false |integer |<ul><li> `0`: ปิดการเข้าสู่ระบบแบบด่วน (default)</li><li>  `1`: เปิดการเข้าสู่ระบบแบบด่วน</li></ul>|
+|isUta |false |boolean |พารามิเตอร์ที่**เลิกใช้งานแล้ว** เป็นบัญชี UTA เสมอ|
+|note |false |string |กำหนดหมายเหตุ |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|uid |string |ID ของผู้ใช้บัญชีย่อย |
+|username |string |ชื่อผู้ใช้ของบัญชีย่อยใหม่ <ul><li>6-16 ตัวอักษร ต้องมีทั้งตัวเลขและตัวอักษร</li><li>ต้องไม่ซ้ำกับชื่อผู้ใช้ที่มีอยู่แล้วหรือที่ถูกลบไปแล้ว</li></ul>|
+|memberType |integer |`1`: บัญชีย่อยทั่วไป, `6`: [บัญชีย่อยแบบ custodial](https://support.waanx.com/en/support/home)|
+|status |integer |สถานะของบัญชีผู้ใช้<ul><li>`1`: ปกติ</li><li>`2`: ถูกห้ามเข้าสู่ระบบ</li><li>`4`: ถูกอายัด </li></ul>|
+|remark |string |หมายเหตุ |
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/user/create-sub-member HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1676429344202
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{
+    "username": "xxxxx",
+    "memberType": 1,
+    "switch": 1,
+    "note": "test"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "uid": "53888000",
+        "username": "xxxxx",
+        "memberType": 1,
+        "status": 1,
+        "remark": "test"
+    },
+    "retExtInfo": {},
+    "time": 1676429344734
+}
+```

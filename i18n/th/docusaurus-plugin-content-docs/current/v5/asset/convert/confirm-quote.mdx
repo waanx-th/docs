@@ -1,0 +1,64 @@
+---
+title: ยืนยันราคาเสนอ 
+sidebar_label: ยืนยันราคาเสนอ
+sidebar_position: 3
+---
+:::info
+1. การแลกเปลี่ยนทำงานแบบอะซิงโครนัส โปรดตรวจสอบสถานะสุดท้ายโดยเรียก API สอบถามผลลัพธ์
+2. โปรดยืนยันราคาเสนอก่อนที่ราคาเสนอจะหมดอายุ
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/asset/exchange/convert-execute" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | หมายเหตุ|
+|:----- |:-------|:-----|------ |
+|quoteTxId |**true** |string |ID ธุรกรรมของราคาเสนอที่ได้จาก [ขอราคาเสนอ](apply-quote#response-parameters)|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | หมายเหตุ|
+|:----- |:-----|----- |
+|quoteTxId |string|ID ธุรกรรมของราคาเสนอ|
+|exchangeStatus |string|สถานะการแลกเปลี่ยน <ul><li>init</li><li>processing</li><li>success</li><li>failure</li></ul>|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/asset/exchange/convert-execute HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1720071899789
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+Content-Length: 52
+
+{
+    "quoteTxId": "10100108106409343501030232064"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "ok",
+    "result": {
+        "exchangeStatus": "processing",
+        "quoteTxId": "10100108106409343501030232064"
+    },
+    "retExtInfo": {},
+    "time": 1720071900529
+}
+```

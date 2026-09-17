@@ -1,0 +1,119 @@
+---
+title: กลยุทธ์
+sidebar_label: กลยุทธ์
+sidebar_position: 7
+---
+
+สมัครรับข้อมูลสตรีมกลยุทธ์เพื่อรับฟีดข้อมูลกลยุทธ์ (twap / iceberg / ChaseOrder)
+
+**หัวข้อ:** `strategy`<br/>
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|id |string |รหัสข้อความ|
+|topic |string |ชื่อหัวข้อ |
+|creationTime |number |ประทับเวลาที่สร้างข้อมูล (มิลลิวินาที) |
+|data |array |อ็อบเจกต์ |
+|> strategyId |string |รหัสกลยุทธ์ |
+|> strategyType |string |ประเภทกลยุทธ์ `twap`, `chaseOrder`, `iceberg`, `pov` |
+|> category |string |ประเภทผลิตภัณฑ์ `UTA_SPOT` |
+|> symbol |string |ชื่อสัญลักษณ์คู่เทรด |
+|> size |string |จำนวนรวมของกลยุทธ์ |
+|> side |string |`Buy`, `Sell` |
+|> duration |integer |ระยะเวลาการดำเนินการเป็นวินาที ใช้กับกลยุทธ์ TWAP เท่านั้น |
+|> status |integer |สถานะกลยุทธ์ `2`: กำลังทำงาน, `3`: สิ้นสุดแล้ว, `4`: สิ้นสุดแล้วแต่คำสั่งซื้อขายยังไม่จับคู่, `5`: หยุดชั่วคราว, `6`: ยังไม่ถูกทริกเกอร์ |
+|> terminateType |integer |ประเภทการสิ้นสุด `0`: ยังไม่สิ้นสุด, `1`: ผู้ใช้หยุดเอง, `2`: เสร็จสมบูรณ์ตามปกติ, `3`: ยอดคงเหลือไม่เพียงพอ ดู enum terminateType |
+|> terminateRemark |string |คำอธิบายเหตุผลการสิ้นสุด |
+|> executedDuration |integer |ระยะเวลาที่ดำเนินการไปแล้ว |
+|> executedSize |string |จำนวนที่จับคู่แล้ว |
+|> executedAvgPrice |string |ราคาเฉลี่ยที่จับคู่ |
+|> executedStartTimeE3 |integer |เวลาเริ่มดำเนินการ (มิลลิวินาที) |
+|> executedEndTimeE3 |integer |เวลาสิ้นสุดการดำเนินการ (มิลลิวินาที) `0` หมายถึงยังไม่สิ้นสุด |
+|> createdTimeE3 |integer |เวลาที่สร้างกลยุทธ์ (มิลลิวินาที) |
+|> updatedTimeE3 |integer |เวลาที่อัปเดตกลยุทธ์ครั้งล่าสุด (มิลลิวินาที) |
+|> isRandom |boolean |จะสุ่มจำนวนคำสั่งซื้อขายหรือไม่ ใช้กับกลยุทธ์ TWAP เท่านั้น |
+|> reduceOnly |boolean |ลดสถานะเท่านั้น |
+|> limitPrice |string |ราคาลิมิตแบบคงที่ |
+|> triggerCount |integer |จำนวนครั้งที่ทริกเกอร์ (จำนวนครั้งที่กลยุทธ์ทำงาน) |
+|> tradingCount |integer |จำนวนครั้งที่เทรด (จำนวนคำสั่งซื้อขายที่สร้าง) |
+|> chaseDistance |string |ระยะการไล่ราคา (ค่าสัมบูรณ์) ใช้กับกลยุทธ์ Chase / Iceberg |
+|> ChasePercentE4 |integer |เปอร์เซ็นต์การไล่ราคาในหน่วยเบสิสพอยต์ เช่น `100` = 1% ใช้กับกลยุทธ์ Chase / Iceberg |
+|> maxChasePrice |string |การป้องกันราคาไล่สูงสุด ใช้กับกลยุทธ์ Chase / Iceberg |
+|> chaseOrderPrice |string |ราคาคำสั่งไล่ราคาปัจจุบัน ใช้กับกลยุทธ์ Chase เท่านั้น |
+|> strategyPrefer |string |ความชอบของกลยุทธ์ `limit`: ราคาคงที่, `priceSpeedBalance`: สมดุล, `fastestExecution`: ดำเนินการเร็วที่สุด, `quickExecution`: ดำเนินการรวดเร็ว |
+|> interval |integer |ช่วงเวลาระหว่างคำสั่งซื้อขายเป็นวินาที ใช้กับกลยุทธ์ TWAP เท่านั้น |
+|> postOnly |integer |Post-only `0`: ไม่ใช่ post-only, `1`: post-only ใช้กับกลยุทธ์ Iceberg เท่านั้น |
+|> triggerPrice |string |ราคาทริกเกอร์ กลยุทธ์จะเริ่มดำเนินการเมื่อราคาถึงระดับนี้ |
+|> isTriggered |boolean |กลยุทธ์ถูกทริกเกอร์แล้วหรือไม่ |
+|> strategyTp |string |ราคาทำกำไรของกลยุทธ์ |
+|> strategySl |string |ราคาหยุดขาดทุนของกลยุทธ์ |
+|> orderType |string |ประเภทคำสั่งซื้อขาย `1`: คำสั่งมาร์เก็ต, `2`: คำสั่งลิมิต |
+|> orderPriceOffset |string |เปอร์เซ็นต์ส่วนต่างราคาของคำสั่งลิมิต |
+|> positionValue |string |มูลค่ารวมของกลยุทธ์ คืนค่าสำหรับคำสั่งซื้อขายที่อ้างอิงมูลค่า กรณีอื่นจะคืนค่าเป็นสตริงว่าง |
+|> filledPositionValue |string |มูลค่าสถานะที่จับคู่แล้ว |
+
+### ตัวอย่างการสมัครรับข้อมูล
+```json
+{
+    "op": "subscribe",
+    "args": [
+        "strategy"
+    ]
+}
+```
+
+```python
+
+```
+
+### ตัวอย่างสตรีมข้อมูล
+
+```json
+{
+    "id": "62f79ebea4794f767cad0bd937f7ad01",
+    "topic": "strategy",
+    "creationTime": 1776734985598,
+    "data": [
+        {
+            "strategyId": "cf7303ae-29c0-480a-8f3d-eaa9330054bc",
+            "strategyType": "iceberg",
+            "category": "UTA_USDT",
+            "symbol": "BTCUSDT",
+            "size": "0.36",
+            "side": "Buy",
+            "duration": 0,
+            "status": 3,
+            "terminateType": 2,
+            "terminateRemark": "RunningStop",
+            "executedDuration": 268,
+            "executedSize": "0.36",
+            "executedAvgPrice": "134301.53",
+            "executedStartTimeE3": 1776734716717,
+            "executedEndTimeE3": 1776734985592,
+            "createdTimeE3": 1776734716717,
+            "updatedTimeE3": 1776734985592,
+            "isRandom": false,
+            "reduceOnly": false,
+            "limitPrice": "",
+            "triggerCount": 0,
+            "tradingCount": 0,
+            "chaseDistance": "0",
+            "ChasePercentE4": 0,
+            "maxChasePrice": "198000",
+            "chaseOrderPrice": "135682.4",
+            "strategyPrefer": "quickExecution",
+            "interval": 30,
+            "postOnly": 0,
+            "triggerPrice": "",
+            "isTriggered": false,
+            "strategyTp": "",
+            "strategySl": "",
+            "orderType": "UNKNOWN",
+            "orderPriceOffset": "",
+            "positionValue": "",
+            "filledPositionValue": ""
+        }
+    ]
+}
+```

@@ -1,0 +1,90 @@
+---
+title: ตั้งค่าการจำกัดอัตราการเรียก
+sidebar_label: ตั้งค่าการจำกัดอัตราการเรียก
+sidebar_position: 2
+---
+
+> การจำกัดอัตราการเรียก API: 50 คำขอต่อวินาที
+
+:::info
+* หาก UID ที่เรียกใช้เอนด์พอยต์นี้เป็นบัญชีหลัก UID ที่ส่งเข้ามาในพารามิเตอร์ `uids` ต้องเป็นบัญชีย่อยของบัญชีหลักนั้น
+* หาก UID ที่เรียกใช้เอนด์พอยต์นี้ไม่ใช่บัญชีหลัก UID ที่ส่งเข้ามาในพารามิเตอร์ `uids` ต้องเป็น UID ของบัญชีย่อยที่เรียกใช้เอนด์พอยต์นี้เท่านั้น
+* มีเพียงผู้ใช้ประเภทสถาบันเท่านั้นที่สามารถเรียกใช้เอนด์พอยต์นี้ได้
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="POST" url="/v5/apilimit/set" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|list |**true**|array |อ็อบเจกต์|
+|> uids |**true**|string|UID หลายรายการคั่นด้วยเครื่องหมายจุลภาค|
+|> [bizType](/v5/enum#biztype) |**true**|string|ประเภทธุรกิจ |
+|> rate |**true**|integer|การจำกัดอัตราการเรียก API ต่อวินาที |
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array |อ็อบเจกต์|
+|> uids |string|UID หลายรายการคั่นด้วยเครื่องหมายจุลภาค|
+|> [bizType](/v5/enum#biztype) |string|ประเภทธุรกิจ |
+|> rate |integer|การจำกัดอัตราการเรียก API ต่อวินาที |
+|> success |boolean| คำขอสำเร็จหรือไม่|
+|> [msg](/v5/enum#msg) |string|ข้อความผลลัพธ์ |
+
+### ตัวอย่างคำขอ
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/apilimit/set HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1711420489915
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+
+{
+    "list": [
+        {
+            "uids": "106293838",
+            "bizType": "SPOT",
+            "rate": 50
+        }
+    ]
+}
+```
+
+</TabItem>
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "result": [
+            {
+                "uids": "290118",
+                "bizType": "SPOT",
+                "rate": 600,
+                "success": true,
+                "msg": "API limit updated successfully"
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1754894296913
+}
+```

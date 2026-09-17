@@ -1,0 +1,138 @@
+---
+title: คำถามที่พบบ่อย
+slug: /faq
+---
+
+### เซิร์ฟเวอร์ของ WaanX ตั้งอยู่ที่ใด?
+AWS สิงคโปร์, <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones">Availability Zone</a> ID apse1-az2 และ az3
+
+### ควรใช้ WebSocket หรือ REST API?
+หากคุณไม่แน่ใจว่าสองสิ่งนี้แตกต่างกันอย่างไร หรือรู้สึกว่า WebSocket เข้าใจยาก โปรดอ่าน: [REST API vs WebSockets vs WebSocket API](https://github.com/tiagosiebler/awesome-crypto-examples/wiki/REST-API-vs-WebSockets-vs-WebSocket-API)
+
+### ทำไมฉันจึงได้รับ 10003 API key is invalid?
+โปรดตรวจสอบว่าคีย์ API ถูกสร้างขึ้นใน [แอปพลิเคชัน WaanX](https://app.waanx.com) และถูกใช้กับ `api.waanx.com` หรือ `stream.waanx.com`
+
+### ทำไมคำสั่งซื้อขายของฉันไม่แสดงทั้งหมดบนเว็บไซต์?
+* ผู้ใช้ที่ใช้บอทซึ่งสร้างคำสั่งซื้อขายแบบขั้นบันไดเป็นจำนวนมากจะถูกจำกัดโดยอินเทอร์เฟซหน้าเว็บ ซึ่งแสดงคำสั่งซื้อขายบนหน้าจอได้สูงสุด 50 รายการ
+* ไม่ต้องกังวล คำสั่งซื้อขายของคุณยังอยู่ในระบบและสามารถเรียกดูผ่าน API ได้ แต่หน้าเว็บไม่สามารถแสดงได้เกิน 50 รายการ
+
+### ฉันสามารถแลกเปลี่ยนสินทรัพย์ด้วย API ได้หรือไม่?
+ได้ [convert API](/v5/asset/convert/guideline) แต่ปัจจุบันยังไม่มี API สำหรับแปลงยอดคงเหลือจำนวนน้อยเป็น MNT
+
+### ฉันจะมั่นใจได้อย่างไรว่ากำลังใช้ข้อมูลที่เป็นปัจจุบัน?
+* มีความเป็นไปได้ แม้จะน้อยมาก ที่ REST API หรือ (โอกาสยิ่งน้อยกว่า) websocket จะคืนค่าหรือส่งข้อมูลเก่า
+* เพื่อความทนทานของข้อมูลในระดับสูงสุด เราขอแนะนำให้ลูกค้า:
+    * ประการแรก ให้พึ่งพา websocket ซึ่งไม่เพียงช่วยให้คุณได้รับข้อมูลล่าสุดเร็วที่สุดเท่าที่จะเป็นไปได้ แต่ยังช่วยให้คุณได้รับข้อมูลที่ครบถ้วน
+    * ประการที่สอง ให้เรียก REST API เพื่อเติมข้อมูลส่วนที่คลาดเคลื่อน หรือช่วงที่ websocket หลุดการเชื่อมต่อ
+* แนวปฏิบัติที่ดีที่สุดคือบันทึกข้อมูลทั้งหมดนี้ไว้ในฐานข้อมูลหรือแคชของคุณเอง
+* วิธีนี้ช่วยให้เหลือโควตาการจำกัดอัตราการเรียกไว้ใช้กับคำขออื่น และยังช่วยสร้างความสำรองรองรับกรณีที่ข้อมูลจากเอ็กซ์เชนจ์ล่าช้า
+
+### turnover และ volume แตกต่างกันอย่างไร?
+* `Turnover`: คิดเป็นสกุลเงินฝั่งตรงข้ามกับสกุลเงินของจำนวน (เช่น USDT ใน BTCUSDT)
+* `Volume`: คิดเป็นสกุลเงินเดียวกับสกุลเงินของจำนวน (เช่น BTC ใน BTCUSDT)
+
+### ทำไมราคาที่คืนมาในการตอบกลับของการสร้างคำสั่งซื้อขายแบบตลาดจึงไม่ถูกต้อง?
+คำสั่งซื้อขายแบบตลาด (ในระบบเบื้องหลัง) เป็นเพียงคำสั่งแบบจำกัดราคาที่ส่งด้วยราคาที่แย่กว่า เพื่อลดโอกาสเกิดภาวะราคาร่วงอย่างฉับพลันหรือเหตุการณ์ในลักษณะเดียวกัน ซึ่งเทรดเดอร์อาจส่งคำสั่งซื้อขายแบบตลาดที่จับคู่ในราคาแย่กว่าที่คาดไว้อย่างมาก ราคาที่คืนมาที่นี่คือราคาของคำสั่งแบบจำกัดราคาภายในนั้น ราคาที่ "ไม่แม่นยำ" นี้ถูกคืนมาเพราะเอนด์พอยต์สร้างคำสั่งซื้อขายทำงานแบบอะซิงโครนัส หมายความว่าการตอบกลับจะถูกส่งให้คุณก่อนที่คำสั่งซื้อขายจะถูกจับคู่จริง
+
+หากคุณต้องการราคาที่จับคู่จริง (`execPrice`) คุณควรสมัครรับข้อมูลจาก [execution websocket](./v5/websocket/private/execution)
+
+### ฉันจะประมวลผลข้อความ `snapshot` และ `delta` ของ WebSocket ได้อย่างไร? {#how-can-i-process-websocket-snapshot-and-delta-messages}
+โปรดดู [เอกสาร](./v5/websocket/public/orderbook) ของหัวข้อ orderbook
+
+### ทำไมยอดคงเหลือของฉันเพียงพอ แต่คำขอถอนหรือโอนแจ้งว่ายอดคงเหลือไม่เพียงพอ?
+**การจำลองสถานการณ์:** เมื่อบัญชีหลักพบรหัสข้อผิดพลาด 131001 ("Withdrawal amount is greater than your available balance (XXXX USDT)") ระหว่างการถอน หรือเมื่อโอนเงินจากบัญชีย่อยไปยังบัญชีหลักแล้วพบ 131228 ("Your balance is not enough") แต่การเรียก [ดึงยอดคงเหลือของเหรียญทั้งหมด](/v5/asset/balance/all-balance) แสดงว่า `transferBalance` เพียงพอ
+```http
+/v5/asset/transfer/query-account-coins-balance?accountType=FUND
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "memberId": "247200692",
+        "accountType": "FUND",
+        "balance": [
+            {
+                "coin": "BTC",
+                "transferBalance": "0.06",
+                "walletBalance": "0.06",
+                "bonus": ""
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1735189176388
+}
+```
+**สาเหตุ:**
+
+กรณีนี้เกิดจากการฝากเงินเข้าบัญชีหลักหรือบัญชีย่อยเมื่อไม่นานมานี้ ซึ่งทำให้มูลค่า USD ที่สอดคล้องกันถูกล็อกไว้ 
+ตัวอย่างเช่น มีการฝาก 1 ETH เข้าบัญชีหลักเมื่อ 5 นาทีก่อน และนำไปเทรดเป็น 0.05 BTC ทันที อย่างไรก็ตาม 
+เนื่องจากความเสี่ยงจากการฝากยังไม่ถูกปลดปล่อยทั้งหมด จึงไม่สามารถถอน 0.05 BTC นี้ได้ เช่นเดียวกัน 
+หากการฝากเกิดขึ้นที่บัญชีย่อย จำนวนที่สอดคล้องกันจะไม่สามารถโอนไปยังบัญชีหลักได้
+
+**คำแนะนำ:**
+
+1. หากคุณต้องการยืนยันยอดคงเหลือที่ใช้ได้สำหรับการถอนหรือโอนของเหรียญเดียว ให้ใช้ 
+[ดึงยอดคงเหลือของเหรียญเดียว](/v5/asset/balance/account-coin-balance) เสมอ นอกจากนี้ **บัญชีสินเชื่อสถาบัน** ที่โอนออกจากหน่วยความเสี่ยง
+อาจได้รับผลกระทบจาก LTV และสามารถใช้ API นี้เพื่อเรียกดูยอดคงเหลือที่โอนได้อย่างถูกต้อง ดูตัวอย่างที่ 4 และ 5 ด้านล่าง
+```json
+//Example 1: Query the withdrawal balance or transferable balance of a specific coin in a specific wallet of the current account.
+GET /v5/asset/transfer/query-account-coin-balance?accountType=XXX&coin=XXX&withTransferSafeAmount=1
+see field `transferSafeAmount`
+
+//Example 2: Query the transferable balance of a specific coin to subaccounts or other wallets within the account.
+GET /v5/asset/transfer/query-account-coin-balance?accountType=XXX&coin=XXX&withTransferSafeAmount=1
+see field `transferBalance`
+
+//Example 3: Use the master account to query the transferable balance of a specific coin in a specific wallet of a subaccount.
+GET /v5/asset/transfer/query-account-coin-balance?memberId=XXX&accountType=XXX&coin=XXX&withTransferSafeAmount=1
+-> transfer to other subaccounts or other wallets within the accounts: see field `transferBalance`
+-> transfer to master account: see field `transferSafeAmount`
+
+//Example 4: When transferring out of an institutional loan risk unit, the transferable balance under the LTV safety line (transfers within the account to funding wallets).
+GET /v5/asset/transfer/query-account-coin-balance?withLtvTransferSafeAmount=1&accountType=UNIFIED&toAccountType=FUND&coin=XXX
+see field `ltvTransferSafeAmount`
+
+//Example 5: When transferring out of an institutional loan risk unit, the transferable balance under the LTV safety line (transfers to non-institutional loan accounts).
+GET /v5/asset/transfer/query-account-coin-balance?withLtvTransferSafeAmount=1&toMemberId=XXX&accountType=UNIFIED&toAccountType=FUND&coin=XXX&
+see field `ltvTransferSafeAmount`
+```
+2. หากคุณต้องการเรียกดูยอดคงเหลือที่โอนได้ของหลายเหรียญพร้อมกัน ให้ใช้ [ดึงยอดคงเหลือของเหรียญทั้งหมด](/v5/asset/balance/all-balance) อย่างไรก็ตาม 
+หากมีการฝากเมื่อไม่นานมานี้ ฟิลด์ `transferBalance` ที่คืนมาจะน้อยกว่าหรือเท่ากับยอดคงเหลือที่ถอนได้จริงหรือที่โอนได้จริง 
+ไปยังบัญชีหลัก นอกจากนี้ สำหรับบัญชีสินเชื่อสถาบันที่โอนออกจากหน่วยความเสี่ยง ผลลัพธ์ก็อาจ 
+ไม่ถูกต้องได้ ในกรณีดังกล่าว โปรดดูตัวอย่างที่ 4 และ 5 ในคำแนะนำข้อ 1
+```json
+//Example 1: Query the balance of all coins in the funding wallet of the current account (after January 9, 2025, querying all coins will no longer be supported, and the coin parameter must be provided).
+GET /v5/asset/transfer/query-account-coins-balance?accountType=FUND
+
+//Example 2: Query the balance of specific coins in the unified wallet of the current account (after January 9, 2025, up to 10 coins can be queried).
+GET /v5/asset/transfer/query-account-coins-balance?accountType=UNIFIED&coin=USDT,ETH,BTC,USDC
+
+//Example 3: Query the balance of specific coins in the unified wallet of a specified subaccount.
+GET /v5/asset/transfer/query-account-coins-balance?memberId=XXX&accountType=UNIFIED&coin=USDT,ETH,BTC,USDC
+```
+3. หากคุณต้องการทราบว่าบัญชีหลักมีความเสี่ยงจากการฝากที่ยังไม่ถูกปลดปล่อยหรือไม่ ให้ใช้ [ดึงจำนวนที่ถอนได้](/v5/asset/balance/delay-amount) และตรวจสอบฟิลด์ `limitAmountUsd`:
+```json
+GET /v5/asset/withdraw/withdrawable-amount?coin=XXX
+-> If it equals 0, it indicates that all deposit risks have been released.
+-> If it is not 0, it indicates that some assets, equivalent to the displayed USD value, still have unresolved risks.
+```
+## ทำไมฉันไม่สามารถซื้อโทเคน ฯลฯ บนเทสต์เน็ตได้? ทำไมฉันพบข้อผิดพลาด `buy/sell: [1900000000000,44543000000] invalid` (หรือคล้ายกัน)? ทำไมคำสั่งซื้อขายแบบตลาดของฉันจึงไม่สำเร็จ?
+
+บนคริปโตเอ็กซ์เชนจ์ การเทรดจะเกิดขึ้นได้ต้องมีสภาพคล่อง สำหรับการซื้อทุกครั้งที่คุณต้องการให้สำเร็จ ต้องมีผู้ขายที่สอดคล้องกัน และในทางกลับกันก็เช่นเดียวกัน
+คำสั่งซื้อขายแบบตลาดภายในระบบคือคำสั่งแบบจำกัดราคาชนิด IOC ที่ส่งด้วยราคาที่แย่กว่ามาก ราคาภายในนั้นคำนวณจากขีดจำกัดสลิปเพจของเรา
+
+ดังนั้น หากไม่มีคำสั่งซื้อขายฝั่งตรงข้ามในช่วง `[currentPrice; slippageLimitPrice]` ที่จะรองรับคำขอของคุณ การสร้างคำสั่งซื้อขายของคุณจะไม่สำเร็จ พร้อมข้อความข้อผิดพลาดที่กล่าวถึงข้างต้น
+นอกจากนี้ หากสภาพคล่องในช่วงนั้นไม่เพียงพอ คำสั่งซื้อขายแบบตลาดของคุณอาจจับคู่สำเร็จเพียงบางส่วนแล้วถูกยกเลิก
+
+ไม่มีวิธีแก้ที่รับประกันผลได้ คุณสามารถใช้คำสั่งซื้อขาย **แบบจำกัดราคา** ชนิด GTC (Good Till Cancelled) เพื่อลดความเสี่ยงที่คำสั่งซื้อขายของคุณจะถูกยกเลิก
+
+## ฉันจะขยายอายุคีย์ API ได้อย่างไรโดยไม่ต้องสร้างคีย์ใหม่?
+
+คีย์ API ที่สร้างขึ้นโดยไม่ผูกที่อยู่ IP จะหมดอายุหลังจาก 90 วัน เพื่อหลีกเลี่ยงการต้องเปลี่ยนคีย์ API และ secret ทุกครั้งที่เกิดเหตุการณ์นี้:
+
+1. ไปที่หน้าจัดการคีย์ API: https://app.waanx.com
+2. คลิกปุ่มแก้ไขในคอลัมน์ "IP Address Added" จะมีหน้าต่างปรากฏขึ้น
+3. เลือก "No IP restriction" แล้วคลิกปุ่ม "Submit"
+
+4. กรอกรหัสยืนยันทางอีเมลและ 2FA ของคุณ
+5. วันหมดอายุของคีย์ API ของคุณถูกขยายเป็น 90 วันจากนี้ โดยยังคงใช้คีย์ API และ secret เดิม

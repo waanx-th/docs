@@ -1,0 +1,74 @@
+---
+title: เรียกดูการจำกัดอัตราการเรียก
+sidebar_label: เรียกดูการจำกัดอัตราการเรียก
+sidebar_position: 3
+---
+
+> การจำกัดอัตราการเรียก API: 50 คำขอต่อวินาที
+
+:::info
+* บัญชีหลักสามารถเรียกดูการจำกัดอัตราการเรียก API ของตนเองและของบัญชีย่อยได้
+* บัญชีย่อยสามารถเรียกดูการจำกัดอัตราการเรียก API ของตนเองได้เท่านั้น
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/apilimit/query" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|uids |**true**|string|UID หลายรายการคั่นด้วยเครื่องหมายจุลภาค|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|list |array |อ็อบเจกต์|
+|> uids |string|UID หลายรายการคั่นด้วยเครื่องหมายจุลภาค|
+|> [bizType](/v5/enum#biztype) |string|ประเภทธุรกิจ |
+|> rate |integer|การจำกัดอัตราการเรียก API ต่อวินาที |
+
+### ตัวอย่างคำขอ
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/apilimit/query?uids=290118 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1728460942776
+X-BAPI-RECV-WINDOW: 5000
+Content-Type: application/json
+Content-Length: 2
+```
+
+</TabItem>
+
+<TabItem value="Node" label="Node.js">
+
+```n4js
+
+```
+
+</TabItem>
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "list": [
+            {
+                "uids": "290118",
+                "bizType": "SPOT",
+                "rate": 600
+            }
+        ]
+    },
+    "retExtInfo": {},
+    "time": 1754894341984
+}
+```
+

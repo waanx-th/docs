@@ -1,0 +1,107 @@
+---
+title: การจับคู่คำสั่งซื้อขาย
+sidebar_label: การจับคู่คำสั่งซื้อขาย
+sidebar_position: 2
+---
+
+สมัครรับข้อมูลสตรีมการจับคู่เพื่อดูการจับคู่ของคุณแบบ**เรียลไทม์**
+
+:::tip
+คุณอาจได้รับการจับคู่หลายรายการของคำสั่งซื้อขายเดียวกันในข้อความเดียว
+:::
+
+**หัวข้อรวมทุกหมวดหมู่:** `execution`<br/>
+**หัวข้อแยกตามหมวดหมู่:** `execution.spot`
+
+:::info
+* หัวข้อรวมทุกหมวดหมู่และหัวข้อแยกตามหมวดหมู่**ไม่สามารถ**อยู่ในคำขอสมัครรับข้อมูลเดียวกันได้
+* หัวข้อรวมทุกหมวดหมู่: ให้คุณรับฟังการอัปเดตผ่าน websocket ของทุกหมวดหมู่ (spot) ได้
+* หัวข้อแยกตามหมวดหมู่: ให้คุณรับฟังการอัปเดตผ่าน websocket ของหมวดหมู่ที่ระบุเท่านั้น
+:::
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|id |string |รหัสข้อความ|
+|topic |string |ชื่อหัวข้อ |
+|creationTime |number |ประทับเวลาที่สร้างข้อมูล (มิลลิวินาที) |
+|data |array |อ็อบเจกต์ |
+|> [category](../../enum#category) | string | ประเภทผลิตภัณฑ์ `spot`|
+|> symbol |string   |ชื่อสัญลักษณ์คู่เทรด |
+|> isLeverage |string |จะยืมหรือไม่ `0`: ไม่ยืม, `1`: ยืม|
+|> orderId |string |รหัสคำสั่งซื้อขาย |
+|> orderLinkId |string |รหัสคำสั่งซื้อขายที่ผู้ใช้กำหนดเอง |
+|> side |string |ทิศทาง `Buy`,`Sell` |
+|> orderPrice |string |ราคาคำสั่งซื้อขาย|
+|> orderQty |string |จำนวนคำสั่งซื้อขาย|
+|> leavesQty |string |จำนวนคงเหลือที่ยังไม่จับคู่|
+|> [orderType](../../enum#ordertype) |string |ประเภทคำสั่งซื้อขาย `Market`,`Limit`|
+|> [stopOrderType](../../enum#stopordertype) |string |ประเภทคำสั่งหยุด หากคำสั่งดังกล่าวไม่ใช่คำสั่งหยุด จะไม่คืนค่าประเภทใด ๆ|
+|> execFee |string |ค่าธรรมเนียมการเทรดที่เกิดขึ้นจริง ดูคำอธิบายสกุลเงินค่าธรรมเนียมของสปอตได้[ที่นี่](../../enum#spot-fee-currency-instruction)<br/>|
+|> execId |string |รหัสการจับคู่ |
+|> execPrice |string |ราคาที่จับคู่ |
+|> execQty |string |จำนวนที่จับคู่ |
+|> execPnl |string |กำไรและขาดทุนของการจับคู่ปิดสถานะแต่ละครั้ง ค่านี้สอดคล้องกับฟิลด์ "cashFlow" ใน[ดูบันทึกธุรกรรม](../../account/transaction-log)|
+|> [execType](../../enum#exectype) |string |ประเภทของการจับคู่|
+|> execValue |string |มูลค่าคำสั่งซื้อขายที่จับคู่แล้ว|
+|> execTime |string |ประทับเวลาที่จับคู่ (มิลลิวินาที)  |
+|> isMaker |boolean |เป็นคำสั่งฝั่ง maker หรือไม่ `true`: maker, `false`: taker|
+|> feeRate |string |อัตราค่าธรรมเนียมการเทรด|
+|> blockTradeId |string |รหัสการเทรดแบบบล็อกของ Paradigm|
+|> closedSize |string |ขนาดสถานะที่ปิด |
+|> extraFees |List |ข้อมูลค่าธรรมเนียมการเทรดเพิ่มเติม ปัจจุบันข้อมูลนี้จะคืนค่าเฉพาะผู้ใช้ที่มี kyc=Indian หรือคำสั่งซื้อขายสปอตที่สร้างบนไซต์อินโดนีเซีย หรือคำสั่งซื้อขายสปอตสกุลเงินตราที่สร้างบนไซต์สหภาพยุโรปเท่านั้น ในกรณีอื่นจะคืนค่าเป็นสตริงว่าง Enum: [feeType](../../enum#extrafeesfeetype), [subFeeType](../../enum#extrafeessubfeetype)
+|> seq |long |ลำดับแบบครอส ใช้เชื่อมโยงการจับคู่แต่ละครั้งกับการอัปเดตสถานะแต่ละครั้ง<ul><li>ค่า seq จะเหมือนกันเมื่อมีการจับคู่หลายรายการในเวลาเดียวกัน</li><li>สัญลักษณ์คู่เทรดที่ต่างกันอาจมีค่า seq เหมือนกัน โปรดใช้ seq + symbol เพื่อตรวจสอบความไม่ซ้ำกัน</li></ul>|
+|> feeCurrency |string |สกุลเงินของค่าธรรมเนียมการเทรด|
+
+### ตัวอย่างการสมัครรับข้อมูล
+```json
+{
+    "op": "subscribe",
+    "args": [
+        "execution"
+    ]
+}
+```
+
+
+
+### ตัวอย่างสตรีมข้อมูล
+
+```json
+{
+    "topic": "execution",
+    "id": "386825804_BTCUSDT_140612148849382",
+    "creationTime": 1746270400355,
+    "data": [
+        {
+            "category": "spot",
+            "symbol": "BTCUSDT",
+            "closedSize": "0.5",
+            "execFee": "26.3725275",
+            "execId": "0ab1bdf7-4219-438b-b30a-32ec863018f7",
+            "execPrice": "95900.1",
+            "execQty": "0.5",
+            "execType": "Trade",
+            "execValue": "47950.05",
+            "feeRate": "0.00055",
+            "blockTradeId": "",
+            "leavesQty": "0",
+            "orderId": "9aac161b-8ed6-450d-9cab-c5cc67c21784",
+            "orderLinkId": "",
+            "orderPrice": "94942.5",
+            "orderQty": "0.5",
+            "orderType": "Market",
+            "stopOrderType": "UNKNOWN",
+            "side": "Sell",
+            "execTime": "1746270400353",
+            "isLeverage": "0",
+            "isMaker": false,
+            "seq": 140612148849382,
+            "marketUnit": "",
+            "execPnl": "0.05",
+            "extraFees":[{"feeCoin":"USDT","feeType":"GST","subFeeType":"IND_GST","feeRate":"0.0000675","fee":"0.006403779"}],
+            "feeCurrency": "USDT"
+        }
+    ]
+}
+```

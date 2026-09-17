@@ -1,0 +1,97 @@
+---
+title: ดึงรายการที่อยู่สำหรับถอน
+sidebar_label: ดึงรายการที่อยู่สำหรับถอน
+sidebar_position: 14
+---
+
+สอบถามที่อยู่สำหรับถอนที่บันทึกไว้ในสมุดที่อยู่
+
+:::tip
+* คีย์ API ที่ใช้เรียกเอนด์พอยต์นี้ต้องมีสิทธิ์การถอน
+:::
+
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/asset/withdraw/query-address" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|coin |false |string |เหรียญ: <ul><li> เมื่อส่ง `coin=baseCoin` จะหมายถึงที่อยู่แบบ universal</li><li>เมื่อส่งชื่อเหรียญ จะหมายถึงที่อยู่ปกติบนเชน</li></ul> |
+|chain |false |string |ชื่อเชน:<ul><li>เมื่อส่งเฉพาะชื่อเชน จะคืนค่าทั้งที่อยู่ปกติและที่อยู่แบบ universal</li><li>เมื่อส่งชื่อเชนพร้อมกับ `coin=baseCoin` จะคืนค่าเฉพาะที่อยู่แบบ universal ที่ตรงกับเชนนั้น</li></ul> |
+|addressType |false |integer |ประเภทที่อยู่ `0`: ประเภทที่อยู่ออนเชน (ประเภทที่อยู่ปกติและประเภทที่อยู่แบบ universal) `1`: ประเภทที่อยู่สำหรับโอนภายใน (พารามิเตอร์ "coin" และ "chain" ใช้ไม่ได้) `2`: ประเภทที่อยู่ออนเชนและที่อยู่สำหรับโอนภายใน (พารามิเตอร์ "coin" และ "chain" ใช้ไม่ได้)|
+|limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `50`] ค่าเริ่มต้น: `50`|
+|cursor |false |string |เคอร์เซอร์ ใช้โทเคน `nextPageCursor` จากการตอบกลับเพื่อดึงหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|rows |array|ออบเจ็กต์ |
+|> coin |string |เหรียญ |
+|> chain |string |ชื่อเชน |
+|> address |string |ที่อยู่|
+|> tag |string |แท็กของที่อยู่ |
+|> remark |string |หมายเหตุ |
+|> status|integer |สถานะของที่อยู่: `0`: ปกติ `1`: ที่อยู่ใหม่จะถูกห้ามถอนเหรียญเป็นเวลา 24 ชั่วโมง|
+|> addressType|integer |ประเภทที่อยู่ `0`: ประเภทที่อยู่ออนเชน (ประเภทที่อยู่ปกติและประเภทที่อยู่แบบ universal) `1`: ประเภทที่อยู่สำหรับโอนภายใน `2`: ประเภทที่อยู่สำหรับโอนภายในและที่อยู่ออนเชน|
+|> verified |integer |ระบุว่าที่อยู่ได้รับการยืนยันแล้วหรือไม่: `0`: ที่อยู่ที่ยังไม่ได้ยืนยัน `1`: ที่อยู่ที่ยืนยันแล้ว|
+|> createAt |string |เวลาที่สร้างที่อยู่|
+|nextPageCursor |string|เคอร์เซอร์ ใช้สำหรับการแบ่งหน้า |
+
+---
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/asset/withdraw/query-address HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1672194949557
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "success",
+    "result": {
+        "rows": [
+            {
+                "coin": "USDT",
+                "chain": "ETH",
+                "address": "0x48101adb67d426cb15e46be5f1d9f6ab25f311ea",
+                "tag": "",
+                "remark": "",
+                "status": 0,
+                "addressType": 0,
+                "verified": 0,
+                "createdAt": "1760951195"
+            },
+            {
+                "coin": "baseCoin",
+                "chain": "ETH",
+                "address": "0x48101adb67d426cb15e46be5f1d9f6ab25f311ea",
+                "tag": "",
+                "remark": "Universal Address",
+                "status": 0,
+                "addressType": 0,
+                "verified": 0,
+                "createdAt": "1760951332"
+            }
+        ],
+        "nextPageCursor": "eyJtaW5JRCI6MTA1MDgsIm1heElEIjoxMDUwOX0="
+    },
+    "retExtInfo": {},
+    "time": 1760960379395
+}
+```

@@ -1,0 +1,61 @@
+---
+title: Delete Sub UID
+sidebar_label: Delete Sub UID
+sidebar_position: 7.5
+---
+Delete a sub UID. If a sub-account’s asset balance is greater than 0.001 USDT, it cannot be deleted.<br/>
+Use **master** user's api key**.
+
+:::tip
+The API key must have one of the below permissions in order to call this endpoint
+* master API key: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+:::
+
+### HTTP Request
+<APIEndpoint method="POST" url="/v5/user/del-submember" />
+
+### Request Parameters
+| Parameter | Required | Type | Comments|
+|:----- |:-------|:-----|------ |
+|subMemberId |<b>true</b> |string |Sub UID|
+
+### Response Parameters
+None
+
+### Request Example
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+POST /v5/user/del-submember HTTP/1.1
+Host: api.waanx.com
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1698907012755
+X-BAPI-RECV-WINDOW: 5000
+X-BAPI-SIGN: XXXXXX
+Content-Type: application/json
+Content-Length: 34
+
+{
+    "subMemberId": "112725187"
+}
+```
+
+</TabItem>
+
+
+
+</Tabs>
+
+### Response Example
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "OK",
+    "result": {},
+    "retExtInfo": {},
+    "time": 1698907012962
+}
+```

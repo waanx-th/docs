@@ -1,0 +1,82 @@
+---
+title: ดึงรายการ UID บัญชีย่อย (ไม่จำกัด)
+sidebar_label: ดึงรายการ UID บัญชีย่อย (ไม่จำกัด)
+sidebar_position: 3.1
+---
+API นี้ใช้กับลูกค้าที่มีบัญชีย่อยมากกว่า 10,000 บัญชี ใช้**คีย์ API ของบัญชีหลัก**ได้**เท่านั้น**
+
+:::tip
+คีย์ API ต้องมีสิทธิ์อย่างใดอย่างหนึ่งด้านล่างนี้จึงจะเรียกเอนด์พอยต์นี้ได้
+* คีย์ API ของบัญชีหลัก: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+:::
+
+### คำขอ HTTP
+<APIEndpoint method="GET" url="/v5/user/submembers" />
+
+### พารามิเตอร์คำขอ {#request-parameters}
+| พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
+|:----- |:-------|:-----|------ |
+|pageSize |false |string |จำนวนข้อมูลต่อหนึ่งหน้า คืนค่าได้สูงสุด 100 รายการต่อคำขอ|
+|nextCursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextCursor` จากการตอบกลับเพื่อดึงข้อมูลหน้าถัดไปของชุดผลลัพธ์|
+
+### พารามิเตอร์การตอบกลับ {#response-parameters}
+| พารามิเตอร์ | ประเภท | คำอธิบาย|
+|:----- |:-----|----- |
+|subMembers |array |อ็อบเจกต์ |
+|> uid |string |ID ผู้ใช้บัญชีย่อย |
+|> username |string |ชื่อผู้ใช้|
+|> memberType |integer |`1`: บัญชีย่อยมาตรฐาน, `6`: [บัญชีย่อยแบบ custodial](https://support.waanx.com/en/support/home) |
+|> status |integer |สถานะของบัญชีผู้ใช้<ul><li>`1`: ปกติ</li><li>`2`: ห้ามเข้าสู่ระบบ</li><li>`4`: ถูกระงับ </li></ul>|
+|> accountMode |integer |โหมดบัญชีของบัญชีผู้ใช้<ul><li>`3`: UTA1.0</li><li>`4`: UTA1.0 Pro</li><li>`5`: UTA2.0</li><li>`6`: UTA2.0 Pro</li></ul>|
+|> remark |string |หมายเหตุ |
+|nextCursor |string |ค่าเคอร์เซอร์ของหน้าถัดไป "0" หมายถึงไม่มีหน้าถัดไปแล้ว|
+
+### ตัวอย่างคำขอ
+
+<Tabs groupId="programming-languages">
+<TabItem value="http" label="HTTP">
+
+```http
+GET /v5/user/submembers?pageSize=1 HTTP/1.1
+Host: api.waanx.com
+X-BAPI-SIGN: XXXXX
+X-BAPI-API-KEY: xxxxxxxxxxxxxxxxxx
+X-BAPI-TIMESTAMP: 1676430318405
+X-BAPI-RECV-WINDOW: 5000
+```
+
+</TabItem>
+
+</Tabs>
+
+### ตัวอย่างการตอบกลับ
+
+```json
+{
+    "retCode": 0,
+    "retMsg": "",
+    "result": {
+        "subMembers": [
+            {
+                "uid": "106314365",
+                "username": "xxxx02",
+                "memberType": 1,
+                "status": 1,
+                "remark": "",
+                "accountMode": 5
+            },
+            {
+                "uid": "106279879",
+                "username": "xxxx01",
+                "memberType": 1,
+                "status": 1,
+                "remark": "",
+                "accountMode": 6
+            }
+        ],
+        "nextCursor": "0"
+    },
+    "retExtInfo": {},
+    "time": 1760388041006
+}
+```
