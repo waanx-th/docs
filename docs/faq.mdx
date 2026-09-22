@@ -128,11 +128,17 @@ There is no guaranteed workaround. You can use GTC (Good Till Cancelled) **limit
 
 ## How can extend my API key without having to create a new one?
 
-An API key created without binding IP address(es) will expire after 90 days. To avoid having to replace your API key and secret each time this happens:
+Check the API key management page for your key's current expiration date and available renewal options. If a key already has no IP restrictions, renewal may let you keep the same key and secret; follow the options shown for that key.
 
-1. Navigate to the API key management page: https://app.waanx.com
-2. Click on the edit button under the column "IP Address Added". A window will pop-up
-3. Select "No IP restriction" and click the "Submit" button
+:::warning Protect your API key
 
-4. Enter your email and 2FA verification codes
-5. Your API key's expiration has been extended to 90 days from now whilst keeping the same API key and secret.
+Prefer an IP allowlist and grant only the permissions your application needs. Do not remove an existing IP restriction just to renew a key. Without an IP restriction, anyone who obtains the key and secret can use its permissions from another IP address.
+
+If an IP allowlist is not feasible, use a dedicated short-lived key only in a controlled environment, limit its permissions and monitor its usage.
+
+:::
+
+1. Open the API key management page: https://app.waanx.com
+2. Review the key's expiration date, IP restrictions and permissions.
+3. If renewal is available, follow the instructions on that page and complete the required verification. Keep existing IP restrictions in place.
+4. Confirm the new expiration date and security settings. If renewal is unavailable, create a replacement key with an IP allowlist and the minimum required permissions, update your application, then revoke the old key.
