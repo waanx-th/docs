@@ -24,7 +24,7 @@ sidebar_position: 6.1
 |orderId |false |string |รหัสคำสั่งซื้อขาย |
 |orderLinkId |false |string |รหัสคำสั่งซื้อขายที่ผู้ใช้กำหนดเอง|
 |baseCoin |false |string |เหรียญฐาน ตัวพิมพ์ใหญ่เท่านั้น|
-|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) <ul><li>หากไม่ส่ง startTime และ endTime มา จะคืนค่าข้อมูลย้อนหลัง 7 วันเป็นค่าเริ่มต้น</li><li>หากส่งเฉพาะ startTime มา จะคืนค่าข้อมูลในช่วงระหว่าง startTime ถึง startTime+7 วัน</li><li>หากส่งเฉพาะ endTime มา จะคืนค่าข้อมูลในช่วงระหว่าง endTime-7 วัน ถึง endTime<br/>หากส่งมาทั้งสองค่า เงื่อนไขคือ endTime - startTime <= 7 วัน</li></ul>|
+|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) <ul><li>หากไม่ส่ง startTime และ endTime มา จะคืนค่าข้อมูลย้อนหลัง 7 วันเป็นค่าเริ่มต้น</li><li>หากส่งเฉพาะ startTime มา จะคืนค่าข้อมูลในช่วงระหว่าง startTime ถึง startTime+7 วัน</li><li>หากส่งเฉพาะ endTime มา จะคืนค่าข้อมูลในช่วงระหว่าง endTime-7 วัน ถึง endTime<br/>หากส่งมาทั้งสองค่า เงื่อนไขคือ endTime - startTime &lt;= 7 วัน</li></ul>|
 |endTime |false |integer |ประทับเวลาสิ้นสุด (มิลลิวินาที)|
 |[execType](../enum#exectype) |false |string |ประเภทการจับคู่|
 |limit |false |integer |จำนวนข้อมูลสูงสุดต่อหนึ่งหน้า [`1`, `100`] ค่าเริ่มต้น: `50`|

@@ -21,7 +21,7 @@ sidebar_position: 3
 |baseCoin |false |string |เหรียญฐาน ตัวพิมพ์ใหญ่เท่านั้น เช่น BTC ของ BTCPERP|
 |[type](../enum#typeuta-translog) |false |string |ประเภทของบันทึกธุรกรรม|
 |transSubType|false |string |`movePosition` ใช้เพื่อกรองเฉพาะบันทึกธุรกรรมของ Move Position|
-|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) <ul><li>หากไม่ส่ง startTime และ endTime จะคืนข้อมูล 24 ชั่วโมงเป็นค่าเริ่มต้น</li><li>หากส่งเฉพาะ startTime จะคืนช่วงระหว่าง startTime ถึง startTime+24 ชั่วโมง</li><li>หากส่งเฉพาะ endTime จะคืนช่วงระหว่าง endTime-24 ชั่วโมง ถึง endTime</li><li>หากส่งทั้งสองค่า กฎคือ endTime - startTime <= 7 วัน</li></ul>|
+|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) <ul><li>หากไม่ส่ง startTime และ endTime จะคืนข้อมูล 24 ชั่วโมงเป็นค่าเริ่มต้น</li><li>หากส่งเฉพาะ startTime จะคืนช่วงระหว่าง startTime ถึง startTime+24 ชั่วโมง</li><li>หากส่งเฉพาะ endTime จะคืนช่วงระหว่าง endTime-24 ชั่วโมง ถึง endTime</li><li>หากส่งทั้งสองค่า กฎคือ endTime - startTime &lt;= 7 วัน</li></ul>|
 |endTime |false	|integer |ประทับเวลาสิ้นสุด (มิลลิวินาที) |
 |limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `50`] ค่าเริ่มต้น: `20`|
 |cursor |false |string |เคอร์เซอร์ ใช้โทเค็น `nextPageCursor` จากการตอบกลับเพื่อดึงหน้าถัดไปของชุดผลลัพธ์|

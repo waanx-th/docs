@@ -49,7 +49,7 @@ A smaller `X-BAPI-RECV-WINDOW` is more secure, but your request may fail if the 
 
 :::caution
 Please make sure that the timestamp parameter adheres to the **following rule**:<br/>
-_server_time - recv_window <= timestamp < server_time + 1000_<br/>
+_server_time - recv_window &lt;= timestamp &lt; server_time + 1000_<br/>
 which means your timestamp should lie in range: [server_time - recv_window; server_time + 1000)<br/>
 server_time stands for WaanX server time, which can be queried via the [Server Time endpoint](/v5/market/time#). Keep in mind it's highly recommended that you use local device time for `timestamp` and keep it NTP-synchronized at all times.
 :::

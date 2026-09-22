@@ -1,0 +1,31 @@
+name: Verify documentation
+
+on:
+  pull_request:
+  push:
+    branches: [jarrett_dev, main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+      - name: Install pinned package manager
+        run: npm install --global yarn@1.22.22 --ignore-scripts
+      - name: Install locked dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+      - name: Verify authentication and security checks
+        run: yarn test
+      - name: Build all locales and scan assets
+        run: yarn build
+      - name: Audit dependencies
+        run: yarn security:audit

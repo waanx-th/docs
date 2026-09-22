@@ -4,9 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * ========================================================================== */
-import sdk from "@paloaltonetworks/postman-collection";
+import * as sdk from "postman-collection";
 import cloneDeep from "lodash/cloneDeep";
-import cryptoJsMin from "./crypto-js.min";
+import cryptoJsMin from "crypto-js";
 
 function setQueryParams(postman, queryParams) {
   postman.url.query.clear();
@@ -83,12 +83,12 @@ function setHeaders(postman, contentType, accept, cookie, headerParams, body, ot
    * @type {string}
    */
   if (headerParams.length != 0) {
-    var apiKey = "CFEJUGQEQPPHGOHGHM";
+    var apiKey = "";
     if (headerParams[0].hasOwnProperty("value")) {
       apiKey = headerParams[0]["value"];
     }
 
-    var secret = "VDFZSSPUTKRJMXAVMJXBHEXIPZNZJIZUBVRQ";
+    var secret = "";
     if (headerParams[1].hasOwnProperty("value")) {
       secret = headerParams[1]["value"];
     }

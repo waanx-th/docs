@@ -27,7 +27,7 @@ real-time order information, you could query this [endpoint](open-order#) or rel
 |orderLinkId |false |string |User customised order ID |
 |orderFilter |false |string |`Order`: active order<br/>`StopOrder`: conditional order for Spot<br/>`tpslOrder`: spot TP/SL order<br/>`OcoOrder`: spot OCO orders<br/>`BidirectionalTpslOrder`: Spot bidirectional TPSL order <ul><li>all kinds of orders are returned by default</li></ul>|
 |[orderStatus](../enum#orderstatus) |false |string |Order status|
-|startTime |false |integer |The start timestamp (ms)<ul><li>startTime and endTime are not passed, return 7 days by default</li><li>Only startTime is passed, return range between startTime and startTime+7 days</li><li>Only endTime is passed, return range between endTime-7 days and endTime</li><li>If both are passed, the rule is endTime - startTime <= 7 days</li></ul>|
+|startTime |false |integer |The start timestamp (ms)<ul><li>startTime and endTime are not passed, return 7 days by default</li><li>Only startTime is passed, return range between startTime and startTime+7 days</li><li>Only endTime is passed, return range between endTime-7 days and endTime</li><li>If both are passed, the rule is endTime - startTime &lt;= 7 days</li></ul>|
 |endTime |false |integer |The end timestamp (ms)|
 |limit |false |integer |Limit for data size per page. [`1`, `50`]. Default: `20`|
 |cursor |false |string |Cursor. Use the `nextPageCursor` token from the response to retrieve the next page of the result set|
