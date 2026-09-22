@@ -20,7 +20,9 @@ jobs:
         with:
           node-version-file: .nvmrc
       - name: Install pinned package manager
-        run: npm install --global yarn@1.22.22 --ignore-scripts
+        run: npm install --global yarn@1.22.22 --ignore-scripts --registry=https://registry.npmjs.org
+      - name: Check lockfile registry URLs
+        run: node scripts/check-lockfile.cjs
       - name: Install locked dependencies
         run: yarn install --frozen-lockfile --non-interactive
       - name: Verify authentication and security checks

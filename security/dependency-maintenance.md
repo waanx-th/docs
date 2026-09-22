@@ -2,6 +2,10 @@
 
 Use Node.js 22.22.0 and Yarn 1.22.22. Commit `package.json`, `yarn.lock` and any compatibility patches together. Keep `yarn.lock` as the only installation lockfile.
 
+## Registry portability
+
+All lockfile tarball URLs must use the public npm or Yarn registry over HTTPS without embedded credentials. A local package cache can hide an unreachable mirror URL, even when `.yarnrc` selects the public registry. The dependency-free `scripts/check-lockfile.cjs` runs before installation in CI, as the Yarn preinstall hook, and during security checks. When changing registry URLs, verify the public package integrity against the existing lockfile and validate with an empty package cache.
+
 ## Postman and Faker
 
 `postman-collection@5.3.1` still pins `@faker-js/faker@5.5.3`. The advisory [GHSA-qxc2-j82w-r537](https://github.com/advisories/GHSA-qxc2-j82w-r537) lists Faker versions through 10.4.0 as affected. The Yarn resolution installs the patched 10.5.0 release; no advisory is suppressed.

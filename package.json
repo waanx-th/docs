@@ -17,7 +17,8 @@
     "test": "node --test test/*.test.cjs",
     "security:check": "node scripts/security-check.cjs",
     "security:audit": "node scripts/audit-dependencies.cjs",
-    "postinstall": "node scripts/postinstall.cjs"
+    "postinstall": "node scripts/postinstall.cjs",
+    "preinstall": "node scripts/check-lockfile.cjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",

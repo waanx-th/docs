@@ -2017,7 +2017,7 @@
 
 "@faker-js/faker@10.5.0", "@faker-js/faker@5.5.3":
   version "10.5.0"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/@faker-js/faker/-/faker-10.5.0.tgz#d2f6a8c7f08d087ac5f077d6babd0821edf24c03"
+  resolved "https://registry.npmjs.org/@faker-js/faker/-/faker-10.5.0.tgz"
   integrity sha512-bsxD8WLS5lIj7aaoCx1YJkktqYj5vlBUE6HWzu2Q51ksrGJ0H737ECCKlFU7Yf8Br45z9t99frBp/J7kzbMPAg==
 
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
@@ -3235,7 +3235,7 @@
 
 "@yarnpkg/lockfile@1.1.0", "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
+  resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
 accepts@~1.3.8:
@@ -5153,7 +5153,7 @@ find-up@^6.3.0:
 
 find-yarn-workspace-root@^2.0.0:
   version "2.0.0"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/find-yarn-workspace-root/-/find-yarn-workspace-root-2.0.0.tgz#f47fb8d239c900eb78179aa81b66673eac88f7bd"
+  resolved "https://registry.npmjs.org/find-yarn-workspace-root/-/find-yarn-workspace-root-2.0.0.tgz"
   integrity sha512-1IMnbjt4KzsQfnhnzNd8wUEgXZ44IzZaZmnLYx7D5FZlaHt2gW20Cri8Q+E/t5tIj4+epTBub+2Zxu/vNILzqQ==
   dependencies:
     micromatch "^4.0.2"
@@ -5211,7 +5211,7 @@ fresh@~0.5.2:
 
 fs-extra@^10.0.0:
   version "10.1.0"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/fs-extra/-/fs-extra-10.1.0.tgz#02873cfbc4084dde127eaa5f9905eef2325d1abf"
+  resolved "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz"
   integrity sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==
   dependencies:
     graceful-fs "^4.2.0"
@@ -6073,7 +6073,7 @@ isarray@0.0.1:
 
 isarray@^2.0.5:
   version "2.0.5"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/isarray/-/isarray-2.0.5.tgz#8af1e4c1221244cc62459faf38940d4e644a5723"
+  resolved "https://registry.npmjs.org/isarray/-/isarray-2.0.5.tgz"
   integrity sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==
 
 isarray@~1.0.0:
@@ -6226,7 +6226,7 @@ json-schema-traverse@^1.0.0:
 
 json-stable-stringify@^1.0.2:
   version "1.3.0"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/json-stable-stringify/-/json-stable-stringify-1.3.0.tgz#8903cfac42ea1a0f97f35d63a4ce0518f0cc6a70"
+  resolved "https://registry.npmjs.org/json-stable-stringify/-/json-stable-stringify-1.3.0.tgz"
   integrity sha512-qtYiSSFlwot9XHtF9bD9c7rwKjr+RecWT//ZnPvSmEjpV5mmPOCN4j8UjY5hbjNkOwZ/jQv3J6R1/pL7RwgMsg==
   dependencies:
     call-bind "^1.0.8"
@@ -6251,7 +6251,7 @@ jsonfile@^6.0.1:
 
 jsonify@^0.0.1:
   version "0.0.1"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/jsonify/-/jsonify-0.0.1.tgz#2aa3111dae3d34a0f151c63f3a45d995d9420978"
+  resolved "https://registry.npmjs.org/jsonify/-/jsonify-0.0.1.tgz"
   integrity sha512-2/Ki0GcmuqSrgFyelQq9M05y7PS0mEwuIzrf3f1fPqkVDVRvZrPZtVSMHxdgo8Aq0sxAOb/cr2aqqA3LeWHVPg==
 
 keyv@^4.5.3:
@@ -6268,7 +6268,7 @@ kind-of@^6.0.0, kind-of@^6.0.2, kind-of@^6.0.3:
 
 klaw-sync@^6.0.0:
   version "6.0.0"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/klaw-sync/-/klaw-sync-6.0.0.tgz#1fd2cfd56ebb6250181114f0a581167099c2b28c"
+  resolved "https://registry.npmjs.org/klaw-sync/-/klaw-sync-6.0.0.tgz"
   integrity sha512-nIeuVSzdCCs6TDPTqI8w1Yre34sSq7AkZ4B3sfOBbI2CgVSB4Du4aLQijFU2+lhAFCwt9+42Hel6lQNIv6AntQ==
   dependencies:
     graceful-fs "^4.1.11"
@@ -7476,7 +7476,7 @@ open@^10.0.3:
 
 open@^7.4.2:
   version "7.4.2"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/open/-/open-7.4.2.tgz#b8147e26dcf3e426316c730089fd71edd29c2321"
+  resolved "https://registry.npmjs.org/open/-/open-7.4.2.tgz"
   integrity sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==
   dependencies:
     is-docker "^2.0.0"
@@ -7668,7 +7668,7 @@ pascal-case@^3.1.2:
 
 patch-package@8.0.1:
   version "8.0.1"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/patch-package/-/patch-package-8.0.1.tgz#79d02f953f711e06d1f8949c8a13e5d3d7ba1a60"
+  resolved "https://registry.npmjs.org/patch-package/-/patch-package-8.0.1.tgz"
   integrity sha512-VsKRIA8f5uqHQ7NGhwIna6Bx6D9s/1iXlA1hthBVBEbkq+t4kXD0HHt+rJhf/Z+Ci0F/HCB2hvn0qLdLG+Qxlw==
   dependencies:
     "@yarnpkg/lockfile" "^1.1.0"
@@ -9397,7 +9397,7 @@ skin-tone@^2.0.0:
 
 slash@^2.0.0:
   version "2.0.0"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
+  resolved "https://registry.npmjs.org/slash/-/slash-2.0.0.tgz"
   integrity sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==
 
 slash@^3.0.0:
@@ -9777,7 +9777,7 @@ tinypool@^1.0.2:
 
 tmp@^0.2.4:
   version "0.2.7"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/tmp/-/tmp-0.2.7.tgz#26f4db11d1601ce8012dcb8a798ece1c06a99059"
+  resolved "https://registry.npmjs.org/tmp/-/tmp-0.2.7.tgz"
   integrity sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==
 
 to-regex-range@^5.0.1:
@@ -10421,7 +10421,7 @@ yaml@1.10.2, yaml@1.10.3, yaml@^1.10.0:
 
 yaml@^2.2.2:
   version "2.9.1"
-  resolved "https://jfrog.infra.ww5sawfyut0k.bitsvc.io/artifactory/api/npm/frontend-npm-central-virtual/yaml/-/yaml-2.9.1.tgz#c16233fb31944e705cfefaff38795587f57588ce"
+  resolved "https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz"
   integrity sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==
 
 yargs-parser@^21.1.1:
