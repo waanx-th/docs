@@ -12,7 +12,7 @@ sidebar_position: 11
 | พารามิเตอร์ | จำเป็น | ประเภท | คำอธิบาย|
 |:----- |:-------|:-----|------ |
 |currency |false |string |`USDC`,`USDT`,`BTC`,`ETH` เป็นต้น ตัวพิมพ์ใหญ่เท่านั้น|
-|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) <ul><li>หากไม่ส่ง startTime และ endTime จะคืนข้อมูล 30 วันเป็นค่าเริ่มต้น</li><li>หากส่งเฉพาะ startTime จะคืนช่วงระหว่าง startTime ถึง startTime + 30 วัน </li><li>หากส่งเฉพาะ endTime จะคืนช่วงระหว่าง endTime-30 วัน ถึง endTime</li><li>หากส่งทั้งสองค่า กฎคือ endTime - startTime <= 30 วัน</li></ul> |
+|startTime |false |integer |ประทับเวลาเริ่มต้น (มิลลิวินาที) <ul><li>หากไม่ส่ง startTime และ endTime จะคืนข้อมูล 30 วันเป็นค่าเริ่มต้น</li><li>หากส่งเฉพาะ startTime จะคืนช่วงระหว่าง startTime ถึง startTime + 30 วัน </li><li>หากส่งเฉพาะ endTime จะคืนช่วงระหว่าง endTime-30 วัน ถึง endTime</li><li>หากส่งทั้งสองค่า กฎคือ endTime - startTime &lt;= 30 วัน</li></ul> |
 |endTime |false |integer |เวลาสิ้นสุด ประทับเวลา (มิลลิวินาที) |
 |limit |false |integer |จำนวนข้อมูลสูงสุดต่อหน้า [`1`, `50`] ค่าเริ่มต้น: `20`|
 |cursor |false |string |เคอร์เซอร์ ใช้โทเคน `nextPageCursor` จากการตอบกลับเพื่อดึงหน้าถัดไปของชุดผลลัพธ์|

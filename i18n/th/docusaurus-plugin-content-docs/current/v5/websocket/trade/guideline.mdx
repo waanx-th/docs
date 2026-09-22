@@ -57,7 +57,7 @@ sidebar_position: 1
 |reqId|false |string |ใช้ระบุความไม่ซ้ำกันของคำขอ เมื่อส่งค่านี้มา การตอบกลับจะคืนค่านี้ให้ ความยาวต้องไม่เกิน 36 อักขระ <ul><li>หากส่งมา ค่านี้ต้องไม่ซ้ำกัน มิฉะนั้นคุณจะได้รับ "20006"</li></ul>|
 |header|**true** |object |เฮดเดอร์ของคำขอ|
 |> X-BAPI-TIMESTAMP|**true** |string |ประทับเวลาปัจจุบัน|
-|> X-BAPI-RECV-WINDOW|false |string |ค่าเริ่มต้นคือ 5000(ms) คำขอจะถูกปฏิเสธเมื่อไม่เป็นไปตามกฎนี้: <i>WaanX_server_time - X-BAPI-RECV-WINDOW <= X-BAPI-TIMESTAMP < WaanX_server_time + 1000</i>|
+|> X-BAPI-RECV-WINDOW|false |string |ค่าเริ่มต้นคือ 5000(ms) คำขอจะถูกปฏิเสธเมื่อไม่เป็นไปตามกฎนี้: <i>WaanX_server_time - X-BAPI-RECV-WINDOW &lt;= X-BAPI-TIMESTAMP &lt; WaanX_server_time + 1000</i>|
 |> Referer|false |string |ตัวระบุ referer สำหรับผู้ใช้ API broker|
 |op |**true** |string |ประเภท op <ul><li>`order.create`: สร้างคำสั่งซื้อขาย</li> <li>`order.amend`: แก้ไขคำสั่งซื้อขาย</li> <li>`order.cancel`: ยกเลิกคำสั่งซื้อขาย</li></ul>|
 |args |**true** |array&ltobject&gt |อาร์เรย์ args ปัจจุบันรองรับเพียงหนึ่งรายการเท่านั้น <ul><li>`order.create`: ดู[คำขอสร้างคำสั่งซื้อขาย](../../order/create-order#request-parameters)</li><li>`order.amend`: ดู[คำขอแก้ไขคำสั่งซื้อขาย](../../order/amend-order#request-parameters)</li><li>`order.cancel`: ดู[คำขอยกเลิกคำสั่งซื้อขาย](../../order/cancel-order#request-parameters)</li></ul> |
@@ -143,7 +143,7 @@ sidebar_position: 1
 |reqId|false |string |ใช้ระบุความไม่ซ้ำกันของคำขอ เมื่อส่งค่านี้มา การตอบกลับจะคืนค่านี้ให้ ความยาวต้องไม่เกิน 36 อักขระ <ul><li>หากส่งมา ค่านี้ต้องไม่ซ้ำกัน มิฉะนั้นคุณจะได้รับ "20006"</li></ul>|
 |header|**true** |object |เฮดเดอร์ของคำขอ|
 |> X-BAPI-TIMESTAMP|**true** |string |ประทับเวลาปัจจุบัน|
-|> X-BAPI-RECV-WINDOW|false |string |ค่าเริ่มต้นคือ 5000(ms) คำขอจะถูกปฏิเสธเมื่อไม่เป็นไปตามกฎนี้: <i>WaanX_server_time - X-BAPI-RECV-WINDOW <= X-BAPI-TIMESTAMP < WaanX_server_time + 1000</i>|
+|> X-BAPI-RECV-WINDOW|false |string |ค่าเริ่มต้นคือ 5000(ms) คำขอจะถูกปฏิเสธเมื่อไม่เป็นไปตามกฎนี้: <i>WaanX_server_time - X-BAPI-RECV-WINDOW &lt;= X-BAPI-TIMESTAMP &lt; WaanX_server_time + 1000</i>|
 |> Referer|false |string |ตัวระบุ referer สำหรับผู้ใช้ API broker|
 |op |**true** |string |ประเภท op <ul><li>`order.create-batch`: สร้างคำสั่งซื้อขายแบบกลุ่ม</li> <li>`order.amend-batch`: แก้ไขคำสั่งซื้อขายแบบกลุ่ม</li> <li>`order.cancel-batch`: ยกเลิกคำสั่งซื้อขายแบบกลุ่ม</li></ul>|
 |args |**true** |array&ltobject&gt |อาร์เรย์ args <ul><li>`order.create-batch`: ดู[คำขอสร้างคำสั่งซื้อขายแบบกลุ่ม](../../order/batch-place#request-parameters)</li><li>`order.amend-batch`: ดู[คำขอแก้ไขคำสั่งซื้อขายแบบกลุ่ม](../../order/batch-amend#request-parameters)</li><li>`order.cancel-batch`: ดู[คำขอยกเลิกคำสั่งซื้อขายแบบกลุ่ม](../../order/batch-cancel#request-parameters)</li></ul> |

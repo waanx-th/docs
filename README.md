@@ -1,81 +1,46 @@
 # WaanX API Documentation
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website uses [Docusaurus 3](https://docusaurus.io/).
 
-## Installation
+## Requirements and installation
 
-### Requirements
-* install latest version of NodeJs (version greater than 16.14). You could install it via npm
-```shell
-npm install -g n
+Use Node.js 22.22.0 (see `.nvmrc`) and Yarn Classic 1.22.22. `yarn.lock` is the installation lockfile.
+
+```sh
+nvm install
+nvm use
+npm install --global yarn@1.22.22
+yarn install --frozen-lockfile
+./setup.sh
 ```
 
-* install yarn. You could install it via npm
-```shell
-npm install --global yarn
+Installation automatically applies the versioned Postman compatibility patch. Do not skip install scripts. `setup.sh` verifies the source-controlled authentication override and security configuration; it does not copy authentication code into `node_modules`.
+
+## Local development
+
+```sh
+yarn start                  # English
+yarn start --locale th   # th
 ```
 
-```
-$ yarn  # install the dependencies
-```
+Edit English pages in `docs/` and translations in `i18n/th/docusaurus-plugin-content-docs/current/`. Sidebar order is defined in `sidebars.js`; site settings are in `docusaurus.config.js`.
 
+## Validation and production preview
 
-Running the below script copies our custom JavaScript files into the installed API documentation theme, which enables sending authenticated requests to the WaanX API.
-
-It should be run on the first installation and on subsequent yarn upgrades.
-```
-$ chmod +x setup.sh
-$ ./setup.sh
-```
-
-### Local Development
-As we have english and chinese in the application, so you need to start them separately.
-```
-$ yarn start  # start the local EN site
-```
-```
-$ yarn start --locale zh-TW  # start the local CN site
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Project Structure
-```shell
-├── docs   # put english mdx files here
-│
-├── i18n  
-│   ├── en
-│   │   ├── docusaurus-plugin-content-docs
-│   │   │   └── current.json
-│   │   └── docusaurus-theme-classic
-│   │       └── navbar.json
-│   └── zh
-│       ├── docusaurus-plugin-content-docs
-│       │   └── current   # maintain CN mdx files here
-│       │   │   └── derivatives
-│       │   └── current.json  # CN sidebar name
-│       │
-│       └── docusaurus-theme-classic
-│           └── navbar.json   # CN navbar name
-├── sidebars.js   # sort and organize side category
-│ 
-├── docusaurus.config.js  # basic configs, including logo, path, and navbar, etc
-```
-
-### Build
-
-```shell
+```sh
+yarn test
+yarn security:check
 yarn build
+yarn serve
+yarn security:audit
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+`yarn build` builds both locales and scans the output for retired credentials. `yarn security:audit` checks the locked dependencies and fails on high or critical findings. Full results are saved under the ignored `.security-reports/` directory. Use `yarn clear` after dependency or theme changes to remove stale build caches.
 
-### Deployment
+The API explorer requires your own key and secret for authenticated requests. It provides no shared credentials. Use an IP allowlist and minimum permissions; never commit credentials or environment files. The local signing implementation is in `src/waanx_auth/buildPostmanRequest.js`, exposed through `src/theme/ApiExplorer/buildPostmanRequest.js`.
 
-Ensure you have set the `GIT_USER` environment variable before trying to deploy.
+See [dependency maintenance](security/dependency-maintenance.md) before changing dependency resolutions or the Postman patch. Existing Docusaurus commands, including `yarn swizzle`, `yarn write-translations` and `yarn write-heading-ids`, remain available.
 
-```shell
-yarn deploy
-```
+## Deployment
 
-
+`yarn deploy` publishes the site using its Docusaurus deployment settings. Run it only through the approved release process. Local installation, validation and previews do not deploy the site.

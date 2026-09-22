@@ -121,7 +121,7 @@ sidebar_label: Error Codes
 | 110060 |Under full TP/SL mode, it is not allowed to modify TP/SL |
 | 110061 |Not allowed to have more than 20 TP/SLs under Partial tpSlMode |
 | 110062 |There is no MMP information of the institution found. |
-| 110063 |Settlement in progress! {{key0}} not available for trading. |
+| 110063 |Settlement in progress! &#123;&#123;key0&#125;&#125; not available for trading. |
 | 110064 |The modified contract quantity cannot be less than or equal to the filled quantity. |
 | 110065 |MMP hasn't yet been enabled for your account. Please contact your BD manager. |
 | 110066 |Trading is currently not allowed. |
@@ -146,8 +146,8 @@ sidebar_label: Error Codes
 | 110087 |Leverage for Perpetual or Futures contracts cannot exceed the maximum allowed for your Institutional loan|
 | 110088 |Please Upgrade to UTA to trade|
 | 110089 |Exceeds the maximum risk limit level|
-| 110090 |Order placement failed as your position may exceed the max limit. Please adjust your leverage to {{leverage}} or below to increase the max. position limit|
-| 110092 |expect Rising, but trigger_price[XXXXX] <= current[XXXXX]??laste|
+| 110090 |Order placement failed as your position may exceed the max limit. Please adjust your leverage to &#123;&#123;leverage&#125;&#125; or below to increase the max. position limit|
+| 110092 |expect Rising, but trigger_price[XXXXX] &lt;= current[XXXXX]??laste|
 | 110093 |expect Falling, but trigger_price[XXXXX] >= current[XXXXX]??last|
 | 110094 |Order notional value below the lower limit|
 | 110095 |You cannot create, modify or cancel Pre-Market Perpetual orders during the Call Auction.|
@@ -196,7 +196,7 @@ sidebar_label: Error Codes
 | 182110 |Failed to switch |
 | 182111 |The requested currency has a non guaranteed gold currency or does not support switching status currencies|
 | 182112 |Duplicate currency, please re-adjust |
-| 182011 |The {{coin}} collateral amount has reached the platform limit. Enable collateral for another asset, or transfer another supported asset to your account as collateral.|
+| 182011 |The &#123;&#123;coin&#125;&#125; collateral amount has reached the platform limit. Enable collateral for another asset, or transfer another supported asset to your account as collateral.|
 | 3100181 |UID can not be null|
 | 3100197 |Temporary banned due to the upgrade to UTA|
 | 3200316 |USDC Options Trading Restriction: The current LTV ratio for your Institutional Lending has reached the maximum allowable amount for USDC Options trading.|
@@ -206,7 +206,7 @@ sidebar_label: Error Codes
 | 3200419 |Unable to switch to Portfolio margin due to active pre-market Perpetual orders and positions|
 | 3200425 |You currently hold a position in an Event Futures contract. Switching to Portfolio Margin (PM) mode is not allowed. Please close the relevant positions before switching.|
 | 3200320 |Operations Restriction: The current LTV ratio of your Institutional Lending has hit the liquidation threshold. Assets in your account are being liquidated. (margin mode or spot leverage) |
-| 3200641 |{{coin}} collateral has reached the platform limit. Disable {{coin}} collateral before switching margin mode.|
+| 3200641 |&#123;&#123;coin&#125;&#125; collateral has reached the platform limit. Disable &#123;&#123;coin&#125;&#125; collateral before switching margin mode.|
 | 3400208 | You have unclosed hedge mode or isolated mode USDT perpetual positions|
 | 3400209 | You have USDT perpetual positions, so upgrading is prohibited for 10 minutes before and after the hour every hour |
 | 3400210 | The risk rate of your Derivatives account is too high|
@@ -232,7 +232,7 @@ sidebar_label: Error Codes
 | 170007 |Timeout waiting for response from backend server. |
 | 170010 |Purchase failed: Exceed the maximum position limit of leveraged tokens, the current available limit is %s USDT |
 | 170011 |"Purchase failed: Exceed the maximum position limit of innovation tokens, |
-| 170019 |the current available limit is ''{{.replaceKey0}}'' USDT" |
+| 170019 |the current available limit is ''&#123;&#123;.replaceKey0&#125;&#125;'' USDT" |
 | 170031 |The feature has been suspended |
 | 170032 |Network error. Please try again later |
 | 170033 |margin Insufficient account balance |
@@ -251,7 +251,7 @@ sidebar_label: Error Codes
 | 170132 |Order price too high. |
 | 170133 |Order price lower than the minimum. |
 | 170134 |Order price decimal too long. |
-| 170371 |Order price cannot be lower than {}, the price limitation|
+| 170371 |Order price cannot be lower than &#123;&#125;, the price limitation|
 | 170372 |Order price cannot be higher than 0, the price limitation|
 | 170381 |Order quantity too large. |
 | 170382 |Order quantity too large. |
@@ -297,7 +297,7 @@ sidebar_label: Error Codes
 | 170216 |The leverage you select for Spot Trading cannot exceed the maximum leverage allowed by Institutional Lending |
 | 170217 |Only LIMIT-MAKER order is supported for the current pair. |
 | 170218 |The LIMIT-MAKER order is rejected due to invalid price. |
-| 170219 |UID {{xxx}} is not available to this feature |
+| 170219 |UID &#123;&#123;xxx&#125;&#125; is not available to this feature |
 | 170220 |Spot Trading Restriction: The current LTV ratio of your institutional lending has reached the maximum allowable amount for Spot trading |
 | 170221 |This coin does not exist. |
 | 170222 |Too many requests in this time frame. |
@@ -754,8 +754,8 @@ sidebar_label: Error Codes
 | 60063 |user running symbol strategy count limited |
 | 60064 |user running strategy count limited |
 | 60065 |Strategy not found |
-| 60066 |size should more than {minSize} / sub size should more than {minSize} |
-| 60067 |too large size / size should less than {maxSize} / sub size should less than {maxSize} |
+| 60066 |size should more than &#123;minSize&#125; / sub size should more than &#123;minSize&#125; |
+| 60067 |too large size / size should less than &#123;maxSize&#125; / sub size should less than &#123;maxSize&#125; |
 | 60068 |Order cancelled |
 | 60069 |hit blacklist rule |
 | 60070 |Blocked by unified margin limit |

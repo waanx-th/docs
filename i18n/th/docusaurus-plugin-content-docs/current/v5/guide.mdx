@@ -49,7 +49,7 @@ sidebar_label: คำแนะนำการเชื่อมต่อ
 
 :::caution
 โปรดตรวจสอบว่าพารามิเตอร์ timestamp เป็นไปตาม**กฎต่อไปนี้**:<br/>
-_server_time - recv_window <= timestamp < server_time + 1000_<br/>
+_server_time - recv_window &lt;= timestamp &lt; server_time + 1000_<br/>
 ซึ่งหมายความว่า timestamp ของคุณต้องอยู่ในช่วง: [server_time - recv_window; server_time + 1000)<br/>
 server_time หมายถึงเวลาของเซิร์ฟเวอร์ WaanX ซึ่งสามารถค้นหาได้ผ่าน[เอนด์พอยต์เวลาเซิร์ฟเวอร์](/v5/market/time#) โปรดทราบว่าเราแนะนำอย่างยิ่งให้ใช้เวลาของอุปกรณ์ในเครื่องสำหรับ `timestamp` และซิงโครไนซ์กับ NTP อยู่เสมอ
 :::

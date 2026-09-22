@@ -1,6 +1,7 @@
 // @ts-check
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const {themes: prismThemes} = require('prism-react-renderer');
+const lightCodeTheme = prismThemes.github;
+const darkCodeTheme = prismThemes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -9,9 +10,10 @@ const config = {
   url: 'https://waanx-th.github.io',
   baseUrl: '/docs-waanx/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {hooks: {onBrokenMarkdownLinks: 'warn'}},
   favicon: 'img/waanx_icon.svg',
   themes: ['docusaurus-theme-openapi-docs'],
+  plugins: ['docusaurus-plugin-sass'],
 
   organizationName: 'waanx-th',
   projectName: 'docs-waanx',
@@ -34,7 +36,6 @@ const config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          docLayoutComponent: "@theme/DocPage",
           docItemComponent: "@theme/ApiItem"
         },
         blog: false,
@@ -51,6 +52,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      api: {authPersistence: false},
       colorMode: {
         defaultMode: 'dark',
       },

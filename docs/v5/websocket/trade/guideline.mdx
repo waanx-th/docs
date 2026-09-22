@@ -57,7 +57,7 @@ sidebar_position: 1
 |reqId|false |string |Used to identify the uniqueness of the request, the response will return it when passed. The length cannot exceed 36 characters. <ul><li>If passed, it can't be duplicated, otherwise you will get "20006"</li></ul>|
 |header|**true** |object |Request headers|
 |> X-BAPI-TIMESTAMP|**true** |string |Current timestamp|
-|> X-BAPI-RECV-WINDOW|false |string |5000(ms) by default. Request will be rejected when not satisfy this rule: <i>WaanX_server_time - X-BAPI-RECV-WINDOW <= X-BAPI-TIMESTAMP < WaanX_server_time + 1000</i>|
+|> X-BAPI-RECV-WINDOW|false |string |5000(ms) by default. Request will be rejected when not satisfy this rule: <i>WaanX_server_time - X-BAPI-RECV-WINDOW &lt;= X-BAPI-TIMESTAMP &lt; WaanX_server_time + 1000</i>|
 |> Referer|false |string |The referer identifier for API broker user|
 |op |**true** |string |Op type <ul><li>`order.create`: create an order</li> <li>`order.amend`: amend an order</li> <li>`order.cancel`: cancel an order</li></ul>|
 |args |**true** |array&ltobject&gt |Args array, support one item only for now <ul><li>`order.create`: refer to [create order request](../../order/create-order#request-parameters)</li><li>`order.amend`: refer to [amend order request](../../order/amend-order#request-parameters)</li><li>`order.cancel`: refer to [cancel order request](../../order/cancel-order#request-parameters)</li></ul> |
@@ -143,7 +143,7 @@ The ack of create/amend/cancel order request indicates that the request is succe
 |reqId|false |string |Used to identify the uniqueness of the request, the response will return it when passed. The length cannot exceed 36 characters. <ul><li>If passed, it can't be duplicated, otherwise you will get "20006"</li></ul>|
 |header|**true** |object |Request headers|
 |> X-BAPI-TIMESTAMP|**true** |string |Current timestamp|
-|> X-BAPI-RECV-WINDOW|false |string |5000(ms) by default. Request will be rejected when not satisfy this rule: <i>WaanX_server_time - X-BAPI-RECV-WINDOW <= X-BAPI-TIMESTAMP < WaanX_server_time + 1000</i>|
+|> X-BAPI-RECV-WINDOW|false |string |5000(ms) by default. Request will be rejected when not satisfy this rule: <i>WaanX_server_time - X-BAPI-RECV-WINDOW &lt;= X-BAPI-TIMESTAMP &lt; WaanX_server_time + 1000</i>|
 |> Referer|false |string |The referer identifier for API broker user|
 |op |**true** |string |Op type <ul><li>`order.create-batch`: batch create orders</li> <li>`order.amend-batch`: batch amend orders</li> <li>`order.cancel-batch`: batch cancel orders</li></ul>|
 |args |**true** |array&ltobject&gt |Args array <ul><li>`order.create-batch`: refer to [Batch Place Order request](../../order/batch-place#request-parameters)</li><li>`order.amend-batch`: refer to [Batch Amend Order request](../../order/batch-amend#request-parameters)</li><li>`order.cancel-batch`: refer to [Batch Cancel Order request](../../order/batch-cancel#request-parameters)</li></ul> |

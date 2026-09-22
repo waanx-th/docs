@@ -26,14 +26,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
       responses:
@@ -49,13 +49,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Please use main account API key
+          description: Please use main account API key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Please use main account secret key
+          description: Please use main account secret key. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -91,14 +91,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: memberIds
@@ -120,14 +120,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Please use the key with "Affiliate" permission
-          required: false
+          description: Please use the key with "Affiliate" permission. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Please use the key with "Affiliate" permission
-          required: false
+          description: Enter the secret for your API key with Affiliate permission. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: uid

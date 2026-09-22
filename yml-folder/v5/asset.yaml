@@ -26,14 +26,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: fromCoin
@@ -75,14 +75,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: category
@@ -134,14 +134,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: category
@@ -185,14 +185,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: accountType
@@ -223,13 +223,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -282,13 +282,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -351,14 +351,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: fromAccountType
@@ -401,14 +401,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
       responses:
@@ -471,14 +471,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: transferId
@@ -542,13 +542,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -566,13 +566,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -646,13 +646,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -753,13 +753,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -795,14 +795,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: coin
@@ -850,13 +850,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -911,13 +911,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -966,13 +966,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -1002,13 +1002,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
@@ -1044,14 +1044,14 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API key. No default credentials are provided.
+          required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: A UTA sub account API key is provided by default
-          required: false
+          description: Enter your own API secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
+          required: true
           schema:
             type: string
         - name: coin
@@ -1074,13 +1074,13 @@ paths:
       parameters:
         - name: apiKey
           in: header
-          description: Use master UID api key
+          description: Use master UID api key. No default credentials are provided.
           required: true
           schema:
             type: string
         - name: secret
           in: header
-          description: Use master UID api secret
+          description: Use master UID api secret. No default credentials are provided. Used locally to sign the request; never sent as a header.
           required: true
           schema:
             type: string
