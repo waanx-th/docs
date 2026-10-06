@@ -1,0 +1,29 @@
+package.json
+  s_8b19e91f90e45e::t_3ea360f540bf5a 73-77
+scripts/audit-dependencies.cjs
+  s_8b19e91f90e45e::t_3067df0ea595cc 4,12,18-22,26,34-36
+scripts/audit-exceptions.cjs
+  s_8b19e91f90e45e::t_fccbab609da63a 1-25
+security/dependency-maintenance.md
+  s_8b19e91f90e45e::t_bed17f9e86e094 30,34-39
+test/audit-exceptions.test.cjs
+  s_8b19e91f90e45e::t_3c3a7ade1cc202 1-44
+yarn.lock
+  s_8b19e91f90e45e::t_7504fd499f1999 5677-5680,9264-9267,9440-9443,9773-9776
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "b634bb39ab95d838216c2076441aa2568c7690c3",
+  "prompts": {},
+  "sessions": {
+    "s_8b19e91f90e45e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1117f-00b4-7f11-81a9-7d3e15eaf608",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "jarrett.wong <jarrett.wong@bybit.com>"
+    }
+  }
+}
