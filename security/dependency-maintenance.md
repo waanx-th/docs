@@ -27,8 +27,15 @@ The installer rejects unexpected generator dependencies so a future upgrade requ
 - `serialize-javascript@7.0.5`: fixes vulnerable transitive 6.x releases in the build tools. Requires the pinned Node runtime.
 - `openapi-to-postmanv2/js-yaml@4.3.2` and `yaml@1.10.3`: update pinned converter dependencies within their current major versions.
 - `uuid@11.1.1`: replaces affected 8.x transitive versions; the SDK's UUID generation is exercised in tests and both locale bundles are built.
+- `source-map-js@1.2.2`, `shell-quote@1.11.0`, `http-cache-semantics@4.3.0` and `tinypool@2.1.2`: replace vulnerable transitive releases; `tinypool` crosses a major version, so keep tests and both locale builds in CI.
 
 Remove a resolution only after the upstream dependency tree resolves to safe versions without it. Yarn reports intentional version-range override warnings for these pins. Check the complete audit output; the audit command includes development dependencies and fails on high or critical findings.
+
+## Temporary build-only audit exception
+
+As of 2026-10-06, [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) affects `braces@3.0.3` and has no patched release. All nine observed dependency paths are through Docusaurus build tooling and `micromatch`; this static documentation site does not serve those Node.js tools to visitors. Deeply nested, attacker-controlled glob patterns could still crash a build process, so treat documentation/configuration changes and external build inputs as trusted-only pending an upstream fix. This is an accepted **build-time availability risk**, not a claim that the dependency is fixed.
+
+`scripts/audit-exceptions.cjs` permits only this exact advisory, package, version, unpatched status and nine observed paths. The audit continues to print and record the high finding and exception. Any new path, changed version or available patch makes CI fail again for review. Upgrade/remove the exception when `braces` or its Docusaurus dependency chain is fixed; do not expand it to other advisories. The moderate `postcss-selector-parser` finding remains visible and should be addressed through a compatible upstream update rather than a forced major override.
 
 ## Credential cleanup
 
