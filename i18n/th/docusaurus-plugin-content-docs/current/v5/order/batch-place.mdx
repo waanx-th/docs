@@ -28,7 +28,7 @@ WaanX จะตรวจสอบและติดตามคำขอ API ข
 |[category](../enum#category) |**true** |string |ประเภทผลิตภัณฑ์ `spot`|
 |request |**true** |array |อ็อบเจกต์ |
 |> symbol |**true** |string |ชื่อสัญลักษณ์คู่เทรด เช่น `BTCUSDT` ตัวพิมพ์ใหญ่เท่านั้น |
-|> isLeverage |false |integer |จะยืมหรือไม่ ใช้ได้กับ `spot`** เท่านั้น `0`(default): ไม่ยืม เป็นการเทรดสปอต, `1`: ยืม เป็นการเทรดมาร์จิ้น|
+|> isLeverage |false |integer |พารามิเตอร์จาก API V5 เดิม ใช้ `0` สำหรับสปอต ส่วน `1` เปิดใช้สปอตมาร์จิ้นซึ่งไม่อยู่ในขอบเขตผลิตภัณฑ์ WaanX ระยะที่ 1|
 |> side |**true** |string |`Buy`, `Sell`|
 |> [orderType](../enum#ordertype) |**true** |string |`Market`, `Limit`|
 |> qty |**true** |string |จำนวนคำสั่งซื้อขาย <ul><li>สปอต: ตั้งค่า `marketUnit` เพื่อกำหนดหน่วยของจำนวนคำสั่งแบบราคาตลาด โดยคำสั่งซื้อแบบราคาตลาดจะใช้ `quoteCoin` เป็นค่าเริ่มต้น และคำสั่งขายแบบราคาตลาดจะใช้ `baseCoin` เป็นค่าเริ่มต้น</li></ul>|

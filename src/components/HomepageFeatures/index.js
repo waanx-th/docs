@@ -18,7 +18,6 @@ const primaryCards = [
     tags: [
       <Translate id="homepage.card.unified.tag.1">REST + WebSocket</Translate>,
       <Translate id="homepage.card.unified.tag.2">Spot Trading</Translate>,
-      <Translate id="homepage.card.unified.tag.3">Production-ready</Translate>,
     ],
   },
 ];
@@ -28,7 +27,7 @@ const secondaryCards = [
     title: <Translate id="homepage.card.mechanics.title">Learn Exchange Mechanics</Translate>,
     description: (
       <Translate id="homepage.card.mechanics.desc">
-        Understand order types, margin modes, settlement rules, and market structure before you ship trading logic into production.
+        Learn about spot orders and market data while the WaanX API scope is being confirmed.
       </Translate>
     ),
     link: 'https://support.waanx.com/en/support/home',

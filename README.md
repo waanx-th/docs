@@ -25,6 +25,8 @@ yarn start --locale th   # th
 
 Edit English pages in `docs/` and translations in `i18n/th/docusaurus-plugin-content-docs/current/`. Sidebar order is defined in `sidebars.js`; site settings are in `docusaurus.config.js`.
 
+The WaanX theme uses the brand's royal blue palette, self-hosted Lato, and FC Vision for Thai pages (with Noto Sans Thai as a fallback). The supplied FC Vision files are marked **Non-commercial**; their usage memo is in `static/font/FCVision-License-and-Memo.txt`. Confirm the permitted scope before using these files for any commercial purpose. The Lato and Noto Sans Thai OFL licenses are also in `static/font/`.
+
 ## Validation and production preview
 
 ```sh

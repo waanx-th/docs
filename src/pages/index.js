@@ -35,10 +35,6 @@ function HomepageHeader() {
           </span>
           <span className={styles.heroMetaDot} />
           <span className={styles.heroMetaItem}>
-            <Translate id="homepage.hero.meta.2">Unified Account</Translate>
-          </span>
-          <span className={styles.heroMetaDot} />
-          <span className={styles.heroMetaItem}>
             <Translate id="homepage.hero.meta.3">Real-time Data</Translate>
           </span>
         </div>
@@ -54,8 +50,8 @@ export default function Home() {
       description="Build trading applications with WaanX's unified V5 Open API over REST and WebSocket.">
       <main>
         <HomepageFeatures />
+        <HomepageHeader />
       </main>
-      <HomepageHeader />
     </Layout>
   );
 }

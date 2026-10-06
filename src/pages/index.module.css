@@ -4,7 +4,7 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: #0B0B0E;
+  background: #050301;
   border-bottom: 1px solid #2A2A33;
 }
 
@@ -18,8 +18,8 @@
   height: 400px;
   background: radial-gradient(
     ellipse at center,
-    rgba(247, 166, 15, 0.12) 0%,
-    rgba(247, 166, 15, 0.04) 45%,
+    rgba(0, 82, 252, 0.28) 0%,
+    rgba(0, 82, 252, 0.08) 45%,
     transparent 70%
   );
   pointer-events: none;
@@ -35,10 +35,10 @@
 .heroBadge {
   display: inline-block;
   padding: 0.25rem 0.85rem;
-  background: rgba(247, 166, 15, 0.12);
-  border: 1px solid rgba(247, 166, 15, 0.3);
+  background: rgba(0, 82, 252, 0.18);
+  border: 1px solid rgba(123, 171, 255, 0.4);
   border-radius: 999px;
-  color: #F7A60F;
+  color: #CFE4FF;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -76,24 +76,24 @@
   margin-bottom: 2.5rem;
 }
 
-/* Primary CTA button — amber fill */
+/* Primary CTA button */
 .primaryButton {
-  background-color: #F7A60F !important;
-  border-color: #F7A60F !important;
-  color: #0B0B0E !important;
+  background-color: #0052FC !important;
+  border-color: #0052FC !important;
+  color: #FFFFFF !important;
   font-weight: 700;
   border-radius: 8px;
   padding: 0.7rem 2rem;
   transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-  box-shadow: 0 0 20px rgba(247, 166, 15, 0.25);
+  box-shadow: 0 0 20px rgba(0, 82, 252, 0.3);
 }
 
 .primaryButton:hover {
-  background-color: #FAB83C !important;
-  border-color: #FAB83C !important;
+  background-color: #003AA0 !important;
+  border-color: #003AA0 !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 24px rgba(247, 166, 15, 0.4);
-  color: #0B0B0E !important;
+  box-shadow: 0 4px 24px rgba(0, 82, 252, 0.4);
+  color: #FFFFFF !important;
   text-decoration: none;
 }
 
@@ -109,9 +109,9 @@
 }
 
 .secondaryButton:hover {
-  border-color: #F7A60F !important;
-  color: #F7A60F !important;
-  background-color: rgba(247, 166, 15, 0.06) !important;
+  border-color: #7BABFF !important;
+  color: #CFE4FF !important;
+  background-color: rgba(0, 82, 252, 0.12) !important;
   text-decoration: none;
 }
 
@@ -140,15 +140,15 @@
 
 /* Light mode overrides */
 [data-theme='light'] .heroBanner {
-  background: linear-gradient(160deg, #fffbf0 0%, #fff9e6 100%);
-  border-bottom: 1px solid #f0e4c0;
+  background: linear-gradient(160deg, #EEF6FF 0%, #FFFFFF 100%);
+  border-bottom: 1px solid #CFE4FF;
 }
 
 [data-theme='light'] .heroGlow {
   background: radial-gradient(
     ellipse at center,
-    rgba(247, 166, 15, 0.18) 0%,
-    rgba(247, 166, 15, 0.06) 45%,
+    rgba(0, 82, 252, 0.18) 0%,
+    rgba(0, 82, 252, 0.06) 45%,
     transparent 70%
   );
 }
@@ -162,12 +162,13 @@
 }
 
 [data-theme='light'] .heroBadge {
-  background: rgba(247, 166, 15, 0.15);
-  border-color: rgba(247, 166, 15, 0.5);
+  background: rgba(0, 82, 252, 0.12);
+  border-color: rgba(0, 82, 252, 0.4);
+  color: #003AA0;
 }
 
 [data-theme='light'] .secondaryButton {
-  border-color: #D0C0A0 !important;
+  border-color: #7BABFF !important;
   color: #444455 !important;
 }
 

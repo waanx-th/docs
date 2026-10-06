@@ -1,8 +1,8 @@
 .features {
   padding: 3.5rem 0 5.5rem;
   background:
-    radial-gradient(circle at 50% 0, rgba(247, 166, 15, 0.12), transparent 34%),
-    linear-gradient(180deg, #0b0b0e 0%, #090a0d 100%);
+    radial-gradient(circle at 50% 0, rgba(0, 82, 252, 0.16), transparent 34%),
+    linear-gradient(180deg, #050301 0%, #101827 100%);
 }
 
 .sectionIntro {
@@ -12,7 +12,7 @@
 }
 
 .sectionEyebrow {
-  color: #f7a60f;
+  color: #7BABFF;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -70,7 +70,7 @@
 
 .card:hover {
   transform: translateY(-3px);
-  border-color: rgba(247, 166, 15, 0.35);
+  border-color: rgba(123, 171, 255, 0.4);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     0 30px 56px rgba(0, 0, 0, 0.28);
@@ -85,7 +85,7 @@
   height: 3px;
   margin: 1.55rem 1.55rem 0;
   border-radius: 999px;
-  background: linear-gradient(90deg, #f7a60f, rgba(247, 166, 15, 0.18));
+  background: linear-gradient(90deg, #0052FC, rgba(123, 171, 255, 0.18));
 }
 
 .cardInner {
@@ -103,9 +103,9 @@
   margin-bottom: 0.95rem;
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
-  background: rgba(247, 166, 15, 0.12);
-  border: 1px solid rgba(247, 166, 15, 0.22);
-  color: #f7b94a;
+  background: rgba(0, 82, 252, 0.18);
+  border: 1px solid rgba(123, 171, 255, 0.28);
+  color: #CFE4FF;
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -171,8 +171,8 @@
 
 .miniLink:hover {
   color: #f5f7fb;
-  border-color: rgba(247, 166, 15, 0.28);
-  background: rgba(247, 166, 15, 0.08);
+  border-color: rgba(123, 171, 255, 0.32);
+  background: rgba(0, 82, 252, 0.12);
   text-decoration: none;
 }
 
@@ -183,9 +183,9 @@
   align-self: flex-start;
   padding: 0.72rem 1rem;
   border-radius: 12px;
-  background: rgba(247, 166, 15, 0.08);
-  border: 1px solid rgba(247, 166, 15, 0.16);
-  color: #f7a60f;
+  background: rgba(0, 82, 252, 0.18);
+  border: 1px solid rgba(123, 171, 255, 0.28);
+  color: #CFE4FF;
   font-size: 0.92rem;
   font-weight: 700;
   text-decoration: none;
@@ -202,9 +202,9 @@
 }
 
 .cardLink:hover {
-  color: #fbc960;
-  background: rgba(247, 166, 15, 0.13);
-  border-color: rgba(247, 166, 15, 0.28);
+  color: #FFFFFF;
+  background: rgba(0, 82, 252, 0.3);
+  border-color: rgba(123, 171, 255, 0.45);
   transform: translateY(-1px);
   text-decoration: none;
 }
@@ -215,12 +215,16 @@
 
 [data-theme='light'] .features {
   background:
-    radial-gradient(circle at 50% 0, rgba(247, 166, 15, 0.14), transparent 30%),
-    linear-gradient(180deg, #f6fafc 0%, #f2f5f7 100%);
+    radial-gradient(circle at 50% 0, rgba(0, 82, 252, 0.12), transparent 30%),
+    linear-gradient(180deg, #FFFFFF 0%, #EEF6FF 100%);
 }
 
 [data-theme='light'] .sectionTitle {
   color: #10131a;
+}
+
+[data-theme='light'] .sectionEyebrow {
+  color: #003AA0;
 }
 
 [data-theme='light'] .sectionDescription {
@@ -229,7 +233,7 @@
 
 [data-theme='light'] .card {
   background:
-    linear-gradient(180deg, rgba(247, 166, 15, 0.04), rgba(255, 255, 255, 0)),
+    linear-gradient(180deg, rgba(0, 82, 252, 0.04), rgba(255, 255, 255, 0)),
     #ffffff;
   border-color: rgba(16, 19, 26, 0.08);
   box-shadow:
@@ -238,7 +242,7 @@
 }
 
 [data-theme='light'] .card:hover {
-  border-color: rgba(247, 166, 15, 0.35);
+  border-color: rgba(0, 82, 252, 0.35);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 22px 36px rgba(16, 19, 26, 0.12);
@@ -253,9 +257,9 @@
 }
 
 [data-theme='light'] .cardEyebrow {
-  background: rgba(247, 166, 15, 0.14);
-  border-color: rgba(247, 166, 15, 0.26);
-  color: #a86600;
+  background: rgba(0, 82, 252, 0.1);
+  border-color: rgba(0, 82, 252, 0.28);
+  color: #003AA0;
 }
 
 [data-theme='light'] .tag,
@@ -270,8 +274,14 @@
 }
 
 [data-theme='light'] .cardLink {
-  background: rgba(247, 166, 15, 0.08);
-  border-color: rgba(247, 166, 15, 0.16);
+  background: rgba(0, 82, 252, 0.08);
+  border-color: rgba(0, 82, 252, 0.2);
+  color: #003AA0;
+}
+
+[data-theme='light'] .cardLink:hover {
+  background: #CFE4FF;
+  color: #003AA0;
 }
 
 @media screen and (max-width: 996px) {
