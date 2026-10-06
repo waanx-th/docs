@@ -1,0 +1,82 @@
+docs/v5/order/create-order.mdx
+  s_8b19e91f90e45e::t_bdfd8d39fae205 6,21,53
+README.md
+  s_8b19e91f90e45e::t_cf05fd11169cd3 29
+  s_8b19e91f90e45e::t_c5693f609c2887 28
+static/img/waanx_icon.svg
+  s_8b19e91f90e45e::t_3a251bc8027803 3
+static/font/FCVision-License-and-Memo.txt
+  s_8b19e91f90e45e::t_16c9c243368a70 1-30
+docusaurus.config.js
+  s_8b19e91f90e45e::t_c8f06829c29f90 51
+  s_8b19e91f90e45e::t_8df2adb1a48c64 39-49,52-54
+  s_8b19e91f90e45e::t_f8685234185e4a 50
+src/components/HomepageFeatures/styles.module.css
+  s_8b19e91f90e45e::t_7131bb9eaa0e44 4-5,15,73,88,106-108,174-175,186-188,205-207,218-219,236,245,260-262,277-278,284
+  s_8b19e91f90e45e::t_6cfdaca6c483d4 226-229,279-283
+static/font/OFL.txt
+  s_8b19e91f90e45e::t_88b6861a01c495 1-93
+docs/v5/websocket/private/wallet.mdx
+  s_8b19e91f90e45e::t_bc8ad88e335e7f 60-61
+src/css/waanx.css
+  s_8b19e91f90e45e::t_16208f522b45c5 164-165,169-171
+  s_8b19e91f90e45e::t_6cfdaca6c483d4 10-17,29-30,43-54,68-69,73,76-77,87,89-91,97-104,121-123,129,134,139-141,158-159,168,191,203,212,217,229,294,341,348,371-372,463,492,551-552
+  s_8b19e91f90e45e::t_c5693f609c2887 105-120,135-138
+  s_8b19e91f90e45e::t_34671f2f993b55 160-161
+docs/v5/websocket/trade/guideline.mdx
+  s_8b19e91f90e45e::t_b2386a482f79a2 136
+i18n/th/docusaurus-plugin-content-docs/current/v5/order/create-order.mdx
+  s_8b19e91f90e45e::t_bdfd8d39fae205 6,21,53
+docs/v5/guide.mdx
+  s_8b19e91f90e45e::t_f805b59d2b5375 11
+src/pages/index.module.css
+  s_8b19e91f90e45e::t_d3818aa1a30590 7,21-22,38-39,41,79,81-83,88,92-93,95-96,112-114,143-144,150-151,165-167,171
+src/components/button.js
+  s_8b19e91f90e45e::t_7131bb9eaa0e44 4-5,15,19
+i18n/th/docusaurus-plugin-content-docs/current/v5/guide.mdx
+  s_8b19e91f90e45e::t_f805b59d2b5375 11
+docs/v5/order/batch-place.mdx
+  s_8b19e91f90e45e::t_bdfd8d39fae205 31
+src/components/HomepageFeatures/index.js
+  s_8b19e91f90e45e::t_8df2adb1a48c64 30
+i18n/th/docusaurus-plugin-content-docs/current/v5/intro.mdx
+  s_8b19e91f90e45e::t_f805b59d2b5375 7-10,12-13,22
+i18n/th/docusaurus-plugin-content-docs/current/v5/asset/withdraw/withdraw.mdx
+  s_8b19e91f90e45e::t_bc8ad88e335e7f 43
+i18n/th/docusaurus-plugin-content-docs/current/v5/websocket/trade/guideline.mdx
+  s_8b19e91f90e45e::t_b2386a482f79a2 136
+i18n/th/docusaurus-plugin-content-docs/current/v5/account/wallet-balance.mdx
+  s_8b19e91f90e45e::t_bc8ad88e335e7f 62-63
+static/font/OFL-NotoSansThai.txt
+  s_8b19e91f90e45e::t_6a0165dbff46da 1-93
+i18n/th/docusaurus-plugin-content-docs/current/v5/order/batch-place.mdx
+  s_8b19e91f90e45e::t_bdfd8d39fae205 31
+docs/v5/account/wallet-balance.mdx
+  s_8b19e91f90e45e::t_c8f06829c29f90 62-63
+docs/v5/intro.mdx
+  s_8b19e91f90e45e::t_f805b59d2b5375 7-10,12-13,22
+i18n/th/code.json
+  s_8b19e91f90e45e::t_8df2adb1a48c64 24
+docs/v5/asset/withdraw/withdraw.mdx
+  s_8b19e91f90e45e::t_bc8ad88e335e7f 43
+i18n/th/docusaurus-plugin-content-docs/current/v5/websocket/private/wallet.mdx
+  s_8b19e91f90e45e::t_bc8ad88e335e7f 60-61
+src/pages/index.js
+  s_8b19e91f90e45e::t_43c41a17075150 53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "f1e6ca0bd3a1c020408c6be3ad12704bfd18fbec",
+  "prompts": {},
+  "sessions": {
+    "s_8b19e91f90e45e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1117f-00b4-7f11-81a9-7d3e15eaf608",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "jarrett.wong <jarrett.wong@bybit.com>"
+    }
+  }
+}
