@@ -8,9 +8,6 @@
   "homepage.hero.meta.1": {
     "message": "REST + WebSocket"
   },
-  "homepage.hero.meta.2": {
-    "message": "บัญชีแบบรวมศูนย์"
-  },
   "homepage.hero.meta.3": {
     "message": "ข้อมูลแบบเรียลไทม์"
   },
@@ -20,14 +17,11 @@
   "homepage.card.unified.tag.2": {
     "message": "การเทรดสปอต"
   },
-  "homepage.card.unified.tag.3": {
-    "message": "พร้อมใช้งานจริง"
-  },
   "homepage.card.mechanics.title": {
     "message": "ทำความเข้าใจกลไกของกระดานเทรด"
   },
   "homepage.card.mechanics.desc": {
-    "message": "ทำความเข้าใจประเภทคำสั่ง โหมดมาร์จิ้น กฎการชำระราคา และโครงสร้างตลาด ก่อนนำตรรกะการเทรดขึ้นใช้งานจริง"
+    "message": "ศึกษาคำสั่งซื้อขายสปอตและข้อมูลตลาดระหว่างรอการยืนยันขอบเขต API ของ WaanX"
   },
   "homepage.card.mechanics.link": {
     "message": "ศูนย์ช่วยเหลือ"

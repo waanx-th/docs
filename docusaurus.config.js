@@ -36,7 +36,22 @@ const config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          docItemComponent: "@theme/ApiItem"
+          docItemComponent: "@theme/ApiItem",
+          exclude: [
+            ...require('@docusaurus/utils').GlobExcludeDefault,
+            'v5/copytrade.mdx',
+            'v5/demo.mdx',
+            'v5/bot/**',
+            'v5/strategy/**',
+            'v5/finance/earn/**',
+            'v5/asset/fiat-convert/**',
+            'v5/affiliate/**',
+            'v5/order/spot-borrow-quota.mdx',
+            'v5/account/{batch-set-collateral,borrow,borrow-history,coin-greeks,collateral-info,get-mmp-state,get-user-setting-config,no-convert-repay,pay-info,repay,repay-liability,reset-mmp,set-collateral,set-delta-mode,set-margin-mode,set-price-limit,set-spot-hedge,upgrade-unified-account}.mdx',
+            'v5/asset/deposit/submit-info.mdx',
+            'v5/asset/withdraw/{questionnaire,vasp-list}.mdx',
+            'v5/rate-limit/rules-for-pros/**',
+          ],
         },
         blog: false,
         theme: {
@@ -93,11 +108,6 @@ const config = {
               {
                 to: '/faq',
                 label: 'FAQ',
-              },
-              {
-                type: 'doc',
-                docId: 'v5/copytrade',
-                label: 'Copy Trading',
               },
             ]
           },

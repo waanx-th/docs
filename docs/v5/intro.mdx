@@ -4,46 +4,13 @@ sidebar_label: Introduction
 ---
 
 ## Overview
-The V5 API brings uniformity and efficiency to WaanX's Spot product line in one
-set of specifications.
+This draft is being aligned to the WaanX Thailand product scope. Phase 1 focuses on
+custody, fiat deposits and withdrawals, THB and USDT Spot, and spot-only conversion
+(including small balances). Product scope does not by itself confirm the availability
+of any individual Open API endpoint.
 
-## Current API Coverage
-<span class="blocky_table">
-
-<table class="custom_table">
-    <tr>
-        <th align="center">OpenAPI Version</th><th>Account Type</th><th>Spot</th>
-    </tr>
-    <tr>
-        <td align="center">V5</td><td>Unified trading account</td><td>&#10003;</td>
-    </tr>
-</table>
-
-</span>
-
-## Key Upgrades
-### Product Lines Alignment
-V5 unifies the APIs of various trading products into one, providing users the capability to trade Spot
-with a single API by distinguishing transactions through different order parameters.
-Consequently, there is no need to switch between multiple interfaces when building different products – regardless of
-tasks such as order management or querying wallet data – as the same API can be used to request and return results.
-
-The global dictionary in V5 is uniquely defined to avoid scenarios where different terms are used for the same purposes,
-or where a single term has multiple references. This simplifies the  troubleshooting process for users.
-
-For example, when creating an order with `POST /v5/order/create`, users can specify `category=spot`.
-
-### Enhance Capital Efficiency
-V5 provides users the ability to upgrade accounts to a unified account, allowing for sharing and cross-utilization of
-funds within a single account, thus further enhancing capital efficiency.
-
-### Unified Account Borrowing
-API V5 supports borrowing across a unified account mode. Users can pledge multiple assets as collateral to obtain margin
-for spot margin trading.
-
-### API Interface Naming Standard
-API V5 offers clearer path definitions for improved clarity and reduced ambiguity. The new version divides the API
-path into market data, order management, account management, asset management, and more modules.
+## API Paths
+V5 API paths group operations into market data, orders, accounts and assets.
 
 > &#123;host&#125;/&#123;version&#125;/&#123;product&#125;/&#123;module&#125;<br/>
 Example: api.waanx.com/v5/market/recent-trade
@@ -52,9 +19,5 @@ Example: api.waanx.com/v5/market/recent-trade
 |:----- |-------|
 |v5/market/|Candlestick, orderbook, ticker, platform transaction data, underlying financial rules, risk control rules|
 |v5/order/|Order management|
-|v5/account/|Single account operations only – unified funding account, rates, etc.|
+|v5/account/|Account information and fee rates|
 |v5/asset/|Operations across multiple accounts – asset management, fund management, etc.|
-
-### Readability Improvements to API Documentation
-The API documentation has been revised and proofread to improve clarity and reduce confusion. Any parts of the
-previous documentation that were not clear have been revised to provide better explanations.

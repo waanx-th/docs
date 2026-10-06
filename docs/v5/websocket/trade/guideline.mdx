@@ -133,7 +133,7 @@ The ack of create/amend/cancel order request indicates that the request is succe
 ## Batch Create/Amend/Cancel Order
 :::info
 * A maximum of 10 orders (spot) can be placed per request. The returned data list is divided into two lists. The first list indicates whether or not the order creation was successful and the second list details the created order information. The structure of the two lists are completely consistent.
-- **Spot rate limit instruction**, please check [here](../../rate-limit#api-rate-limit-rules-for-vips)
+- **Spot rate limit instruction**, please check [the rate limit rules](../../rate-limit/rules-for-vips)
 * The account rate limit is shared between websocket and http batch orders
 * The acknowledgement of batch create/amend/cancel order requests indicates that the request was sucessfully accepted. The request is asynchronous so please use the websocket to confirm the order status.
 :::

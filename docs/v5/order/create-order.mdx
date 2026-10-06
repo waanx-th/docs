@@ -3,7 +3,7 @@ title: Place Order
 sidebar_label: Place Order
 sidebar_position: 1
 ---
-This endpoint supports to create the order for Spot and Margin trading.
+This draft covers Spot orders. Spot margin trading is not within the WaanX Phase 1 product scope.
 
 :::info
 - **Supported order type (`orderType`):**<br/>
@@ -18,7 +18,7 @@ Limit order: `orderType`=_Limit_, it is necessary to specify order qty and price
 `RPI`: Retail Price Improvement order. Assigned market maker can place this kind of order, and it is a post only order, only match with the order from Web or APP.
 
 - **How to create a conditional order:**<br/>
-When submitting an order, if `triggerPrice` is set, the order will be automatically converted into a conditional order. In addition, the conditional order does not occupy the margin. If the margin is insufficient after the conditional order is triggered, the order will be cancelled.
+When submitting an order, setting `triggerPrice` creates a conditional order. Availability of conditional order types for WaanX is pending API confirmation.
 
 - **<a href="https://support.waanx.com/en/support/home">Take profit / Stop loss</a>**: You can set TP/SL while placing orders.
 
@@ -50,7 +50,7 @@ Customers who use API default to acceptance of these terms and have the obligati
 |:----- |:-------|:-----|------ |
 |category |**true** |string |Product type `spot`|
 |symbol |**true** |string |Symbol name, like `BTCUSDT`, uppercase only|
-|isLeverage |false |integer |Whether to borrow. <ul><li>`0`(default): false, spot trading</li><li>`1`: true, margin trading, _make sure you turn on margin trading, and set the relevant currency as collateral_</li></ul>|
+|isLeverage |false |integer |Inherited V5 parameter. Use `0` for Spot; `1` enables Spot margin and is not within the WaanX Phase 1 product scope.|
 |side |**true** |string |`Buy`, `Sell`|
 |[orderType](../enum#ordertype) |**true** |string |`Market`, `Limit`|
 |qty |**true** |string |Order quantity <ul><li>Spot: Market Buy order by value by default, you can set `marketUnit` field to choose order by value or qty for market orders</li></ul>|
@@ -109,9 +109,6 @@ Content-Type: application/json
 
 // Spot TP/SL order
 {"category":"spot","symbol":"BTCUSDT","side":"Buy","orderType":"Limit","qty":"0.1","price":"15600","triggerPrice": "15000", "timeInForce":"Limit","orderLinkId":"spot-test-02","isLeverage":0,"orderFilter":"tpslOrder"}
-
-// Spot margin normal order (UTA)
-{"category":"spot","symbol":"BTCUSDT","side":"Buy","orderType":"Limit","qty":"0.1","price":"15600","timeInForce":"GTC","orderLinkId":"spot-test-limit","isLeverage":1,"orderFilter":"Order"}
 
 // Spot Market Buy order, qty is quote currency
 {"category":"spot","symbol":"BTCUSDT","side":"Buy","orderType":"Market","qty":"200","timeInForce":"IOC","orderLinkId":"spot-test-04","isLeverage":0,"orderFilter":"Order"}
