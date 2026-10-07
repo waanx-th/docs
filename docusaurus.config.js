@@ -68,6 +68,19 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       api: {authPersistence: false},
+      algolia: {
+        appId: '7A7H1SFV81',
+        apiKey: 'e4515d088bd1db653a531797770eeb2f',
+        indexName: 'WaanX-exchangeio',
+        contextualSearch: true,
+        externalUrlRegex: 'external\\.com|domain\\.com',
+        replaceSearchResultPathname: {
+          from: '/docs-waanx/',
+          to: '/',
+        },
+        searchParameters: {},
+        searchPagePath: 'search',
+      },
       colorMode: {
         defaultMode: 'dark',
       },
