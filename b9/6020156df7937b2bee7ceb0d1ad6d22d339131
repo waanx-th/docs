@@ -1,0 +1,19 @@
+docusaurus.config.js
+  s_8fefb449ca7549::t_908e1e526f3b42 71-83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "b96020156df7937b2bee7ceb0d1ad6d22d339131",
+  "prompts": {},
+  "sessions": {
+    "s_8fefb449ca7549": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1117d-1c21-7062-91f5-e4ac8594b2fa",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "jarrett.wong <jarrett.wong@bybit.com>"
+    }
+  }
+}
