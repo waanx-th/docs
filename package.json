@@ -40,7 +40,8 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.2",
-    "@yarnpkg/lockfile": "1.1.0"
+    "@yarnpkg/lockfile": "1.1.0",
+    "audit-ci": "7.1.0"
   },
   "browserslist": {
     "production": [

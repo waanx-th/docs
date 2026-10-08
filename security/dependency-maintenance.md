@@ -14,7 +14,7 @@ All lockfile tarball URLs must use the public npm or Yarn registry over HTTPS wi
 
 The patch does not modify SDK request parsing, serialization, substitution, code generators or the site's authentication logic. The package's postinstall hook runs `patch-package --error-on-fail`; a patch mismatch fails the install. Do not skip install scripts.
 
-When Postman releases native support for a patched Faker version, upgrade the SDK and remove the compatibility patch and Faker resolution together. Run `yarn clear`, `yarn build` and `yarn audit --level high`. Check the API explorer's request signing, representative dynamic-variable formats, and code snippets in a browser before release. Keep Node and browser build compatibility in the review.
+When Postman releases native support for a patched Faker version, upgrade the SDK and remove the compatibility patch and Faker resolution together. Run `yarn clear`, `yarn build` and the CI audit command. Check the API explorer's request signing, representative dynamic-variable formats, and code snippets in a browser before release. Keep Node and browser build compatibility in the review.
 
 ## Code generator dependency trees
 
@@ -29,13 +29,13 @@ When upgrading the code generators, review their dependency manifests before rel
 - `uuid@11.1.1`: replaces affected 8.x transitive versions; check the SDK's UUID generation when changing this resolution and build both locales.
 - `source-map-js@1.2.2`, `shell-quote@1.11.0`, `http-cache-semantics@4.3.0` and `tinypool@2.1.2`: replace vulnerable transitive releases; `tinypool` crosses a major version, so check browser behavior and build both locales before release.
 
-Remove a resolution only after the upstream dependency tree resolves to safe versions without it. Yarn reports intentional version-range override warnings for these pins. Review the full `yarn audit --level high` output; do not bypass findings to get a green CI check.
+Remove a resolution only after the upstream dependency tree resolves to safe versions without it. Yarn reports intentional version-range override warnings for these pins. Review the full `yarn audit --level high` output, including the documented build-only exception; do not bypass other findings to get a green CI check.
 
 ## Temporary build-only audit exception
 
 As of 2026-10-06, [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) affects `braces@3.0.3` and has no patched release. All nine observed dependency paths are through Docusaurus build tooling and `micromatch`; this static documentation site does not serve those Node.js tools to visitors. Deeply nested, attacker-controlled glob patterns could still crash a build process, so treat documentation/configuration changes and external build inputs as trusted-only pending an upstream fix. This is an unresolved **build-time availability risk**, not a claim that the dependency is fixed.
 
-The site now runs the native Yarn audit without an exception. CI reports this unresolved advisory as a high-severity blocker until an upstream fix is available. The moderate `postcss-selector-parser` finding remains visible and should be addressed through a compatible upstream update rather than a forced major override.
+With build-time risk accepted on 2026-10-08, CI uses `audit-ci` to allow only the nine observed Docusaurus build paths for this advisory. Other paths or high/critical advisories still fail the audit. Review this exception by 2026-11-08 and remove it when an upstream fix is available. The moderate `postcss-selector-parser` finding remains visible and should be addressed through a compatible upstream update rather than a forced major override.
 
 ## Credential cleanup
 

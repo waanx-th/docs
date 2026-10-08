@@ -26,4 +26,15 @@ jobs:
       - name: Build all locales
         run: yarn build
       - name: Audit dependencies
-        run: yarn audit --level high
+        run: |
+          yarn audit-ci --high --package-manager yarn --report-type summary \
+            --allowlist \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/core>@docusaurus/babel>@docusaurus/utils>globby>fast-glob>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/preset-classic>@docusaurus/core>@docusaurus/babel>@docusaurus/utils>globby>fast-glob>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/preset-classic>@docusaurus/plugin-content-blog>@docusaurus/core>@docusaurus/babel>@docusaurus/utils>globby>fast-glob>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/preset-classic>@docusaurus/theme-classic>@docusaurus/plugin-content-blog>@docusaurus/core>@docusaurus/babel>@docusaurus/utils>globby>fast-glob>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/preset-classic>@docusaurus/theme-classic>@docusaurus/plugin-content-blog>@docusaurus/core>@docusaurus/bundler>@docusaurus/babel>@docusaurus/utils>globby>fast-glob>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/utils-validation>@docusaurus/utils>globby>fast-glob>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/utils-validation>@docusaurus/utils>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/utils>globby>fast-glob>micromatch>braces' \
+            'GHSA-vfj7-8cjw-p6xm|@docusaurus/utils>micromatch>braces'
