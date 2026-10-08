@@ -12,6 +12,15 @@ const config = {
   onBrokenLinks: 'throw',
   markdown: {hooks: {onBrokenMarkdownLinks: 'warn'}},
   favicon: 'img/waanx_icon.svg',
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'algolia-site-verification',
+        content: 'AECAEB1DDFA7639A',
+      },
+    },
+  ],
   themes: ['docusaurus-theme-openapi-docs'],
   plugins: ['docusaurus-plugin-sass'],
 
