@@ -8,7 +8,7 @@ const config = {
   title: 'WaanX API Documentation',
   tagline: '',
   url: 'https://waanx-th.github.io',
-  baseUrl: '/docs-waanx/',
+  baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   markdown: {hooks: {onBrokenMarkdownLinks: 'warn'}},
   favicon: 'img/waanx_icon.svg',
@@ -16,7 +16,7 @@ const config = {
   plugins: ['docusaurus-plugin-sass'],
 
   organizationName: 'waanx-th',
-  projectName: 'docs-waanx',
+  projectName: 'docs',
   trailingSlash: false,
 
   i18n: {
@@ -75,7 +75,7 @@ const config = {
         contextualSearch: true,
         externalUrlRegex: 'external\\.com|domain\\.com',
         replaceSearchResultPathname: {
-          from: '/docs-waanx/',
+          from: '/docs/',
           to: '/',
         },
         searchParameters: {},
