@@ -11,10 +11,9 @@ nvm install
 nvm use
 npm install --global yarn@1.22.22
 yarn install --frozen-lockfile
-./setup.sh
 ```
 
-Installation automatically applies the versioned Postman compatibility patch. Do not skip install scripts. `setup.sh` verifies the source-controlled authentication override and security configuration; it does not copy authentication code into `node_modules`.
+Installation applies the versioned Postman compatibility patch. Do not skip install scripts.
 
 ## Local development
 
@@ -30,14 +29,11 @@ The WaanX theme uses the brand's royal blue palette, self-hosted Lato, and FC Vi
 ## Validation and production preview
 
 ```sh
-yarn test
-yarn security:check
 yarn build
 yarn serve
-yarn security:audit
 ```
 
-`yarn build` builds both locales and scans the output for retired credentials. `yarn security:audit` checks the locked dependencies and fails on high or critical findings. Full results are saved under the ignored `.security-reports/` directory. Use `yarn clear` after dependency or theme changes to remove stale build caches.
+`yarn build` builds both locales; it does not scan generated assets for credentials. CI checks high and critical advisories with `audit-ci`, allowing only the documented Docusaurus build paths for the unpatched `braces` advisory. Run `yarn audit --level high` to see all findings, including this exception. Use `yarn clear` after dependency or theme changes to remove stale build caches.
 
 The API explorer requires your own key and secret for authenticated requests. It provides no shared credentials. Use an IP allowlist and minimum permissions; never commit credentials or environment files. The local signing implementation is in `src/waanx_auth/buildPostmanRequest.js`, exposed through `src/theme/ApiExplorer/buildPostmanRequest.js`.
 

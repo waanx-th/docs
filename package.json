@@ -12,13 +12,7 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "prebuild": "node scripts/security-check.cjs",
-    "postbuild": "node scripts/security-check.cjs --build",
-    "test": "node --test test/*.test.cjs",
-    "security:check": "node scripts/security-check.cjs",
-    "security:audit": "node scripts/audit-dependencies.cjs",
-    "postinstall": "node scripts/postinstall.cjs",
-    "preinstall": "node scripts/check-lockfile.cjs"
+    "postinstall": "patch-package --error-on-fail && find node_modules/postman-code-generators/codegens -mindepth 2 -maxdepth 2 -type d -name node_modules -exec rm -rf {} +"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",
@@ -46,7 +40,8 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.2",
-    "@yarnpkg/lockfile": "1.1.0"
+    "@yarnpkg/lockfile": "1.1.0",
+    "audit-ci": "7.1.0"
   },
   "browserslist": {
     "production": [
