@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
 const primaryCards = [
@@ -31,6 +32,7 @@ const secondaryCards = [
       </Translate>
     ),
     link: 'https://support.waanx.com/en/support/home',
+    localizedLinks: { th: 'https://support.waanx.com/th/support/home' },
     linkLabel: <Translate id="homepage.card.mechanics.link">Help Center</Translate>,
     external: true,
   },
@@ -86,6 +88,8 @@ function Card({ title, eyebrow, description, link, linkLabel, external, internal
 }
 
 export default function HomepageFeatures() {
+  const { i18n: { currentLocale } } = useDocusaurusContext();
+
   return (
     <section className={styles.features}>
       <div className="container">
@@ -111,7 +115,7 @@ export default function HomepageFeatures() {
 
         <div className={styles.secondaryGrid}>
           {secondaryCards.map((card) => (
-            <Card key={card.link} {...card} secondary />
+            <Card key={card.link} {...card} link={card.localizedLinks?.[currentLocale] ?? card.link} secondary />
           ))}
         </div>
       </div>
