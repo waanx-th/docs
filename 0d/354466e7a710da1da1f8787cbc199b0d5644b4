@@ -1,0 +1,24 @@
+docusaurus.config.js
+  s_8b19e91f90e45e::t_7ab761836c0baf 87
+test/search-url.test.cjs
+  s_8b19e91f90e45e::t_7ab761836c0baf 13,15
+  s_8b19e91f90e45e::t_2a7ead1ad065bf 21
+  s_8b19e91f90e45e::t_06dfdd43c71e33 3,6-12,14,24
+  s_8b19e91f90e45e::t_a7162820558845 1-2,4-5,16-20,22-23,25-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "0d354466e7a710da1da1f8787cbc199b0d5644b4",
+  "prompts": {},
+  "sessions": {
+    "s_8b19e91f90e45e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1117f-00b4-7f11-81a9-7d3e15eaf608",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "jarrett.wong <jarrett.wong@bybit.com>"
+    }
+  }
+}
