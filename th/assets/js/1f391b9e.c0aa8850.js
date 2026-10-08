@@ -1,0 +1,15 @@
+"use strict";(globalThis.webpackChunkdocusaurus_docs||=[]).push([[6061],{67973(e,t,a){a.r(t),a.d(t,{default:()=>h});a(96540);var o=a(34164),n=a(45500),s=a(17559),i=a(11732),r=a(77910),d=a(67763),c=a(86896),l=a(12153);const p="mdxPageWrapper_j9I6";var m=a(74848);function h(e){const{content:t}=e,{metadata:a,assets:h}=t,{title:x,editUrl:u,description:g,frontMatter:j,lastUpdatedBy:v,lastUpdatedAt:b}=a,{keywords:_,wrapperClassName:A,hide_table_of_contents:y}=j,w=h.image??j.image,C=!!(u||b||v);return(0,m.jsx)(n.e3,{className:(0,o.A)(A??s.G.wrapper.mdxPages,s.G.page.mdxPage),children:(0,m.jsxs)(i.A,{children:[(0,m.jsx)(n.be,{title:x,description:g,keywords:_,image:w}),(0,m.jsx)("main",{className:"container container--fluid margin-vert--lg",children:(0,m.jsxs)("div",{className:(0,o.A)("row",p),children:[(0,m.jsxs)("div",{className:(0,o.A)("col",!y&&"col--8"),children:[(0,m.jsx)(c.default,{metadata:a}),(0,m.jsx)("article",{children:(0,m.jsx)(r.A,{children:(0,m.jsx)(t,{})})}),C&&(0,m.jsx)(l.A,{className:(0,o.A)("margin-top--sm",s.G.pages.pageFooterEditMetaRow),editUrl:u,lastUpdatedAt:b,lastUpdatedBy:v})]}),!y&&t.toc.length>0&&(0,m.jsx)("div",{className:"col col--2",children:(0,m.jsx)(d.A,{toc:t.toc,minHeadingLevel:j.toc_min_heading_level,maxHeadingLevel:j.toc_max_heading_level})})]})})]})})}},78312(e,t,a){a.d(t,{A:()=>p});var o=a(96540),n=a(42253),s=a(98362),i=a.n(s),r=a(74070),d=a.n(r);const c=a(16065).Ay.button`
+  background-color: #0052FC;
+  color: #FFFFFF;
+  padding: 4px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: #003AA0;
+  }
+`;var l=a(74848);const p={...n.A,Tabs:i(),TabItem:d(),Button:c,APIEndpoint:function({method:e,url:t}){const[a,n]=(0,o.useState)(!1);return(0,l.jsxs)("span",{className:`api-endpoint api-endpoint--${e.toLowerCase()}`,children:[(0,l.jsx)("span",{className:"api-endpoint__method",children:e}),(0,l.jsx)("code",{className:"api-endpoint__url",children:t}),(0,l.jsx)("button",{className:"api-endpoint__copy"+(a?" api-endpoint__copy--copied":""),onClick:()=>{if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>{n(!0),setTimeout(()=>n(!1),2e3)});else{const e=document.createElement("textarea");e.value=t,document.body.appendChild(e),e.select(),document.execCommand("copy"),document.body.removeChild(e),n(!0),setTimeout(()=>n(!1),2e3)}},title:"Copy path to clipboard","aria-label":"Copy path to clipboard",children:a?(0,l.jsx)("span",{children:"\u2713 Copied"}):(0,l.jsxs)("span",{children:[(0,l.jsxs)("svg",{width:"13",height:"13",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",style:{verticalAlign:"middle",marginRight:"3px"},children:[(0,l.jsx)("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),(0,l.jsx)("path",{d:"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"})]}),"Copy"]})})]})}}}}]);
