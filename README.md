@@ -4,11 +4,11 @@ This website uses [Docusaurus 3](https://docusaurus.io/).
 
 ## Requirements and installation
 
-Use Node.js 22.22.0 (see `.nvmrc`) and Yarn Classic 1.22.22. `yarn.lock` is the installation lockfile.
+Use Node.js 22.22.0 and Yarn Classic 1.22.22. `yarn.lock` is the installation lockfile.
 
 ```sh
-nvm install
-nvm use
+nvm install 22.22.0
+nvm use 22.22.0
 npm install --global yarn@1.22.22
 yarn install --frozen-lockfile
 ```
@@ -37,7 +37,7 @@ yarn serve
 
 The API explorer requires your own key and secret for authenticated requests. It provides no shared credentials. Use an IP allowlist and minimum permissions; never commit credentials or environment files. The local signing implementation is in `src/waanx_auth/buildPostmanRequest.js`, exposed through `src/theme/ApiExplorer/buildPostmanRequest.js`.
 
-See [dependency maintenance](security/dependency-maintenance.md) before changing dependency resolutions or the Postman patch. Existing Docusaurus commands, including `yarn swizzle`, `yarn write-translations` and `yarn write-heading-ids`, remain available.
+Review the temporary `braces` audit exception by 2026-11-08. Existing Docusaurus commands, including `yarn swizzle`, `yarn write-translations` and `yarn write-heading-ids`, remain available.
 
 ## Deployment
 
