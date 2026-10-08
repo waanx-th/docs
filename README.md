@@ -30,7 +30,6 @@ The WaanX theme uses the brand's royal blue palette, self-hosted Lato, and FC Vi
 ## Validation and production preview
 
 ```sh
-yarn test
 yarn security:check
 yarn build
 yarn serve

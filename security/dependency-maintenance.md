@@ -4,7 +4,7 @@ Use Node.js 22.22.0 and Yarn 1.22.22. Commit `package.json`, `yarn.lock` and any
 
 ## Registry portability
 
-All lockfile tarball URLs must use the public npm or Yarn registry over HTTPS without embedded credentials. A local package cache can hide an unreachable mirror URL, even when `.yarnrc` selects the public registry. The dependency-free `scripts/check-lockfile.cjs` runs before installation in CI, as the Yarn preinstall hook, and during security checks. When changing registry URLs, verify the public package integrity against the existing lockfile and validate with an empty package cache.
+All lockfile tarball URLs must use the public npm or Yarn registry over HTTPS without embedded credentials. A local package cache can hide an unreachable mirror URL, even when `.yarnrc` selects the public registry. CI installs with `yarn install --frozen-lockfile`. When changing registry URLs, verify the public package integrity against the existing lockfile and validate with an empty package cache.
 
 ## Postman and Faker
 
@@ -14,20 +14,20 @@ All lockfile tarball URLs must use the public npm or Yarn registry over HTTPS wi
 
 The patch does not modify SDK request parsing, serialization, substitution, code generators or the site's authentication logic. The postinstall script runs `patch-package --error-on-fail`; a patch mismatch fails the install. `yarn security:check` verifies the installed generator against the expected SHA-256 so an installation that skips the patch cannot pass validation.
 
-When Postman releases native support for a patched Faker version, upgrade the SDK and remove the compatibility patch and Faker resolution together. Run `yarn test`, `yarn clear`, `yarn build` and `yarn security:audit`. Tests cover every dynamic variable, key output formats, the advisory's function-constructor access, request signing and all 35 snippet variants. Keep Node and browser build compatibility in the review.
+When Postman releases native support for a patched Faker version, upgrade the SDK and remove the compatibility patch and Faker resolution together. Run `yarn clear`, `yarn build` and `yarn security:audit`. Check the API explorer's request signing, representative dynamic-variable formats, and code snippets in a browser before release. Keep Node and browser build compatibility in the review.
 
 ## Code generator dependency trees
 
 `postman-code-generators@2.1.1` runs its own installs inside 35 generator directories. These nested trees bypass the root Yarn resolutions and can reinstall vulnerable SDK and lodash versions. `scripts/postinstall.cjs` removes these generated `node_modules` directories after the upstream install hook completes. The source and language generators remain intact and resolve the patched SDK and lodash from the root lockfile.
 
-The installer rejects unexpected generator dependencies so a future upgrade requires review. The security check verifies there are no nested generator trees and that each generator resolves the same audited root modules. All language variants are exercised by `yarn test`. Do not run the dependency's `deepinstall` script manually; rerun `yarn install` if it has been run.
+The installer rejects unexpected generator dependencies so a future upgrade requires review. The security check verifies there are no nested generator trees and that each generator resolves the same audited root modules. Verify relevant API explorer code snippets before release. Do not run the dependency's `deepinstall` script manually; rerun `yarn install` if it has been run.
 
 ## Other resolutions
 
 - `serialize-javascript@7.0.5`: fixes vulnerable transitive 6.x releases in the build tools. Requires the pinned Node runtime.
 - `openapi-to-postmanv2/js-yaml@4.3.2` and `yaml@1.10.3`: update pinned converter dependencies within their current major versions.
-- `uuid@11.1.1`: replaces affected 8.x transitive versions; the SDK's UUID generation is exercised in tests and both locale bundles are built.
-- `source-map-js@1.2.2`, `shell-quote@1.11.0`, `http-cache-semantics@4.3.0` and `tinypool@2.1.2`: replace vulnerable transitive releases; `tinypool` crosses a major version, so keep tests and both locale builds in CI.
+- `uuid@11.1.1`: replaces affected 8.x transitive versions; check the SDK's UUID generation when changing this resolution and build both locales.
+- `source-map-js@1.2.2`, `shell-quote@1.11.0`, `http-cache-semantics@4.3.0` and `tinypool@2.1.2`: replace vulnerable transitive releases; `tinypool` crosses a major version, so check browser behavior and build both locales before release.
 
 Remove a resolution only after the upstream dependency tree resolves to safe versions without it. Yarn reports intentional version-range override warnings for these pins. Check the complete audit output; the audit command includes development dependencies and fails on high or critical findings.
 

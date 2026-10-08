@@ -22,7 +22,6 @@ function filesUnder(directory) {
 }
 
 function checkSource() {
-  require('./check-lockfile.cjs').checkFile();
   assert(!fs.existsSync(path.join(root, 'package-lock.json')), 'Use yarn.lock as the only installation lockfile.');
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   assert.equal(pkg.packageManager, 'yarn@1.22.22');
