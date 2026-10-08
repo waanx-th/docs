@@ -4,11 +4,11 @@ This website uses [Docusaurus 3](https://docusaurus.io/).
 
 ## Requirements and installation
 
-Use Node.js 22.22.0 (see `.nvmrc`) and Yarn Classic 1.22.22. `yarn.lock` is the installation lockfile.
+Use Node.js 22.22.0 and Yarn Classic 1.22.22. `yarn.lock` is the installation lockfile.
 
 ```sh
-nvm install
-nvm use
+nvm install 22.22.0
+nvm use 22.22.0
 npm install --global yarn@1.22.22
 yarn install --frozen-lockfile
 ```

@@ -3,7 +3,7 @@ name: Verify documentation
 on:
   pull_request:
   push:
-    branches: [jarrett_dev, main]
+    branches: [main]
 
 permissions:
   contents: read
@@ -18,7 +18,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version-file: .nvmrc
+          node-version: 22.22.0
       - name: Install pinned package manager
         run: npm install --global yarn@1.22.22 --ignore-scripts --registry=https://registry.npmjs.org
       - name: Install locked dependencies
