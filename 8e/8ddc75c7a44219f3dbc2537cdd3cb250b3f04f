@@ -1,0 +1,473 @@
+404.html
+  s_8b19e91f90e45e::t_97057baa5c9043 10-11
+assets/js/5453.e39d2e12.js
+  s_8b19e91f90e45e::t_12f12630472a60 1-2
+assets/js/main.b409960c.js
+  s_8b19e91f90e45e::t_0ae15639b4d3ae 1-2
+assets/js/runtime~main.c2b99272.js
+  s_8b19e91f90e45e::t_33e96306fa0c5d 1
+changelog/v5.html
+  s_8b19e91f90e45e::t_57cafe7ba30d3b 10-11
+faq.html
+  s_8b19e91f90e45e::t_b9c5ff09b7e171 10-11
+index.html
+  s_8b19e91f90e45e::t_f1e718e07a01d5 10-11
+markdown-page.html
+  s_8b19e91f90e45e::t_dc5e212a951a24 10-11
+search.html
+  s_8b19e91f90e45e::t_f5175fde6f9673 10-11
+th/404.html
+  s_8b19e91f90e45e::t_4c36738afd42ac 10-11
+th/assets/js/5453.51d2b67a.js
+  s_8b19e91f90e45e::t_1e4c3ea2bd494f 1-2
+th/assets/js/main.012ec6fc.js
+  s_8b19e91f90e45e::t_98b07728642bf6 1-2
+th/assets/js/runtime~main.d2a323c2.js
+  s_8b19e91f90e45e::t_c2488de789f96a 1
+th/changelog/v5.html
+  s_8b19e91f90e45e::t_8d2206221708ae 10-11
+th/faq.html
+  s_8b19e91f90e45e::t_88934f5f3bfbe3 10-11
+th/index.html
+  s_8b19e91f90e45e::t_91576659aa6ff5 10-11
+th/markdown-page.html
+  s_8b19e91f90e45e::t_35d4290e0e5f5a 10-11
+th/search.html
+  s_8b19e91f90e45e::t_9abcfde11930f7 10-11
+th/v5/account/account-info.html
+  s_8b19e91f90e45e::t_8abc0e19c1a9c7 10-11
+th/v5/account/dcp-info.html
+  s_8b19e91f90e45e::t_74aeb2502cd8db 10-11
+th/v5/account/fee-rate.html
+  s_8b19e91f90e45e::t_d81f9ec7094c0e 10-11
+th/v5/account/instrument.html
+  s_8b19e91f90e45e::t_b5649291d08d8f 10-11
+th/v5/account/smp-group.html
+  s_8b19e91f90e45e::t_62bdc14eab3fb3 10-11
+th/v5/account/trade-info-for-analysis.html
+  s_8b19e91f90e45e::t_97da9bbc749efb 10-11
+th/v5/account/transaction-log.html
+  s_8b19e91f90e45e::t_33f5619167bb46 10-11
+th/v5/account/unified-trans-amnt.html
+  s_8b19e91f90e45e::t_9b3b50b43291c3 10-11
+th/v5/account/wallet-balance.html
+  s_8b19e91f90e45e::t_17be13218b6bda 10-11
+th/v5/announcement.html
+  s_8b19e91f90e45e::t_e7a480eca8422d 10-11
+th/v5/asset/balance/account-coin-balance.html
+  s_8b19e91f90e45e::t_89497184efff8a 10-11
+th/v5/asset/balance/all-balance.html
+  s_8b19e91f90e45e::t_23b3287f4341e1 10-11
+th/v5/asset/balance/asset-overview.html
+  s_8b19e91f90e45e::t_42556ffea713ed 10-11
+th/v5/asset/balance/delay-amount.html
+  s_8b19e91f90e45e::t_401a370b213501 10-11
+th/v5/asset/coin-info.html
+  s_8b19e91f90e45e::t_7befa9011c1f1c 10-11
+th/v5/asset/convert-small-balance/confirm-quote.html
+  s_8b19e91f90e45e::t_884c12f1cc2039 10-11
+th/v5/asset/convert-small-balance/exchange-history.html
+  s_8b19e91f90e45e::t_bbe110bc9ed5ac 10-11
+th/v5/asset/convert-small-balance/request-quote.html
+  s_8b19e91f90e45e::t_b93c80a8562767 10-11
+th/v5/asset/convert-small-balance/small-balanc-coins.html
+  s_8b19e91f90e45e::t_789cdd7b9aa7f8 10-11
+th/v5/asset/convert/apply-quote.html
+  s_8b19e91f90e45e::t_0f54ff2a5ec435 10-11
+th/v5/asset/convert/confirm-quote.html
+  s_8b19e91f90e45e::t_7fe55e3c49ae79 10-11
+th/v5/asset/convert/convert-coin-list.html
+  s_8b19e91f90e45e::t_845f0c5ce5858d 10-11
+th/v5/asset/convert/get-convert-history.html
+  s_8b19e91f90e45e::t_f28d9d557f0c40 10-11
+th/v5/asset/convert/get-convert-result.html
+  s_8b19e91f90e45e::t_30fcc5279312d0 10-11
+th/v5/asset/convert/guideline.html
+  s_8b19e91f90e45e::t_b485ef0c0da094 10-11
+th/v5/asset/deposit/deposit-record.html
+  s_8b19e91f90e45e::t_6f9fdf6c8de9ec 10-11
+th/v5/asset/deposit/internal-deposit-record.html
+  s_8b19e91f90e45e::t_73908568d01bcd 10-11
+th/v5/asset/deposit/master-deposit-addr.html
+  s_8b19e91f90e45e::t_030bfbb29926ca 10-11
+th/v5/asset/deposit/set-deposit-acct.html
+  s_8b19e91f90e45e::t_1caab1e2456268 10-11
+th/v5/asset/deposit/sub-deposit-addr.html
+  s_8b19e91f90e45e::t_48121cfee8388a 10-11
+th/v5/asset/deposit/sub-deposit-record.html
+  s_8b19e91f90e45e::t_444196c6786fd4 10-11
+th/v5/asset/exchange.html
+  s_8b19e91f90e45e::t_dc1c00a065eaac 10-11
+th/v5/asset/fund-history.html
+  s_8b19e91f90e45e::t_e4757e97c3e3ae 10-11
+th/v5/asset/sub-uid-list.html
+  s_8b19e91f90e45e::t_1b308b87abd08a 10-11
+th/v5/asset/total-members-assets.html
+  s_8b19e91f90e45e::t_b8cdccf4ee7c21 10-11
+th/v5/asset/transfer/create-inter-transfer.html
+  s_8b19e91f90e45e::t_b4a5a20f1975af 10-11
+th/v5/asset/transfer/inter-transfer-list.html
+  s_8b19e91f90e45e::t_2559b642d7de0d 10-11
+th/v5/asset/transfer/transferable-coin.html
+  s_8b19e91f90e45e::t_1a04e00b3124ee 10-11
+th/v5/asset/transfer/unitransfer-list.html
+  s_8b19e91f90e45e::t_171dfcddbc6969 10-11
+th/v5/asset/transfer/unitransfer.html
+  s_8b19e91f90e45e::t_e41c37844a4f31 10-11
+th/v5/asset/withdraw.html
+  s_8b19e91f90e45e::t_c7dd981f9bd2fc 10-11
+th/v5/asset/withdraw/cancel-withdraw.html
+  s_8b19e91f90e45e::t_68497dea82bd1a 10-11
+th/v5/asset/withdraw/withdraw-address.html
+  s_8b19e91f90e45e::t_5b30dd5c5ce7a5 10-11
+th/v5/asset/withdraw/withdraw-record.html
+  s_8b19e91f90e45e::t_8f884c2db3f11b 10-11
+th/v5/enum.html
+  s_8b19e91f90e45e::t_e2f87f97ce047a 10-11
+th/v5/error.html
+  s_8b19e91f90e45e::t_ea6c2d6779b410 10-11
+th/v5/guide.html
+  s_8b19e91f90e45e::t_604c7800819664 10-11
+th/v5/intro.html
+  s_8b19e91f90e45e::t_7ffaebb9ad2a69 10-11
+th/v5/market/full-ob.html
+  s_8b19e91f90e45e::t_e943f82c2c9636 10-11
+th/v5/market/index-components.html
+  s_8b19e91f90e45e::t_eded08a91f9a6a 10-11
+th/v5/market/instrument.html
+  s_8b19e91f90e45e::t_6917049598f8bd 10-11
+th/v5/market/kline.html
+  s_8b19e91f90e45e::t_be8ac92b87bccd 10-11
+th/v5/market/order-price-limit.html
+  s_8b19e91f90e45e::t_6e064e1d98a891 10-11
+th/v5/market/orderbook.html
+  s_8b19e91f90e45e::t_37c372233c96b0 10-11
+th/v5/market/recent-trade.html
+  s_8b19e91f90e45e::t_2fb2154aaadbe9 10-11
+th/v5/market/rpi-orderbook.html
+  s_8b19e91f90e45e::t_45a6a809ff8b7e 10-11
+th/v5/market/tickers.html
+  s_8b19e91f90e45e::t_33694a9bd12632 10-11
+th/v5/market/time.html
+  s_8b19e91f90e45e::t_571c22d4493930 10-11
+th/v5/order/amend-order.html
+  s_8b19e91f90e45e::t_308b76a6aeb538 10-11
+th/v5/order/batch-amend.html
+  s_8b19e91f90e45e::t_81cb54bb7631c4 10-11
+th/v5/order/batch-cancel.html
+  s_8b19e91f90e45e::t_a7dc9fb7873806 10-11
+th/v5/order/batch-place.html
+  s_8b19e91f90e45e::t_6664dc287309e3 10-11
+th/v5/order/cancel-all.html
+  s_8b19e91f90e45e::t_deba5d2c849c45 10-11
+th/v5/order/cancel-order.html
+  s_8b19e91f90e45e::t_a2b3929d7daecf 10-11
+th/v5/order/create-order.html
+  s_8b19e91f90e45e::t_5800ace5597902 10-11
+th/v5/order/dcp.html
+  s_8b19e91f90e45e::t_8a2f1e49b438a3 10-11
+th/v5/order/execution.html
+  s_8b19e91f90e45e::t_5faaf8ca655184 10-11
+th/v5/order/open-order.html
+  s_8b19e91f90e45e::t_efea0e852f204b 10-11
+th/v5/order/order-list.html
+  s_8b19e91f90e45e::t_e76eef37ad3473 10-11
+th/v5/rate-limit.html
+  s_8b19e91f90e45e::t_94f2dcb9c90224 10-11
+th/v5/rate-limit/rules-for-vips.html
+  s_8b19e91f90e45e::t_11a2bf74140918 10-11
+th/v5/smp.html
+  s_8b19e91f90e45e::t_2def6aead23741 10-11
+th/v5/system-status.html
+  s_8b19e91f90e45e::t_a1817f2d06f68c 10-11
+th/v5/user/apikey-info.html
+  s_8b19e91f90e45e::t_d5ab20ed119db4 10-11
+th/v5/user/create-subuid-apikey.html
+  s_8b19e91f90e45e::t_86dcb492b10e0f 10-11
+th/v5/user/create-subuid.html
+  s_8b19e91f90e45e::t_2ce8faae7ad77e 10-11
+th/v5/user/friend-referral.html
+  s_8b19e91f90e45e::t_603b3ed85170d0 10-11
+th/v5/user/froze-subuid.html
+  s_8b19e91f90e45e::t_7750c2d1f4ec91 10-11
+th/v5/user/fund-subuid-list.html
+  s_8b19e91f90e45e::t_ad60bc330be15f 10-11
+th/v5/user/list-sub-apikeys.html
+  s_8b19e91f90e45e::t_c66c5aa18eca77 10-11
+th/v5/user/modify-master-apikey.html
+  s_8b19e91f90e45e::t_4d72f157c94eff 10-11
+th/v5/user/modify-sub-apikey.html
+  s_8b19e91f90e45e::t_69378c4f038597 10-11
+th/v5/user/page-subuid.html
+  s_8b19e91f90e45e::t_98946d1cfec576 10-11
+th/v5/user/referral-code.html
+  s_8b19e91f90e45e::t_2fa5ba301402d9 10-11
+th/v5/user/rm-master-apikey.html
+  s_8b19e91f90e45e::t_9b8300e39fafaa 10-11
+th/v5/user/rm-sub-apikey.html
+  s_8b19e91f90e45e::t_6fd65ff653a41b 10-11
+th/v5/user/rm-subuid.html
+  s_8b19e91f90e45e::t_15fb2b79f736d3 10-11
+th/v5/user/subuid-list.html
+  s_8b19e91f90e45e::t_72410ee307ad15 10-11
+th/v5/user/wallet-type.html
+  s_8b19e91f90e45e::t_9de9163e3b5af1 10-11
+th/v5/websocket/private/dcp.html
+  s_8b19e91f90e45e::t_c4902cca0a81bb 10-11
+th/v5/websocket/private/execution.html
+  s_8b19e91f90e45e::t_e0fcd77b94e846 10-11
+th/v5/websocket/private/fast-execution.html
+  s_8b19e91f90e45e::t_4cc4447f2d0a62 10-11
+th/v5/websocket/private/order.html
+  s_8b19e91f90e45e::t_0065fd6d1bc955 10-11
+th/v5/websocket/private/strategy.html
+  s_8b19e91f90e45e::t_1fcbdbf4d1dcef 10-11
+th/v5/websocket/private/wallet.html
+  s_8b19e91f90e45e::t_dcab8f00c54aae 10-11
+th/v5/websocket/public/full-ob.html
+  s_8b19e91f90e45e::t_9058125d49c0f8 10-11
+th/v5/websocket/public/kline.html
+  s_8b19e91f90e45e::t_47d1af5cefde1a 10-11
+th/v5/websocket/public/order-price-limit.html
+  s_8b19e91f90e45e::t_3e53430eb6a47e 10-11
+th/v5/websocket/public/orderbook-rpi.html
+  s_8b19e91f90e45e::t_3144f64cf2efb2 10-11
+th/v5/websocket/public/orderbook.html
+  s_8b19e91f90e45e::t_6ea09289fcbf26 10-11
+th/v5/websocket/public/ticker.html
+  s_8b19e91f90e45e::t_d4b52106456fe5 10-11
+th/v5/websocket/public/trade.html
+  s_8b19e91f90e45e::t_bfa5e2f08593f6 10-11
+th/v5/websocket/system/system-status.html
+  s_8b19e91f90e45e::t_862102a09192e1 10-11
+th/v5/websocket/trade/guideline.html
+  s_8b19e91f90e45e::t_93ed73a3d22706 10-11
+th/v5/ws/connect.html
+  s_8b19e91f90e45e::t_1597e14236e692 10-11
+v5/account/account-info.html
+  s_8b19e91f90e45e::t_f67ad4b8bf62dd 10-11
+v5/account/dcp-info.html
+  s_8b19e91f90e45e::t_751d86dae0d960 10-11
+v5/account/fee-rate.html
+  s_8b19e91f90e45e::t_e713273fd38761 10-11
+v5/account/instrument.html
+  s_8b19e91f90e45e::t_a55b8814211a46 10-11
+v5/account/smp-group.html
+  s_8b19e91f90e45e::t_2d91fef25e1444 10-11
+v5/account/trade-info-for-analysis.html
+  s_8b19e91f90e45e::t_eca95d1ce177bc 10-11
+v5/account/transaction-log.html
+  s_8b19e91f90e45e::t_a9b930b184b8b5 10-11
+v5/account/unified-trans-amnt.html
+  s_8b19e91f90e45e::t_21a0c41f05c3ae 10-11
+v5/account/wallet-balance.html
+  s_8b19e91f90e45e::t_a9a136ae7a185a 10-11
+v5/announcement.html
+  s_8b19e91f90e45e::t_3b92225f44d29e 10-11
+v5/asset/balance/account-coin-balance.html
+  s_8b19e91f90e45e::t_a24203f1357778 10-11
+v5/asset/balance/all-balance.html
+  s_8b19e91f90e45e::t_180b3f5f96f17a 10-11
+v5/asset/balance/asset-overview.html
+  s_8b19e91f90e45e::t_dc4f8e55de01cb 10-11
+v5/asset/balance/delay-amount.html
+  s_8b19e91f90e45e::t_825492c50f27f2 10-11
+v5/asset/coin-info.html
+  s_8b19e91f90e45e::t_0c13ee9dc32366 10-11
+v5/asset/convert-small-balance/confirm-quote.html
+  s_8b19e91f90e45e::t_0a39f5594b12f1 10-11
+v5/asset/convert-small-balance/exchange-history.html
+  s_8b19e91f90e45e::t_288a1ebeb6db48 10-11
+v5/asset/convert-small-balance/request-quote.html
+  s_8b19e91f90e45e::t_50051e2f1f5f6c 10-11
+v5/asset/convert-small-balance/small-balanc-coins.html
+  s_8b19e91f90e45e::t_0c429bd00c169b 10-11
+v5/asset/convert/apply-quote.html
+  s_8b19e91f90e45e::t_cb083a65da7bc2 10-11
+v5/asset/convert/confirm-quote.html
+  s_8b19e91f90e45e::t_c5cbaadaef5063 10-11
+v5/asset/convert/convert-coin-list.html
+  s_8b19e91f90e45e::t_92d1a2b4f78283 10-11
+v5/asset/convert/get-convert-history.html
+  s_8b19e91f90e45e::t_4f96db882d453d 10-11
+v5/asset/convert/get-convert-result.html
+  s_8b19e91f90e45e::t_25b664bd760d86 10-11
+v5/asset/convert/guideline.html
+  s_8b19e91f90e45e::t_75a280cee2eee0 10-11
+v5/asset/deposit/deposit-record.html
+  s_8b19e91f90e45e::t_ea1a3c4b938406 10-11
+v5/asset/deposit/internal-deposit-record.html
+  s_8b19e91f90e45e::t_f6071ed5b3e128 10-11
+v5/asset/deposit/master-deposit-addr.html
+  s_8b19e91f90e45e::t_6b2bd53fc998be 10-11
+v5/asset/deposit/set-deposit-acct.html
+  s_8b19e91f90e45e::t_5dcbb4333aa61a 10-11
+v5/asset/deposit/sub-deposit-addr.html
+  s_8b19e91f90e45e::t_0cdb6915922097 10-11
+v5/asset/deposit/sub-deposit-record.html
+  s_8b19e91f90e45e::t_cf3e6c9be28066 10-11
+v5/asset/exchange.html
+  s_8b19e91f90e45e::t_b33df353d0ad8e 10-11
+v5/asset/fund-history.html
+  s_8b19e91f90e45e::t_f53e92a957cc2b 10-11
+v5/asset/sub-uid-list.html
+  s_8b19e91f90e45e::t_8d38ccc7f05bfd 10-11
+v5/asset/total-members-assets.html
+  s_8b19e91f90e45e::t_0a2ff966001463 10-11
+v5/asset/transfer/create-inter-transfer.html
+  s_8b19e91f90e45e::t_aaa50e005889d7 10-11
+v5/asset/transfer/inter-transfer-list.html
+  s_8b19e91f90e45e::t_45a6a1f864b8f4 10-11
+v5/asset/transfer/transferable-coin.html
+  s_8b19e91f90e45e::t_93f468787d083e 10-11
+v5/asset/transfer/unitransfer-list.html
+  s_8b19e91f90e45e::t_58964246c3aaa5 10-11
+v5/asset/transfer/unitransfer.html
+  s_8b19e91f90e45e::t_0990cc45b47423 10-11
+v5/asset/withdraw.html
+  s_8b19e91f90e45e::t_54ec034eafe689 10-11
+v5/asset/withdraw/cancel-withdraw.html
+  s_8b19e91f90e45e::t_b069472534fbbb 10-11
+v5/asset/withdraw/withdraw-address.html
+  s_8b19e91f90e45e::t_0609b01539346d 10-11
+v5/asset/withdraw/withdraw-record.html
+  s_8b19e91f90e45e::t_2ab1a4f9594b5c 10-11
+v5/enum.html
+  s_8b19e91f90e45e::t_836bc5cccc23c3 10-11
+v5/error.html
+  s_8b19e91f90e45e::t_ca09ebdb37db19 10-11
+v5/guide.html
+  s_8b19e91f90e45e::t_cdffcf791cf5de 10-11
+v5/intro.html
+  s_8b19e91f90e45e::t_ebc628392cfc89 10-11
+v5/market/full-ob.html
+  s_8b19e91f90e45e::t_7003511d78b5e6 10-11
+v5/market/index-components.html
+  s_8b19e91f90e45e::t_f2230e51ed4240 10-11
+v5/market/instrument.html
+  s_8b19e91f90e45e::t_897c189c703aa1 10-11
+v5/market/kline.html
+  s_8b19e91f90e45e::t_594942dfb7de2f 10-11
+v5/market/order-price-limit.html
+  s_8b19e91f90e45e::t_cab29e6c128511 10-11
+v5/market/orderbook.html
+  s_8b19e91f90e45e::t_5c343162f032da 10-11
+v5/market/recent-trade.html
+  s_8b19e91f90e45e::t_3618fa5e9bd72e 10-11
+v5/market/rpi-orderbook.html
+  s_8b19e91f90e45e::t_3d339eb7aa1847 10-11
+v5/market/tickers.html
+  s_8b19e91f90e45e::t_e77cd4a5021b27 10-11
+v5/market/time.html
+  s_8b19e91f90e45e::t_8343a0f8b4e9eb 10-11
+v5/order/amend-order.html
+  s_8b19e91f90e45e::t_2fedc54db64647 10-11
+v5/order/batch-amend.html
+  s_8b19e91f90e45e::t_0d347269a2ad75 10-11
+v5/order/batch-cancel.html
+  s_8b19e91f90e45e::t_4ebca746628185 10-11
+v5/order/batch-place.html
+  s_8b19e91f90e45e::t_38b22fcf6312e1 10-11
+v5/order/cancel-all.html
+  s_8b19e91f90e45e::t_9f9a48f0f2d863 10-11
+v5/order/cancel-order.html
+  s_8b19e91f90e45e::t_aa1f70e1662077 10-11
+v5/order/create-order.html
+  s_8b19e91f90e45e::t_5834a8911bdf80 10-11
+v5/order/dcp.html
+  s_8b19e91f90e45e::t_695cfae4a75cbc 10-11
+v5/order/execution.html
+  s_8b19e91f90e45e::t_f996eb4af7386d 10-11
+v5/order/open-order.html
+  s_8b19e91f90e45e::t_ec4dda84f63b94 10-11
+v5/order/order-list.html
+  s_8b19e91f90e45e::t_f93c034f299022 10-11
+v5/rate-limit.html
+  s_8b19e91f90e45e::t_3d80e55198ad0c 10-11
+v5/rate-limit/rules-for-vips.html
+  s_8b19e91f90e45e::t_17a38fbb632149 10-11
+v5/smp.html
+  s_8b19e91f90e45e::t_026f3a8a807ba3 10-11
+v5/system-status.html
+  s_8b19e91f90e45e::t_51a67b3e8c29a6 10-11
+v5/user/apikey-info.html
+  s_8b19e91f90e45e::t_c9917261b663dd 10-11
+v5/user/create-subuid-apikey.html
+  s_8b19e91f90e45e::t_cba0bd5958c561 10-11
+v5/user/create-subuid.html
+  s_8b19e91f90e45e::t_00fab59c6748f8 10-11
+v5/user/friend-referral.html
+  s_8b19e91f90e45e::t_e91189a150c2c6 10-11
+v5/user/froze-subuid.html
+  s_8b19e91f90e45e::t_95718eee7e6763 10-11
+v5/user/fund-subuid-list.html
+  s_8b19e91f90e45e::t_155e2f512f7d71 10-11
+v5/user/list-sub-apikeys.html
+  s_8b19e91f90e45e::t_997505f609dcd7 10-11
+v5/user/modify-master-apikey.html
+  s_8b19e91f90e45e::t_d759d0702e6216 10-11
+v5/user/modify-sub-apikey.html
+  s_8b19e91f90e45e::t_9fa7b7afdf0b61 10-11
+v5/user/page-subuid.html
+  s_8b19e91f90e45e::t_9d1ac4ebffae5f 10-11
+v5/user/referral-code.html
+  s_8b19e91f90e45e::t_f7b5f77acb3484 10-11
+v5/user/rm-master-apikey.html
+  s_8b19e91f90e45e::t_f855329a3b77db 10-11
+v5/user/rm-sub-apikey.html
+  s_8b19e91f90e45e::t_a39eb285459d6d 10-11
+v5/user/rm-subuid.html
+  s_8b19e91f90e45e::t_b90156e31fdd42 10-11
+v5/user/subuid-list.html
+  s_8b19e91f90e45e::t_19885a894fe90d 10-11
+v5/user/wallet-type.html
+  s_8b19e91f90e45e::t_af4253ec1e5071 10-11
+v5/websocket/private/dcp.html
+  s_8b19e91f90e45e::t_a30c25296025f9 10-11
+v5/websocket/private/execution.html
+  s_8b19e91f90e45e::t_2be61fd9794f80 10-11
+v5/websocket/private/fast-execution.html
+  s_8b19e91f90e45e::t_7116c12d34c6c2 10-11
+v5/websocket/private/order.html
+  s_8b19e91f90e45e::t_81fc5de417d676 10-11
+v5/websocket/private/strategy.html
+  s_8b19e91f90e45e::t_80cc5a5117ef91 10-11
+v5/websocket/private/wallet.html
+  s_8b19e91f90e45e::t_9649180c228be0 10-11
+v5/websocket/public/full-ob.html
+  s_8b19e91f90e45e::t_09295595de6522 10-11
+v5/websocket/public/kline.html
+  s_8b19e91f90e45e::t_7143d7e59ea991 10-11
+v5/websocket/public/order-price-limit.html
+  s_8b19e91f90e45e::t_407f672e2e078d 10-11
+v5/websocket/public/orderbook-rpi.html
+  s_8b19e91f90e45e::t_4968f072b2c301 10-11
+v5/websocket/public/orderbook.html
+  s_8b19e91f90e45e::t_584bdc6fce660f 10-11
+v5/websocket/public/ticker.html
+  s_8b19e91f90e45e::t_77fa5602aa28d9 10-11
+v5/websocket/public/trade.html
+  s_8b19e91f90e45e::t_7960ca2c39f3da 10-11
+v5/websocket/system/system-status.html
+  s_8b19e91f90e45e::t_cfe189fe3abe0e 10-11
+v5/websocket/trade/guideline.html
+  s_8b19e91f90e45e::t_3b202d36f9605f 10-11
+v5/ws/connect.html
+  s_8b19e91f90e45e::t_2b88fc73a45ae8 10-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "8e8ddc75c7a44219f3dbc2537cdd3cb250b3f04f",
+  "prompts": {},
+  "sessions": {
+    "s_8b19e91f90e45e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1117f-00b4-7f11-81a9-7d3e15eaf608",
+        "model": "unknown"
+      },
+      "human_author": "jarrett.wong <jarrett.wong@bybit.com>"
+    }
+  }
+}
