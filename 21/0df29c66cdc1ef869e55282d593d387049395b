@@ -1,0 +1,20 @@
+src/components/HomepageFeatures/index.js
+  s_8b19e91f90e45e::t_9a12aa0daf4c97 35,91,118
+  s_8b19e91f90e45e::t_82712f9e8360ed 5,92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "210df29c66cdc1ef869e55282d593d387049395b",
+  "prompts": {},
+  "sessions": {
+    "s_8b19e91f90e45e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1117f-00b4-7f11-81a9-7d3e15eaf608",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "jarrett.wong <jarrett.wong@bybit.com>"
+    }
+  }
+}
